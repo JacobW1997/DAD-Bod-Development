@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBD-SwimTracker", "DBD-SwimTracker.csproj", "{9FCB491F-F764-452F-A2A8-914D7F975229}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9FCB491F-F764-452F-A2A8-914D7F975229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FCB491F-F764-452F-A2A8-914D7F975229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FCB491F-F764-452F-A2A8-914D7F975229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FCB491F-F764-452F-A2A8-914D7F975229}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {258BFEBD-89EC-4FBE-97C2-C8C626FEE30D}
+	EndGlobalSection
+EndGlobal
