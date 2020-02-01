@@ -17,19 +17,19 @@ namespace DBD_Swim_Tracker_0._2.Models
 
     }
 
-    public class AddAthleteViewModel
-    {
-        Athlete thisAthlete;
-        if(Athlete)
-        [Required]
-        [StringLength(100, ErrorMessage = "Please enter a valid athlete name", MinimumLength = 5)]
-        [DataType (DataType.Text)]
-        [Display(Name = "Athlete Name")]
+   // public class AddAthleteViewModel
+    //{
+       // Athlete thisAthlete;
+       // if(Athlete)
+       // [Required]
+       // [StringLength(100, ErrorMessage = "Please enter a valid athlete name", MinimumLength = 5)]
+        //[DataType (DataType.Text)]
+      //  [Display(Name = "Athlete Name")]
         
 
         
 
-    }
+   // }
 
     public class ManageLoginsViewModel
     {

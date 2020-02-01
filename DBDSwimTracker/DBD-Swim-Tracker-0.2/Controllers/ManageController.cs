@@ -104,14 +104,14 @@ namespace DBD_Swim_Tracker_0._2.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddAthleteName(AddAthleteViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                return View();
-            }
+        //public ActionResult AddAthleteName(AddAthleteViewModel model)
+       // {
+          //  if (ModelState.IsValid)
+          //  {
+           //     return View();
+           // }
 
-        }
+       // }
         //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
