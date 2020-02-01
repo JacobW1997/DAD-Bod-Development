@@ -68,8 +68,10 @@ CREATE TABLE [dbo].[Results]
 	[ID]		INT IDENTITY (1,1)	NOT NULL,
 	[EVENTID]	INT					NOT NULL,
 	[ATHLETEID]	INT					NOT NULL,
+	[MEETID]	INT					NOT NULL,
 	[TIME]		FLOAT				NOT NULL
 	CONSTRAINT [PK_dbo.Results] PRIMARY KEY CLUSTERED ([ID] ASC),
 	CONSTRAINT [FK_dbo.Results_dbo.Events_ID] FOREIGN KEY ([EVENTID]) REFERENCES [dbo].[Events] ([ID]),
-	CONSTRAINT [FK_dbo.Results_dbo.Athletes_ID] FOREIGN KEY ([ATHLETEID]) REFERENCES [dbo].[Athletes] ([ID])
+	CONSTRAINT [FK_dbo.Results_dbo.Athletes_ID] FOREIGN KEY ([ATHLETEID]) REFERENCES [dbo].[Athletes] ([ID]),
+	CONSTRAINT [FK_dbo.Results_dbo.Meet_ID] FOREIGN KEY ([MEETID]) REFERENCES [dbo].[Meets] ([ID])
 );
