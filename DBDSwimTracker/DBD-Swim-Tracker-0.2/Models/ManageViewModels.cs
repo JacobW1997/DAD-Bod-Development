@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using DBD_Swim_Tracker_0._2.Models;
 
 namespace DBD_Swim_Tracker_0._2.Models
 {
@@ -12,6 +13,22 @@ namespace DBD_Swim_Tracker_0._2.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public string AthleteName { get; set; }
+
+    }
+
+    public class AddAthleteViewModel
+    {
+        Athlete thisAthlete;
+        if(Athlete)
+        [Required]
+        [StringLength(100, ErrorMessage = "Please enter a valid athlete name", MinimumLength = 5)]
+        [DataType (DataType.Text)]
+        [Display(Name = "Athlete Name")]
+        
+
+        
+
     }
 
     public class ManageLoginsViewModel

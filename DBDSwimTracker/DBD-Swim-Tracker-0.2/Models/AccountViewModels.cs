@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using DBD_Swim_Tracker_0._2.Models;
 
 namespace DBD_Swim_Tracker_0._2.Models
 {

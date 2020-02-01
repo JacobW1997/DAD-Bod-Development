@@ -190,12 +190,15 @@
     <Compile Include="Models\TeamRoster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Views\EventsController.cs" />
-    <Compile Include="Views\MeetsController.cs" />
-    <Compile Include="Views\ResultsController.cs" />
-    <Compile Include="Views\TeamRostersController.cs" />
+    <Compile Include="Controllers\EventsController.cs" />
+    <Compile Include="Controllers\MeetsController.cs" />
+    <Compile Include="Controllers\ResultsController.cs" />
+    <Compile Include="Controllers\TeamRostersController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\down.sql" />
+    <Content Include="App_Data\seed.sql" />
+    <Content Include="App_Data\up.sql" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -217,11 +220,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
+    <Content Include="Controllers\Web.config" />
+    <Content Include="Controllers\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Web.Release.config">
+    <Content Include="Controllers\Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
@@ -276,10 +279,15 @@
     <Content Include="Views\TeamRosters\Details.cshtml" />
     <Content Include="Views\TeamRosters\Edit.cshtml" />
     <Content Include="Views\TeamRosters\Index.cshtml" />
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
