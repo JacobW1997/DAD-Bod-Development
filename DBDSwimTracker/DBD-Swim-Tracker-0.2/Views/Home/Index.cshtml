@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<DBD_Swim_Tracker_0._2.Models.Athlete>
+
+@{
     ViewBag.Title = "Home Page";
 }
     <body id="body">
@@ -15,4 +17,57 @@
                 <img src="https://cdn.discordapp.com/attachments/663803293801381925/671151017991208983/swimmer.jpg" width="400" height="200" id="swimmer" />
             </div>
         </div>
+        <div class="row">
+            <h2>View an Athlete's Race History</h2>
+            <p>Here you can search for an Athlete by name and view their race history.</p>
+
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            {
+                <div class="advancedSearchTextbox">
+                    Name:
+                    @Html.TextBox("searchString")
+                    <input type="submit" id="searchId" value="Search" />
+                </div>
+
+                <br />
+                <br />
+
+                if (Model != null)
+                {
+
+                    if (Model.Count() > 0)
+                    {
+                        <table class="table table-hover">
+                            <tr>
+                                <th>
+                                    Athlete Name
+                                </th>
+                                <th>
+                                    Click for Stats
+                                </th>
+                            </tr>
+
+                            @foreach (var athlete in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(a => athlete.NAME)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Stats", "AthleteDetails", new { id = athlete.ID })
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    }
+
+                    else
+                    {
+                        <p>No athletes were found matching your search criteria. Please try again.</p>
+                    }
+
+                }
+            }
+        </div>
+        <br/>
     </body>
