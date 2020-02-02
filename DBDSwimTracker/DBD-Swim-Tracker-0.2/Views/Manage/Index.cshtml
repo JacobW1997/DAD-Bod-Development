@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Manage";
 }
-
+@using DBD_Swim_Tracker_0._2.Models;
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
@@ -28,9 +28,7 @@
             @Model.Logins.Count [
             @Html.ActionLink("Manage", "ManageLogins") ]
         </dd>
-        <dd>
-            
-        </dd>
+
 
 
         </dl>
