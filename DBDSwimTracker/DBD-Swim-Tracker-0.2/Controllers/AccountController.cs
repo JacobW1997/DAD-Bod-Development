@@ -170,7 +170,7 @@ namespace DBD_Swim_Tracker_0._2.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser {UserType = model.RoleName, Pseudonym = model.Pseudonym, UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

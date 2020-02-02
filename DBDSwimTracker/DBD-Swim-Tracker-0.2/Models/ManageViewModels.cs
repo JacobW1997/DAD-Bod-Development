@@ -18,6 +18,7 @@ namespace DBD_Swim_Tracker_0._2.Models
         public string UserType { get; set; }
 
         public int TeamID { get; set; }
+        public string Pseudonym { get; set; }
 
     }
 
