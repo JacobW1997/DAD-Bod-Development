@@ -30,11 +30,15 @@
                 </th>
 
                 <th>
+                    Stroke
+                </th>
+
+                <th>
                     Distance
                 </th>
 
                 <th>
-                    Meet
+                    Meet Location
                 </th>
 
                 <th>
@@ -44,23 +48,27 @@
 
             @foreach (var result in Model.AthleteRaceTimes)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(r => result.Event.Meet.DATE)
-                    </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(r => result.Event.Meet.DATE)
+            </td>
 
-                    <td>
-                        @Html.DisplayFor(r => result.Event.DISTANCE)
-                    </td>
+            <td>
+                @Html.DisplayFor(r => result.Event.STROKE)
+            </td>
 
-                    <td>
-                        @Html.DisplayFor(r => result.Event.Meet.LOCATION)
-                    </td>
+            <td>
+                @Html.DisplayFor(r => result.Event.DISTANCE)
+            </td>
 
-                    <td>
-                        @Html.DisplayFor(r => result.TIME)
-                    </td>
-                </tr>
+            <td>
+                @Html.DisplayFor(r => result.Event.Meet.LOCATION)
+            </td>
+
+            <td>
+                @Html.DisplayFor(r => result.TIME)
+            </td>
+        </tr>
             }
         </table>
     </div>
