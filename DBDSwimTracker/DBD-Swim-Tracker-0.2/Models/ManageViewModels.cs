@@ -15,6 +15,8 @@ namespace DBD_Swim_Tracker_0._2.Models
         public bool BrowserRemembered { get; set; }
         public string AthleteName { get; set; }
 
+        public string UserType { get; set; }
+
     }
 
    // public class AddAthleteViewModel

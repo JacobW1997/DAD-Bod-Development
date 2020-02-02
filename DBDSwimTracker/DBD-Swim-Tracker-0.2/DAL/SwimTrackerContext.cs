@@ -9,8 +9,11 @@ namespace DBD_Swim_Tracker_0._2.DAL
     public partial class SwimTrackerContext : DbContext
     {
         public SwimTrackerContext()
-            : base("name=SwimTrackerContext")
+            : base("name=SwimTrackerContext_Azure")
+        //: base("AzureConnection", throwIfV1Schema: false)
         {
+            // Disable code-first migrations
+            Database.SetInitializer<ApplicationDbContext>(null);
         }
 
         public virtual DbSet<Athlete> Athletes { get; set; }

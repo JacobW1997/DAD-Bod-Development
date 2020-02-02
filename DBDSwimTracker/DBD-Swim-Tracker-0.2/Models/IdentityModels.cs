@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -15,13 +16,22 @@ namespace DBD_Swim_Tracker_0._2.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             return userIdentity;
+
         }
+            [Display(Name="NickName")]
+            [StringLength(256, MinimumLength = 1)]
+            public string Pseudonym { get; set; }
+
+            [Display(Name = "AccountType")]
+            [StringLength(256, MinimumLength = 1)]
+            public string UserType { get; set; }
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("SwimTrackerContext_Azure", throwIfV1Schema: false)
         {
         }
 

@@ -80,7 +80,20 @@ namespace DBD_Swim_Tracker_0._2.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Account Type")]
+        [StringLength(256, MinimumLength = 1)]
+        public string AccountType { get; set; }
+
+        [Display(Name = "Nickname")]
+        [StringLength(256, MinimumLength = 1)]
+        public string Pseudonym { get; set; }
+        
+        public string RoleName { get; set; }
+
     }
+
+
 
     public class ResetPasswordViewModel
     {
