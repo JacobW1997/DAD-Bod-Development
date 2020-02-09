@@ -91,6 +91,12 @@ namespace DBD_Swim_Tracker_0._2.Models
         
         public string RoleName { get; set; }
 
+        [Display(Name = "Age")]
+        public int Age { get; set; }
+        
+        [Display(Name = "Gender")]
+        [StringLength(256, MinimumLength = 1)]
+        public string Gender { get; set; }
     }
 
 
