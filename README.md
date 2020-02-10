@@ -17,7 +17,7 @@
 
 ## Getting started: 
 > Please contact the DAD-Bod Development team and see the Guidelines document for more information. 
-> [Guidelines](https://github.com/JacobW1997/DAD-Bod-Development/blob/master/Milestones/Milestone%205/DBDGuidelines.docx)
+> [Guidelines](https://github.com/JacobW1997/DAD-Bod-Development/blob/master/Milestones/Milestone%205/Guidelines.md)
 
 ## Website:
 > (under development, will be added after first sprint)
@@ -35,4 +35,4 @@
 
 ## Tools & Services: 
 > Please see the Tools page for more information. 
-> See [Tools](https://github.com/JacobW1997/DAD-Bod-Development/blob/master/Milestones/Milestone%205/DBDToolsUsed.docx)
+> See [Tools](https://github.com/JacobW1997/DAD-Bod-Development/blob/master/Milestones/Milestone%205/Tools.md)
