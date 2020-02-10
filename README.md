@@ -15,7 +15,7 @@ Inception Phase
 
 Getting started:
 Please contact the DAD-Bod Development team and see the Guidelines document for more information.
-Guidelines: https://github.com/JacobW1997/DAD-Bod-Development/blob/master/Milestones/Milestone%205/DBDGuidelines.docx
+Guidelines: github.com/JacobW1997/DAD-Bod-Development/blob/master/Milestones/Milestone%205/DBDGuidelines.docx
 
 Website:
 (under development, will be added after first sprint)
@@ -24,13 +24,13 @@ Team Info:
 Team Song: Dolly Parton - 9 To 5
 
 Dad-Bod-Development Members:
-Kyle Short -- https://github.com/ksh0rt
-Walker Mitchel -- https://github.com/walkermitchell
-Jacob Wiederhold -- https://github.com/JacobW1997
+Kyle Short -- github.com/ksh0rt
+Walker Mitchel -- github.com/walkermitchell
+Jacob Wiederhold -- github.com/JacobW1997
 
 The project repository includes:
 (Will be updated after first sprint)
 
 Tools & Services:
 Please see the Tools page for more information.
-Link: https://github.com/JacobW1997/DAD-Bod-Development/blob/master/Milestones/Milestone%205/DBDToolsUsed.docx
+Link: github.com/JacobW1997/DAD-Bod-Development/blob/master/Milestones/Milestone%205/DBDToolsUsed.docx
