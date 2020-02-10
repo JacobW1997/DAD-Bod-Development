@@ -22,3 +22,38 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#title{
+    text-align: center;
+    font-family: fantasy;
+    color: lightslategrey;
+    font-size: 40px;
+}
+
+
+.navbar-default{
+    background-color: Highlight;
+    border-color: darkslateblue;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: white; 
+    font-family: fantasy;
+}
+
+.navbar-default .navbar-header > a {
+    color: white;
+    font-family: fantasy;
+}
+#swimmer {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+#hometext{
+    text-align: center;
+    color: black;
+    font-style:italic;
+}

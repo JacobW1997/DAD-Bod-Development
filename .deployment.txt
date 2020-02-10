@@ -1,0 +1,2 @@
+[config]
+project = DBDSwimTracker/DBD-Swim-Tracker/DBD-Swim-Tracker.csproj

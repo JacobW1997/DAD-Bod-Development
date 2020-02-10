@@ -1,0 +1,50 @@
+﻿@model DBD_Swim_Tracker_0._2.Models.Result
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Result</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Athlete.NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Athlete.NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.STROKE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.STROKE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Meet.LOCATION)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Meet.LOCATION)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TIME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TIME)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
