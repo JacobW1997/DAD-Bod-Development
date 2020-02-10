@@ -2,30 +2,30 @@
 > If you would like to contribute to the project, please contact the DAD-Bod Development team and follow all proposed guidelines.
 
 ### General Guidelines:
-•	All Code should be submitted through a 'pull' request to JacobW1997.
-•	All variable names should follow the camel case convention HTML elements should follow the same convention.
-•	Model and Class names should have the first letter of each word capitalized E.g. “ThisClassFunction”.
-•	ID is used for each primary key.
-•	Variable names should be short and concise
-•	Comments should be used to describe functionality
+-	All Code should be submitted through a 'pull' request to JacobW1997.
+-	All variable names should follow the camel case convention HTML elements should follow the same convention.
+-	Model and Class names should have the first letter of each word capitalized E.g. “ThisClassFunction”.
+-	ID is used for each primary key.
+-	Variable names should be short and concise
+-	Comments should be used to describe functionality
 
 ### Code:
-•	Use external JavaScript files
-•	Curley braces should be on their own line
-•	Variables should be declared at the top of each function
-•	Dioxygen style comments should be used for functions that have vague/complex operations
+-	Use external JavaScript files
+-	Curley braces should be on their own line
+-	Variables should be declared at the top of each function
+-	Dioxygen style comments should be used for functions that have vague/complex operations
 ### Git:
-•	Use branches
-•	When creating a pull request make sure you are requesting to pull to the development branch.
-•	Commit often (don't feel like you must make major, complete, changes or new features before committing)
-•	Write good commit messages
-•	Don't commit code that doesn't compile
-•	Don't add and commit any files that are auto-generated (i.e. html documentation, .o, .tmp, ...)
-•	Always pull before working on your local repository.
-•	All pull requests should be made before 5:00 pm on Sunday
+-	Use branches
+-	When creating a pull request make sure you are requesting to pull to the development branch.
+-	Commit often (don't feel like you must make major, complete, changes or new features before committing)
+-	Write good commit messages
+-	Don't commit code that doesn't compile
+-	Don't add and commit any files that are auto-generated (i.e. html documentation, .o, .tmp, ...)
+-	Always pull before working on your local repository.
+-	All pull requests should be made before 5:00 pm on Sunday
 
 ### Style:
-•	TBD
+-	TBD
 ### Software Construction Process:
 > During this project we will be practicing the disciplined agile delivery framework defined by the Agile methodology. Our construction process includes sprints that are completed every two weeks, following our sprint retrospective meeting. We have also integrated various meeting types defined by the SCRUM framework, some of these meetings include: Daily, Weekly, Stand-Up, Sprint Retrospective, and the end of Sprint review meeting.   
 
