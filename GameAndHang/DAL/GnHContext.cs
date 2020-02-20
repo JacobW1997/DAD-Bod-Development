@@ -8,7 +8,7 @@ namespace GameAndHang.Models
     public partial class GnHContext : DbContext
     {
         public GnHContext()
-            : base("name=GnHContext")
+            : base("name=DefaultConnection")
         {
         }
 
