@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -11,113 +12,113 @@ using GameAndHang.Models;
 
 namespace GameAndHang.Controllers
 {
-    public class EventsController : Controller
+    public class UsersController : Controller
     {
         private GnHContext db = new GnHContext();
 
-        // GET: Events
-        public ActionResult Index()
+        // GET: Users
+        public async Task<ActionResult> Index()
         {
-            var events = db.Events.Include(r => r.User);
-            return View(events.ToList());
+            var users = db.Users.Include(u => u.AspNetUser);
+            return View(await users.ToListAsync());
         }
 
-        // GET: Events/Details/5
-        public ActionResult Details(int? id)
+        // GET: Users/Details/5
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
-            if (@event == null)
+            User user = await db.Users.FindAsync(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            return View(user);
         }
 
-        // GET: Events/Create
+        // GET: Users/Create
         public ActionResult Create()
         {
-            ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID");
+            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email");
             return View();
         }
 
-        // POST: Events/Create
+        // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax,UnsupGames,HostID")] Event @event)
+        public async Task<ActionResult> Create([Bind(Include = "ID,CredentialsID,FirstName,LastName,DOB")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Events.Add(@event);
-                db.SaveChanges();
+                db.Users.Add(user);
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID", @event.HostID);
-            return View(@event);
+            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email", user.CredentialsID);
+            return View(user);
         }
 
-        // GET: Events/Edit/5
-        public ActionResult Edit(int? id)
+        // GET: Users/Edit/5
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
-            if (@event == null)
+            User user = await db.Users.FindAsync(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID", @event.HostID);
-            return View(@event);
+            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email", user.CredentialsID);
+            return View(user);
         }
 
-        // POST: Events/Edit/5
+        // POST: Users/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax,UnsupGames,HostID")] Event @event)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,CredentialsID,FirstName,LastName,DOB")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@event).State = EntityState.Modified;
-                db.SaveChanges();
+                db.Entry(user).State = EntityState.Modified;
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID", @event.HostID);
-            return View(@event);
+            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email", user.CredentialsID);
+            return View(user);
         }
 
-        // GET: Events/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: Users/Delete/5
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
-            if (@event == null)
+            User user = await db.Users.FindAsync(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            return View(user);
         }
 
-        // POST: Events/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Event @event = db.Events.Find(id);
-            db.Events.Remove(@event);
-            db.SaveChanges();
+            User user = await db.Users.FindAsync(id);
+            db.Users.Remove(user);
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 

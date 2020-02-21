@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Events</h2>
+<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,41 +12,40 @@
 <table class="table">
     <tr>
         <th>
-            Event Name
-            @*@Html.DisplayNameFor(model => model.EventName)*@
+            @Html.DisplayNameFor(model => model.User.CredentialsID)
         </th>
         <th>
-            Event Type
-            @*@Html.DisplayNameFor(model => model.IsPublic)*@
+            @Html.DisplayNameFor(model => model.EventName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPublic)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
-            Event Description
-            @*@Html.DisplayNameFor(model => model.EventDescription)*@
+            @Html.DisplayNameFor(model => model.EventDescription)
         </th>
         <th>
-            Event Location
-            @*@Html.DisplayNameFor(model => model.EventLocation)*@
+            @Html.DisplayNameFor(model => model.EventLocation)
         </th>
         <th>
-            Min Players
-            @*@Html.DisplayNameFor(model => model.PlayerSlotsMin)*@
+            @Html.DisplayNameFor(model => model.PlayerSlotsMin)
         </th>
         <th>
-            Max Players
-            @*@Html.DisplayNameFor(model => model.PlayerSlotsMax)*@
+            @Html.DisplayNameFor(model => model.PlayerSlotsMax)
         </th>
         <th>
-            Unsupported Game (optional)
-            @*@Html.DisplayNameFor(model => model.UnsupGames)*@
+            @Html.DisplayNameFor(model => model.UnsupGames)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.CredentialsID)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.EventName)
         </td>
