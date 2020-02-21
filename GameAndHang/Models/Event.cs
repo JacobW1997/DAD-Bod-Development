@@ -1,6 +1,7 @@
 namespace GameAndHang.Models
 {
     using System;
+    using Foolproof;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -32,8 +33,11 @@ namespace GameAndHang.Models
         [Required]
         public string EventLocation { get; set; }
 
+        [Range(2,49, ErrorMessage = "Must be between 2 and 49")]
+        [LessThan("PlayerSlotsMax", ErrorMessage = "Must be less than max players")]
         public int PlayerSlotsMin { get; set; }
-
+        
+        [Range(2,50, ErrorMessage = "Must be between 2 and 50")]
         public int PlayerSlotsMax { get; set; }
 
         public string UnsupGames { get; set; }
