@@ -4,22 +4,23 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+    <h2>@Html.DisplayFor(model => model.EventName)</h2>
 
 <div>
-    <h4>Event</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.User.CredentialsID)
+            Host
+            @*@Html.DisplayNameFor(model => model.User.CredentialsID)*@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.CredentialsID)
+            @Html.DisplayFor(model => model.User.FirstName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EventName)
+            Event Name
+            @*@Html.DisplayNameFor(model => model.EventName)*@
         </dt>
 
         <dd>
@@ -27,7 +28,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsPublic)
+            Event Type
+            @*@Html.DisplayNameFor(model => model.IsPublic)*@
         </dt>
 
         <dd>
@@ -43,7 +45,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EventDescription)
+            Event Description
+            @*@Html.DisplayNameFor(model => model.EventDescription)*@
         </dt>
 
         <dd>
@@ -51,7 +54,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EventLocation)
+            Event Location
+            @*@Html.DisplayNameFor(model => model.EventLocation)*@
         </dt>
 
         <dd>
@@ -59,7 +63,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PlayerSlotsMin)
+            Min Players
+            @*@Html.DisplayNameFor(model => model.PlayerSlotsMin)*@
         </dt>
 
         <dd>
@@ -67,7 +72,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PlayerSlotsMax)
+            Max Players
+            @*@Html.DisplayNameFor(model => model.PlayerSlotsMax)*@
         </dt>
 
         <dd>
@@ -75,7 +81,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UnsupGames)
+            Unsupported Game
+            @*@Html.DisplayNameFor(model => model.UnsupGames)*@
         </dt>
 
         <dd>

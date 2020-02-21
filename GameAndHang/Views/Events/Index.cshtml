@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Events</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,31 +12,39 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.User.CredentialsID)
+            Host
+            @*@Html.DisplayNameFor(model => model.User.FirstName)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EventName)
+            Event Name
+            @*@Html.DisplayNameFor(model => model.EventName)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsPublic)
+            Event Type
+            @*@Html.DisplayNameFor(model => model.IsPublic)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EventDescription)
+            Event Description
+            @*@Html.DisplayNameFor(model => model.EventDescription)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EventLocation)
+            Event Location
+            @*@Html.DisplayNameFor(model => model.EventLocation)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PlayerSlotsMin)
+            Min Players
+            @*@Html.DisplayNameFor(model => model.PlayerSlotsMin)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PlayerSlotsMax)
+            Max Players
+            @*@Html.DisplayNameFor(model => model.PlayerSlotsMax)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UnsupGames)
+            Unsupported Game
+            @*@Html.DisplayNameFor(model => model.UnsupGames)*@
         </th>
         <th></th>
     </tr>
@@ -44,7 +52,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.User.CredentialsID)
+            @Html.DisplayFor(modelItem => item.User.FirstName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EventName)
