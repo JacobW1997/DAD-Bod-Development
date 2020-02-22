@@ -9,12 +9,14 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GameAndHang.Models;
+using GameAndHang.DAL;
 
 namespace GameAndHang.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private GnHContext db = new GnHContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -51,6 +53,7 @@ namespace GameAndHang.Controllers
                 _userManager = value;
             }
         }
+
 
         //
         // GET: /Account/Login
@@ -139,6 +142,9 @@ namespace GameAndHang.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            //User NewUser = new User { CredentialsID = user.Id, FirstName = model.FirstName, LastName = model.LastName, DOB = model.DOB};
+            //db.Users.Add(NewUser);
+            //await db.SaveChangesAsync();
             return View();
         }
 
@@ -153,6 +159,7 @@ namespace GameAndHang.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -163,7 +170,8 @@ namespace GameAndHang.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Create", "Users");
+                    
                 }
                 AddErrors(result);
             }

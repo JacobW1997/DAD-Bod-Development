@@ -42,6 +42,9 @@ namespace GameAndHang.Models
 
         public string UnsupGames { get; set; }
 
+        [Display(Name ="Games:")]
+        public List<string> GamesList { get; set; }
+
         public int HostID { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
