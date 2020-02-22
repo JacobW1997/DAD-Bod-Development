@@ -17,7 +17,7 @@ namespace GameAndHang.Models
 
         public int ID { get; set; }
 
-        [Required]
+
         [StringLength(128)]
         public string CredentialsID { get; set; }
 
@@ -29,6 +29,7 @@ namespace GameAndHang.Models
         [StringLength(128)]
         public string LastName { get; set; }
 
+        [Required]
         [Column(TypeName = "date")]
         public DateTime DOB { get; set; }
 

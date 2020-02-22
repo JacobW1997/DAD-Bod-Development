@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameAndHang.DAL;
 using GameAndHang.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GameAndHang.Controllers
 {
@@ -41,7 +42,6 @@ namespace GameAndHang.Controllers
         // GET: Users/Create
         public ActionResult Create()
         {
-            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email");
             return View();
         }
 
@@ -52,14 +52,13 @@ namespace GameAndHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,CredentialsID,FirstName,LastName,DOB")] User user)
         {
+            user.CredentialsID = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
                 db.Users.Add(user);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Users" );
             }
-
-            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email", user.CredentialsID);
             return View(user);
         }
 

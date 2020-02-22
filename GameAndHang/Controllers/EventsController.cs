@@ -41,6 +41,7 @@ namespace GameAndHang.Controllers
         public ActionResult Create()
         {
             ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID");
+            ViewBag.Games = new SelectList(db.Games, "ID", "Name");
             return View();
         }
 

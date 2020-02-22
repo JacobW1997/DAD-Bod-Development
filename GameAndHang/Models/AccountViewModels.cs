@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
 
 namespace GameAndHang.Models
 {
@@ -79,6 +81,14 @@ namespace GameAndHang.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string LastName { get; set; }
+
+        [Required]
+        [StringLength(16, ErrorMessage = "Display Name must be atleast 3 characters long.", MinimumLength = 3)]
+        [Display(Name = "User Name")]
+        public string DisplayName { get; set; }
+
     }
 
     public class ResetPasswordViewModel
