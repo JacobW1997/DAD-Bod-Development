@@ -21,7 +21,7 @@ namespace GameAndHang.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("name=GnHContext", throwIfV1Schema: false)
         {
         }
 
