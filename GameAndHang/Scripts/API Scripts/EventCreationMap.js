@@ -21,10 +21,18 @@ var geocoder;
 var map, infoWindow;
 
 function initMap() {
+    geocoder = new google.maps.Geocoder();
     map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 44.943, lng: 123.035 },
-        zoom: 6
+        center: { lat: 44.943, lng: -123.035 },
+        zoom: 10
     });
+    // THIS WAS FOR TESTING
+    //var start = new google.maps.Marker({
+    //    map: map,
+    //    animation: google.maps.Animation.DROP,
+    //    position: { lat: 44.943, lng: -123.035 },
+    //    title: "test"
+    //})
     infoWindow = new google.maps.InfoWindow;
 
     // Try HTML5 geolocation.
@@ -36,7 +44,7 @@ function initMap() {
             };
 
             infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
+            infoWindow.setContent('You are here.');
             infoWindow.open(map);
             map.setCenter(pos);
         }, function () {
@@ -63,6 +71,7 @@ function codeAddress() {
             map.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
                 map: map,
+                animation: google.maps.Animation.DROP,
                 position: results[0].geometry.location
             });
         } else {
