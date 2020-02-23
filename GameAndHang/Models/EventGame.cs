@@ -14,6 +14,7 @@ namespace GameAndHang.Models
 
         public int GameID { get; set; }
 
+
         public virtual Event Event { get; set; }
 
         public virtual Game Game { get; set; }

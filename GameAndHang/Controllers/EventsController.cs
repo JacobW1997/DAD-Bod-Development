@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameAndHang.DAL;
 using GameAndHang.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GameAndHang.Controllers
 {
@@ -52,11 +53,17 @@ namespace GameAndHang.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax,UnsupGames,HostID")] Event @event)
         {
+            var getuserID = User.Identity.GetUserId();
+            int currentUserID = db.Users
+                .Where(x => x.CredentialsID == getuserID)
+                .Select(x => x.ID)
+                .Single();
+            @event.HostID = currentUserID;
             if (ModelState.IsValid)
             {
                 db.Events.Add(@event);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create", "EventGames");
             }
 
             ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID", @event.HostID);
