@@ -43,6 +43,7 @@ namespace GameAndHang.Controllers
         {
             ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID");
             ViewBag.Games = new SelectList(db.Games, "ID", "Name");
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             return View();
         }
 
