@@ -14,7 +14,6 @@ namespace GameAndHang.Models
         {
             EventGames = new HashSet<EventGame>();
             EventPlayers = new HashSet<EventPlayer>();
-            MapsApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"] + "&callback=initMap";
         }
 
         public int ID { get; set; }
@@ -53,7 +52,7 @@ namespace GameAndHang.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventPlayer> EventPlayers { get; set; }
-        public string MapsApiUrl { get; }
+
         public virtual User User { get; set; }
     }
 }
