@@ -27,16 +27,6 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.GamesList, "Games", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("Games", null, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    @Html.ValidationMessageFor(model => model.GamesList, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-
-
-                            <div class="form-group">
                                 @Html.LabelFor(model => model.IsPublic, "Event Type", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     <div class="checkbox">
@@ -91,14 +81,6 @@
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.UnsupGames, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.UnsupGames, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.HostID, "HostID", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("HostID", null, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.HostID, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
