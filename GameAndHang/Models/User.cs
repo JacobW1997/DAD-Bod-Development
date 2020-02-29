@@ -15,11 +15,7 @@ namespace GameAndHang.Models
             Events = new HashSet<Event>();
         }
 
-        public int ID { get; set; }
-
-
-        [StringLength(128)]
-        public string CredentialsID { get; set; }
+        public string ID { get; set; }
 
         [Required]
         [StringLength(128)]
@@ -32,6 +28,16 @@ namespace GameAndHang.Models
         [Required]
         [Column(TypeName = "date")]
         public DateTime DOB { get; set; }
+
+        [Required]
+        [StringLength(16)]
+        public string DisplayName { get; set; }
+
+        [Required]
+        public string Bio { get; set; }
+
+        [Column(TypeName = "image")]
+        public byte[] ProfilePic { get; set; }
 
         public virtual AspNetUser AspNetUser { get; set; }
 

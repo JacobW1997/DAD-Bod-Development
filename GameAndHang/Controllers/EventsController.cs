@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using GameAndHang.DAL;
@@ -17,20 +18,20 @@ namespace GameAndHang.Controllers
         private GnHContext db = new GnHContext();
 
         // GET: Events
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var events = db.Events.Include(r => r.User);
-            return View(events.ToList());
+            return View(await events.ToListAsync());
         }
 
         // GET: Events/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
+            Event @event = await db.Events.FindAsync(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -41,8 +42,10 @@ namespace GameAndHang.Controllers
         // GET: Events/Create
         public ActionResult Create()
         {
-            ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID");
-            ViewBag.Games = new SelectList(db.Games, "ID", "Name");
+            //ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID");
+            //ViewBag.Games = new SelectList(db.Games, "ID", "Name");
+            //+ System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
+            ViewBag.HostID = new SelectList(db.Users, "ID", "ID");
             ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             return View();
         }
@@ -52,38 +55,40 @@ namespace GameAndHang.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax,UnsupGames,HostID")] Event @event)
+        public async Task<ActionResult> Create([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax, PlayersCount,UnsupGames,HostID")] Event @event)
         {
-            var getuserID = User.Identity.GetUserId();
-            int currentUserID = db.Users
-                .Where(x => x.CredentialsID == getuserID)
-                .Select(x => x.ID)
-                .Single();
-            @event.HostID = currentUserID;
+            //@event.HostID = User.Identity.GetUserId();
+            Guid g = Guid.NewGuid();
+            string gIDString = Convert.ToBase64String(g.ToByteArray());
+            gIDString = gIDString.Replace("=", "");
+            gIDString = gIDString.Replace("+", "");
+
+            @event.ID = gIDString;
+
             if (ModelState.IsValid)
             {
                 db.Events.Add(@event);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Create", "EventGames");
             }
 
-            ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID", @event.HostID);
+            ViewBag.HostID = new SelectList(db.Users, "ID", "ID", @event.HostID);
             return View(@event);
         }
 
         // GET: Events/Edit/5
-        public ActionResult Edit(int? id)
+        public async  Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
+            Event @event = await db.Events.FindAsync(id);
             if (@event == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID", @event.HostID);
+            ViewBag.HostID = new SelectList(db.Users, "ID", "FirstName", @event.HostID);
             return View(@event);
         }
 
@@ -92,26 +97,26 @@ namespace GameAndHang.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax,UnsupGames,HostID")] Event @event)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax,UnsupGames,HostID")] Event @event)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(@event).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID", @event.HostID);
+            ViewBag.HostID = new SelectList(db.Users, "ID", "FirstName", @event.HostID);
             return View(@event);
         }
 
         // GET: Events/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
+            Event @event = await db.Events.FindAsync(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -122,9 +127,9 @@ namespace GameAndHang.Controllers
         // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            Event @event = db.Events.Find(id);
+            Event @event = await db.Events.FindAsync(id);
             db.Events.Remove(@event);
             db.SaveChanges();
             return RedirectToAction("Index");

@@ -4,47 +4,68 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2 id="title">Account Details</h2>
 
-<div>
-    <h4>User</h4>
+<div class="container-lg">
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AspNetUser.Email)
-        </dt>
+    <div class="row">
 
-        <dd>
-            @Html.DisplayFor(model => model.AspNetUser.Email)
-        </dd>
+        <img src="https://cdn.discordapp.com/attachments/664532703064096797/682074680122933318/ChewyProfPic.jpeg" id="profPic" />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+        <div id="nameDiv" class="text-left">
+            <h2> @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
+            <div id="accountInfo">
+                @Html.DisplayFor(model => model.AspNetUser.Email)
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+            </div>
+            <div id="accountInfo">
+                @Html.DisplayFor(model => model.DOB)
+            </div>
+            <div id="accountBio">
+                this is my bio holder
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DOB)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DOB)
-        </dd>
-
-    </dl>
 </div>
+
+<style>
+    #profPic {
+        min-width: 50px;
+        max-width: 250px;
+        min-height: 50px;
+        max-height: 250px;
+        border-radius: 5%;
+        border-style:double;
+        border-width:5px;
+        margin-top:20px;
+        margin-right:10px;
+    }
+    #nameDiv{
+        margin-top:30px;
+        margin-left:5px;
+    }
+    #title{
+        margin-top:10px;
+    }
+    #accountInfo{
+        font-size: 20px;
+    }
+    #accountBio{
+        margin-left:inherit;
+        margin-top:10px;
+        width:650px;
+        height:125px;
+        border-style:solid;
+        border-width:1px;
+    }
+
+</style>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    <div class="btn btn-primary">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+    </div>
 </p>

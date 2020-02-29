@@ -10,7 +10,7 @@ namespace GameAndHang.Models
     {
         public int ID { get; set; }
 
-        public int EventID { get; set; }
+        public string EventID { get; set; }
 
         public int GameID { get; set; }
 

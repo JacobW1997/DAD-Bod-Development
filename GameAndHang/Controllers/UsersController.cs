@@ -25,7 +25,7 @@ namespace GameAndHang.Controllers
         }
 
         // GET: Users/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public async Task<ActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -42,6 +42,7 @@ namespace GameAndHang.Controllers
         // GET: Users/Create
         public ActionResult Create()
         {
+            ViewBag.ID = User.Identity.GetUserId();
             return View();
         }
 
@@ -50,20 +51,21 @@ namespace GameAndHang.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CredentialsID,FirstName,LastName,DOB")] User user)
+        public async Task<ActionResult> Create([Bind(Include = "ID,CredentialsID,FirstName,LastName,DOB,DisplayName,Bio,ProfilePic")] User user)
         {
-            user.CredentialsID = User.Identity.GetUserId();
+            user.ID = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
                 db.Users.Add(user);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index","Users" );
             }
+            ViewBag.ID = new SelectList(db.AspNetUsers, "Id", "Email", user.ID);
             return View(user);
         }
 
         // GET: Users/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -74,7 +76,7 @@ namespace GameAndHang.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email", user.CredentialsID);
+            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email", user.ID);
             return View(user);
         }
 
@@ -91,12 +93,12 @@ namespace GameAndHang.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email", user.CredentialsID);
+            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email", user.ID);
             return View(user);
         }
 
         // GET: Users/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -113,7 +115,7 @@ namespace GameAndHang.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
             User user = await db.Users.FindAsync(id);
             db.Users.Remove(user);

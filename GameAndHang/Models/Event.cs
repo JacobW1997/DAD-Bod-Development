@@ -16,7 +16,7 @@ namespace GameAndHang.Models
             EventPlayers = new HashSet<EventPlayer>();
         }
 
-        public int ID { get; set; }
+        public string ID { get; set; }
 
         [Required]
         [StringLength(64)]
@@ -24,10 +24,10 @@ namespace GameAndHang.Models
 
         public bool IsPublic { get; set; }
 
+        [Column(TypeName = "date")]
         public DateTime Date { get; set; }
 
         [Required]
-        [StringLength(256)]
         public string EventDescription { get; set; }
 
         [Required]
@@ -40,12 +40,14 @@ namespace GameAndHang.Models
         [Range(2,50, ErrorMessage = "Must be between 2 and 50")]
         public int PlayerSlotsMax { get; set; }
 
+        public int? PlayersCount { get; set; }
+
         public string UnsupGames { get; set; }
 
-        [Display(Name ="Games:")]
-        public List<string> GamesList { get; set; }
 
-        public int HostID { get; set; }
+        [Required]
+        [StringLength(128)]
+        public string HostID { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventGame> EventGames { get; set; }

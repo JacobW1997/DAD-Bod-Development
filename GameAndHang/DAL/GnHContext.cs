@@ -42,9 +42,9 @@ namespace GameAndHang.DAL
                 .HasForeignKey(e => e.UserId);
 
             modelBuilder.Entity<AspNetUser>()
-                .HasMany(e => e.Users)
+                .HasOptional(e => e.User)
                 .WithRequired(e => e.AspNetUser)
-                .HasForeignKey(e => e.CredentialsID);
+                .WillCascadeOnDelete();
 
             modelBuilder.Entity<Event>()
                 .HasMany(e => e.EventGames)

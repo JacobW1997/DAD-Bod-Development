@@ -43,8 +43,8 @@ namespace GameAndHang.Controllers
         public ActionResult Create()
         {
             var getuserID = User.Identity.GetUserId();
-            int currentUserID = db.Users
-                .Where(x => x.CredentialsID == getuserID)
+            string currentUserID = db.Users
+                .Where(x => x.ID == getuserID)
                 .Select(x => x.ID)
                 .Single();
             

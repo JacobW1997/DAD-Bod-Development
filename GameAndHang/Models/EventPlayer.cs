@@ -10,9 +10,9 @@ namespace GameAndHang.Models
     {
         public int ID { get; set; }
 
-        public int PlayerID { get; set; }
+        public string PlayerID { get; set; }
 
-        public int EventID { get; set; }
+        public string EventID { get; set; }
 
         public virtual Event Event { get; set; }
 
