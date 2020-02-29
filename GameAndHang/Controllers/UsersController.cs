@@ -51,7 +51,7 @@ namespace GameAndHang.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CredentialsID,FirstName,LastName,DOB,DisplayName,Bio,ProfilePic")] User user)
+        public async Task<ActionResult> Create([Bind(Include = "ID,FirstName,LastName,DOB,DisplayName,Bio,ProfilePic")] User user)
         {
             user.ID = User.Identity.GetUserId();
             if (ModelState.IsValid)
