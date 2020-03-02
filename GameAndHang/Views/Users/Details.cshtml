@@ -32,6 +32,65 @@
 
 </div>
 
+@if (Model.EventPlayers.Count() > 0) { 
+    <hr/>
+
+    <h4>Events that @Html.DisplayFor(model => model.FirstName) is Signed Up For:</h4>
+
+    <br/>
+
+    <div>
+        <table class="table-hover">
+            <tr>
+                <th>
+                    Event Name
+                </th>
+
+                <th>
+                    Event Date/Time
+                </th>
+
+                <th>
+                    Event Location
+                </th>
+
+                <th>
+                    Event Description
+                </th>
+
+                <th>
+
+                </th>
+            </tr>
+
+            @foreach (var eventPlayer in Model.EventPlayers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.EventName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.Date)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.EventLocation)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.EventDescription)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = eventPlayer.EventID })
+                    </td>
+                </tr>
+            }
+            
+        </table>
+</div>
+}
 <style>
     #profPic {
         min-width: 50px;
