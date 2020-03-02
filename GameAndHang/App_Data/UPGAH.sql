@@ -74,7 +74,6 @@ CREATE NONCLUSTERED INDEX [IX_RoleId] ON [dbo].[AspNetUserRoles]([RoleId] ASC);
 CREATE TABLE [dbo].[Users]
 (
     [ID]            NVARCHAR(128)		NOT NULL,
-	[CredentialsID] NVARCHAR(128)	    NOT NULL,
 	[FirstName]		NVARCHAR(128)	    NOT NULL,
 	[LastName]		NVARCHAR(128)	    NOT NULL,
 	[DOB]			DATE			    NOT NULL,
@@ -82,7 +81,7 @@ CREATE TABLE [dbo].[Users]
 	[Bio]			NVARCHAR(MAX)				,
 	[ProfilePic]	IMAGE						,
 	CONSTRAINT [PK_dbo.Users] PRIMARY KEY CLUSTERED ([ID] ASC),
-	CONSTRAINT [FK_dbo.Users_dbo.AspNetUsers_Id] FOREIGN KEY ([CredentialsID]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
+	--CONSTRAINT [FK_dbo.Users_dbo.AspNetUsers_Id] FOREIGN KEY ([ID]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
 );
 
 CREATE TABLE [dbo].[Events](

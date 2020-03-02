@@ -53,6 +53,7 @@ namespace GameAndHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,FirstName,LastName,DOB,DisplayName,Bio,ProfilePic")] User user)
         {
+            //var userID = User.Identity.GetUserId();
             user.ID = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
@@ -76,7 +77,7 @@ namespace GameAndHang.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email", user.ID);
+            ViewBag.ID = new SelectList(db.AspNetUsers, "Id", "Email", user.ID);
             return View(user);
         }
 
@@ -85,7 +86,7 @@ namespace GameAndHang.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,CredentialsID,FirstName,LastName,DOB")] User user)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,FirstName,LastName,DOB")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +94,7 @@ namespace GameAndHang.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.CredentialsID = new SelectList(db.AspNetUsers, "Id", "Email", user.ID);
+            ViewBag.ID = new SelectList(db.AspNetUsers, "Id", "Email", user.ID);
             return View(user);
         }
 
