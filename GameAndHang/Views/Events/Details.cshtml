@@ -1,10 +1,11 @@
 ﻿@model GameAndHang.Models.Event
+@using Microsoft.AspNet.Identity;
 
 @{
     ViewBag.Title = "Details";
 }
 
-    <h2>@Html.DisplayFor(model => model.EventName)</h2>
+<h2>@Html.DisplayFor(model => model.EventName)</h2>
 
 <div>
     <hr />
@@ -91,6 +92,14 @@
 
     </dl>
 </div>
+
+@if (User.Identity.GetUserId() != null)
+{
+    <div class="btn btn-primary">
+        @Html.ActionLink("Sign up", "Create", "EventPlayers", new { id = Model.ID });
+    </div>
+}
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
