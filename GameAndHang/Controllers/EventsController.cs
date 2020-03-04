@@ -45,8 +45,8 @@ namespace GameAndHang.Controllers
             //ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID");
             //ViewBag.Games = new SelectList(db.Games, "ID", "Name");
             //+ System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
-            ViewBag.HostID = new SelectList(db.Users, "ID", "ID");
-            //ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
+            ViewBag.HostID = User.Identity.GetUserId();
+            //ViewBag.ApiUrl = https://maps.googleapis.com/maps/api/js?key= + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
             return View();
         }
@@ -58,7 +58,9 @@ namespace GameAndHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax, PlayersCount,UnsupGames,HostID")] Event @event)
         {
-            //@event.HostID = User.Identity.GetUserId();
+            var currentID = User.Identity.GetUserId();
+           
+            @event.HostID = currentID;
             Guid g = Guid.NewGuid();
             string gIDString = Convert.ToBase64String(g.ToByteArray());
             gIDString = gIDString.Replace("=", "");

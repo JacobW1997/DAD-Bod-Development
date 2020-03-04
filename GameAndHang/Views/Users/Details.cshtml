@@ -4,9 +4,11 @@
     ViewBag.Title = "Details";
 }
 
+
+
 <h2 id="title">Account Details</h2>
 
-<div class="container-lg">
+<div class="container">
     <hr />
     <div class="row">
 
@@ -26,11 +28,30 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+
+
+    <h2>Dropdowns</h2>
+    <p>The .dropdown class is used to indicate a dropdown menu.</p>
+    <p>Use the .dropdown-menu class to actually build the dropdown menu.</p>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+            Tutorials
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
+        </ul>
 
     </div>
 
+
 </div>
+
+
 
 <style>
     #profPic {
@@ -39,30 +60,33 @@
         min-height: 50px;
         max-height: 250px;
         border-radius: 5%;
-        border-style:double;
-        border-width:5px;
-        margin-top:20px;
-        margin-right:10px;
-    }
-    #nameDiv{
-        margin-top:30px;
-        margin-left:5px;
-    }
-    #title{
-        margin-top:10px;
-    }
-    #accountInfo{
-        font-size: 20px;
-    }
-    #accountBio{
-        margin-left:inherit;
-        margin-top:10px;
-        width:650px;
-        height:125px;
-        border-style:solid;
-        border-width:1px;
+        border-style: double;
+        border-width: 5px;
+        margin-top: 20px;
+        margin-right: 10px;
     }
 
+    #nameDiv {
+        margin-top: 30px;
+        margin-left: 5px;
+    }
+
+    #title {
+        margin-top: 10px;
+    }
+
+    #accountInfo {
+        font-size: 20px;
+    }
+
+    #accountBio {
+        margin-left: inherit;
+        margin-top: 10px;
+        width: 650px;
+        height: 125px;
+        border-style: solid;
+        border-width: 1px;
+    }
 </style>
 <p>
     <div class="btn btn-primary">

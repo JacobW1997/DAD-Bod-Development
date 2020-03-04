@@ -45,7 +45,7 @@ namespace GameAndHang.Models
         public string UnsupGames { get; set; }
 
 
-        [Required]
+
         [StringLength(128)]
         public string HostID { get; set; }
 

@@ -61,8 +61,6 @@ namespace GameAndHang.Controllers
             {
                 EventID = event1.ID,
                 PlayerID = User.Identity.GetUserId(),
-                //Event = event1,
-                //User = currentUser
             };
 
             if (User.Identity.GetUserId() != null)
