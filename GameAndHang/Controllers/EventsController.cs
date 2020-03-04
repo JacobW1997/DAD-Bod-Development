@@ -80,7 +80,7 @@ namespace GameAndHang.Controllers
         }
 
         // GET: Events/Edit/5
-        public async  Task<ActionResult> Edit(int? id)
+        public async  Task<ActionResult> Edit(string id)
         {
             if (id == null)
             {
