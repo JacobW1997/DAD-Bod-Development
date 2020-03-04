@@ -50,15 +50,22 @@ namespace GameAndHang.Controllers
 
         public ActionResult Create(Event event1)
         {
+            var getuserID = User.Identity.GetUserId();
+
+            User currentUser = db.Users
+                .Where(x => x.ID == getuserID)
+                .Select(x => x)
+                .Single();
+
             EventPlayer eventPlayer = new EventPlayer
             {
                 EventID = event1.ID,
                 PlayerID = User.Identity.GetUserId(),
-                Event = event1,
-                User = event1.User
+                //Event = event1,
+                //User = currentUser
             };
 
-            if (ModelState.IsValid)
+            if (User.Identity.GetUserId() != null)
             {
                 db.EventPlayers.Add(eventPlayer);
                 db.SaveChanges();
