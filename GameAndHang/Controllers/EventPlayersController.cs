@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameAndHang.DAL;
 using GameAndHang.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GameAndHang.Controllers
 {
@@ -37,21 +38,26 @@ namespace GameAndHang.Controllers
             return View(eventPlayer);
         }
 
-        // GET: EventPlayers/Create
-        public ActionResult Create(string EventID)
-        {
-            ViewBag.EventID = EventID;
-            ViewBag.PlayerID = new SelectList(db.Users, "ID", "FirstName");
-            return View();
-        }
+        //// GET: EventPlayers/Create
+        //public ActionResult Create(Event event1)
+        //{
+        //    ViewBag.EventID = event1.ID;
+        //    //ViewBag.EventID = new SelectList(db.Events, "ID", "EventName");
+        //    //ViewBag.PlayerID = new SelectList(db.Users, "ID", "FirstName");
+        //    ViewBag.PlayerID = User.Identity.GetUserId();
+        //    return View();
+        //}
 
-        // POST: EventPlayers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,PlayerID,EventID")] EventPlayer eventPlayer)
+        public ActionResult Create(Event event1)
         {
+            EventPlayer eventPlayer = new EventPlayer
+            {
+                EventID = event1.ID,
+                PlayerID = User.Identity.GetUserId(),
+                Event = event1,
+                User = event1.User
+            };
+
             if (ModelState.IsValid)
             {
                 db.EventPlayers.Add(eventPlayer);
@@ -63,6 +69,26 @@ namespace GameAndHang.Controllers
             ViewBag.PlayerID = new SelectList(db.Users, "ID", "FirstName", eventPlayer.PlayerID);
             return View(eventPlayer);
         }
+
+        // POST: EventPlayers/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "ID,PlayerID,EventID")] EventPlayer eventPlayer)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.EventPlayers.Add(eventPlayer);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    ViewBag.EventID = new SelectList(db.Events, "ID", "EventName", eventPlayer.EventID);
+        //    ViewBag.PlayerID = new SelectList(db.Users, "ID", "FirstName", eventPlayer.PlayerID);
+        //    return View(eventPlayer);
+        //}
+
 
         // GET: EventPlayers/Edit/5
         public ActionResult Edit(int? id)

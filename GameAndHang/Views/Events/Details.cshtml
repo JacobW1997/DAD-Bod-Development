@@ -96,7 +96,7 @@
 @if (User.Identity.GetUserId() != null)
 {
     <div class="btn btn-primary">
-        @Html.ActionLink("Sign up", "Create", "EventPlayers", new { id = Model.ID }, null)
+        @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
     </div>
 }
 
