@@ -438,6 +438,7 @@
     <Content Include="Views\EventPlayers\Details.cshtml" />
     <Content Include="Views\EventPlayers\Edit.cshtml" />
     <Content Include="Views\EventPlayers\Index.cshtml" />
+    <Content Include="Views\Events\Search.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

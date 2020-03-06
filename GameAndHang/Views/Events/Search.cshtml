@@ -1,0 +1,42 @@
+﻿@*@model GameAndHang.Models.Event*@
+@model IEnumerable<GameAndHang.Models.Event>
+
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search for an even by game title</h2>
+@using(Html.BeginForm("Search", "Events", FormMethod.Get))
+{
+    @Html.TextBox("search")<input type="submit" value="Game" />
+}
+
+<table class="table-striped">
+    <thead>
+        <tr>
+            <th>Event Name</th>
+            <th>Event Location</th>
+            <th>Event Date</th>
+            <th>Event Game</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model == null)
+        {
+            <tr>
+                <td style="color: red;"> No event found</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>@item.EventName</tr>
+                <tr>@item.EventLocation</tr>
+                <tr>@item.Date</tr>
+                <tr>@item.UnsupGames</tr>
+            }
+        }
+    </tbody>
+</table>

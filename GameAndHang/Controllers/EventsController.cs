@@ -24,6 +24,11 @@ namespace GameAndHang.Controllers
             return View(await events.ToListAsync());
         }
 
+        public ActionResult Search(string search)
+        {
+            return View(db.Events.Where(x => x.UnsupGames.Contains(search)));
+        }
+
         // GET: Events/Details/5
         public async Task<ActionResult> Details(string id)
         {
