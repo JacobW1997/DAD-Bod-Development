@@ -6,7 +6,7 @@
     ViewBag.Title = "Search";
 }
 
-<h2>Search for an even by game title</h2>
+<h2>Search for an event by game title</h2>
 @using(Html.BeginForm("Search", "Events", FormMethod.Get))
 {
     @Html.TextBox("search")<input type="submit" value="Game" />
@@ -14,12 +14,12 @@
 
 <table class="table table-striped">
     <thead>
-        <tr>
+        @*<tr>
             <th>Event Name</th>
-            <th>Event Location</th>
             <th>Event Date</th>
             <th>Event Game</th>
-        </tr>
+            <th>Details</th>
+        </tr>*@
     </thead>
     <tbody>
         @if (Model == null)
@@ -34,7 +34,6 @@
             {
                 <tr>
                     <td>@item.EventName</td>
-                    <td>@item.EventLocation</td>
                     <td>@item.Date</td>
                     <td>@item.UnsupGames</td>
                     <td>@Html.ActionLink("Details", "Details", new { id = item.ID })</td>
