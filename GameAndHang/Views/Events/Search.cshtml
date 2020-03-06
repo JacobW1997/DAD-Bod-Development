@@ -12,7 +12,7 @@
     @Html.TextBox("search")<input type="submit" value="Game" />
 }
 
-<table class="table-striped">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Event Name</th>
@@ -32,10 +32,13 @@
         {
             foreach (var item in Model)
             {
-                <tr>@item.EventName</tr>
-                <tr>@item.EventLocation</tr>
-                <tr>@item.Date</tr>
-                <tr>@item.UnsupGames</tr>
+                <tr>
+                    <td>@item.EventName</td>
+                    <td>@item.EventLocation</td>
+                    <td>@item.Date</td>
+                    <td>@item.UnsupGames</td>
+                    <td>@Html.ActionLink("Details", "Details", new { id = item.ID })</td>
+                </tr>
             }
         }
     </tbody>
