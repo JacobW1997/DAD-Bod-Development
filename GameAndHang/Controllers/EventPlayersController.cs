@@ -67,12 +67,17 @@ namespace GameAndHang.Controllers
             {
                 db.EventPlayers.Add(eventPlayer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Success");
             }
 
             ViewBag.EventID = new SelectList(db.Events, "ID", "EventName", eventPlayer.EventID);
             ViewBag.PlayerID = new SelectList(db.Users, "ID", "FirstName", eventPlayer.PlayerID);
             return View(eventPlayer);
+        }
+
+        public ActionResult Success()
+        {
+            return View();
         }
 
         // POST: EventPlayers/Create

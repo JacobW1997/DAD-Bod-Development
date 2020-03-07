@@ -24,6 +24,20 @@ namespace GameAndHang.Controllers
             return View(await events.ToListAsync());
         }
 
+        public ActionResult Search(string search)
+        {
+            ViewBag.Games = new SelectList(db.EventGames.Select(x => x.Game).ToList(), "ID", "Name");
+            return View(db.Events.Where(x => x.UnsupGames.Contains(search)));
+        }
+
+        public JsonResult GetData(string data)
+        {
+            List<Event> eventlist = new List<Event>();
+            db.Configuration.ProxyCreationEnabled = false;
+            eventlist = db.Events.Where(x => x.UnsupGames.Contains(data)).ToList();
+            return Json(eventlist, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Events/Details/5
         public async Task<ActionResult> Details(string id)
         {
