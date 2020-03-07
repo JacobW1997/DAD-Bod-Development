@@ -6,39 +6,103 @@
     ViewBag.Title = "Search";
 }
 
-<h2>Search for an event by game title</h2>
-@using(Html.BeginForm("Search", "Events", FormMethod.Get))
-{
-    @Html.TextBox("search")<input type="submit" value="Game" />
-}
-
-<table class="table table-striped">
-    <thead>
-        @*<tr>
-            <th>Event Name</th>
-            <th>Event Date</th>
-            <th>Event Game</th>
-            <th>Details</th>
-        </tr>*@
-    </thead>
-    <tbody>
-        @if (Model == null)
-        {
+@*<h2>Search for an event by game title</h2>
+<div class="container">
+    @Html.TextBox("Search") <input type="submit" id="button" value="Search" />
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                <td style="color: red;"> No event found</td>
+                <th>Event Name</th>
+                <th>Event Date</th>
+                <th>Game</th>
             </tr>
-        }
-        else
-        {
-            foreach (var item in Model)
+        </thead>
+        <tbody id="data">
+            @foreach(var item in Model)
             {
                 <tr>
                     <td>@item.EventName</td>
                     <td>@item.Date</td>
                     <td>@item.UnsupGames</td>
-                    <td>@Html.ActionLink("Details", "Details", new { id = item.ID })</td>
                 </tr>
             }
+        </tbody>
+    </table>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#button").click(function () {
+            var search = $("#Search").val();
+            var data = $("#data");
+            data.html("")
+            $.ajax({
+                type: "post",
+                url: "/Events/GetData?data=" + search,
+                contentType: "html",
+                success: function (result) {
+                    if (result.length == 0) {
+                        data.append('<tr style="color:red"><td colspan="3">No Match</td></tr>')
+                    }
+                    else {
+                        $.each(result, function (Index, value) {
+                            var returnData = "<tr>" +
+                                "<td>" + value.EventName + "</td>" +
+                                "<td>" + value.UnsupGames + "</td>" +
+                                "<td> <a href='/Events/Details/'" + value. + ">Details</a> </td>" +
+                                "</tr>";
+                            data.append(returnData);
+                        })
+                    }
+                }
+            });
+        });
+    });
+</script>*@
+
+
+
+@using (Html.BeginForm("Search", "Events", FormMethod.Get))
+{
+    @Html.TextBox("search")
+    <input type="submit" value="Search" />
+}
+
+@using (Html.BeginForm("SearchBox", "Events", FormMethod.Get))
+{
+    @Html.DropDownList("Games", null, htmlAttributes: new { @class = "form-control" })
+    <input type="submit" value="search" />
+}
+
+<table class="table table-striped">
+<thead>
+    <tr>
+            <th>Event Name</th>
+            <th>Event Date</th>
+            <th>Event Game</th>
+            <th>Details</th>
+        </tr>
+</thead>
+<tbody>
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="3" style="color: red;"> No event found</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EventName</td>
+                <td>@item.Date</td>
+                <td>@item.UnsupGames</td>
+                <td>@Html.ActionLink("Details", "Details", new { id = item.ID })</td>
+            </tr>
         }
-    </tbody>
+    }
+</tbody>
 </table>
