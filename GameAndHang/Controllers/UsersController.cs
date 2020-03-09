@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using GameAndHang.DAL;
 using GameAndHang.Models;
 using Microsoft.AspNet.Identity;
+using static GameAndHang.Controllers.ManageController;
 
 namespace GameAndHang.Controllers
 {
@@ -22,6 +23,27 @@ namespace GameAndHang.Controllers
         {
             var users = db.Users.Include(u => u.AspNetUser);
             return View(await users.ToListAsync());
+        }
+
+        public async Task<ActionResult> IndexUser(ManageMessageId? message)
+        {
+            ViewBag.StatusMessage =
+                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : "";
+            var userId = User.Identity.GetUserId();
+            User findUser = await db.Users.FindAsync(userId);
+            return View(findUser);
+        }
+
+        public string GetUserName(string ID)
+        {
+            User UserName = db.Users.Find(ID);
+            return (UserName.DisplayName);
         }
 
         // GET: Users/Details/5

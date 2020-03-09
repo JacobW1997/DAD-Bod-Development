@@ -47,7 +47,7 @@ namespace GameAndHang.Controllers
             //+ System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             ViewBag.HostID = User.Identity.GetUserId();
             //ViewBag.ApiUrl = https://maps.googleapis.com/maps/api/js?key= + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
-            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             return View();
         }
 
@@ -59,24 +59,37 @@ namespace GameAndHang.Controllers
         public async Task<ActionResult> Create([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax, PlayersCount,UnsupGames,HostID")] Event @event)
         {
             var currentID = User.Identity.GetUserId();
-           
-            @event.HostID = currentID;
-            Guid g = Guid.NewGuid();
-            string gIDString = Convert.ToBase64String(g.ToByteArray());
-            gIDString = gIDString.Replace("=", "");
-            gIDString = gIDString.Replace("+", "");
-
-            @event.ID = gIDString;
-
-            if (ModelState.IsValid)
+            AspNetUser currentUser = db.AspNetUsers.Find(currentID);
+           if(currentID == null || currentUser.EmailConfirmed == false)
             {
-                db.Events.Add(@event);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Create", "EventGames");
+                ModelState.AddModelError("HostID", "Plese login before creating an event!");
+                return View(@event);
             }
+           else if(currentUser.EmailConfirmed == false)
+            {
+                ModelState.AddModelError("HostID", "Plese confirm your email before creating an event!");
+                return View(@event);
+            }
+            else
+            {
+                @event.HostID = currentID;
+                Guid g = Guid.NewGuid();
+                string gIDString = Convert.ToBase64String(g.ToByteArray());
+                gIDString = gIDString.Replace("=", "");
+                gIDString = gIDString.Replace("+", "");
 
-            ViewBag.HostID = new SelectList(db.Users, "ID", "ID", @event.HostID);
-            return View(@event);
+                @event.ID = gIDString;
+
+                if (ModelState.IsValid)
+                {
+                    db.Events.Add(@event);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Create", "EventGames");
+                }
+
+                ViewBag.HostID = new SelectList(db.Users, "ID", "ID", @event.HostID);
+                return View(@event);
+            }
         }
 
         // GET: Events/Edit/5

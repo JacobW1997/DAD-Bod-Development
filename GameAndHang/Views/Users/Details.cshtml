@@ -1,14 +1,19 @@
 ﻿@model GameAndHang.Models.User
-
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Details";
 }
 
 
 
+
+@{
+    ViewBag.Title = "Details";
+}
+
 <h2 id="title">Account Details</h2>
 
-<div class="container">
+<div class="container-lg">
     <hr />
     <div class="row">
 
@@ -24,34 +29,23 @@
                 @Html.DisplayFor(model => model.DOB)
             </div>
             <div id="accountBio">
-                this is my bio holder
+                @Html.DisplayFor(model => model.Bio)
+            </div>
+            <div id="FriendsList">
+                <ul>
+                    <li>Friend slot 1</li>
+                    <li>Friend slot 2</li>
+                    <li>Friend slot 3</li>
+                </ul>
+                
             </div>
         </div>
     </div>
-
-
-    <h2>Dropdowns</h2>
-    <p>The .dropdown class is used to indicate a dropdown menu.</p>
-    <p>Use the .dropdown-menu class to actually build the dropdown menu.</p>
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
-            Tutorials
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
-            <li role="presentation" class="divider"></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
-        </ul>
+    <div class="col-md-3">
 
     </div>
 
-
 </div>
-
-
 
 <style>
     #profPic {
@@ -90,6 +84,45 @@
 </style>
 <p>
     <div class="btn btn-primary">
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
     </div>
 </p>
+
+
+
+<style>
+    #profPic {
+        min-width: 50px;
+        max-width: 250px;
+        min-height: 50px;
+        max-height: 250px;
+        border-radius: 5%;
+        border-style: double;
+        border-width: 5px;
+        margin-top: 20px;
+        margin-right: 10px;
+    }
+
+    #nameDiv {
+        margin-top: 30px;
+        margin-left: 5px;
+    }
+
+    #title {
+        margin-top: 10px;
+    }
+
+    #accountInfo {
+        font-size: 20px;
+    }
+
+    #accountBio {
+        margin-left: inherit;
+        margin-top: 10px;
+        width: 650px;
+        height: 125px;
+        border-style: solid;
+        border-width: 1px;
+    }
+</style>
+
