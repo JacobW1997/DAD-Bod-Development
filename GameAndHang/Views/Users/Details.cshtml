@@ -52,8 +52,155 @@
 </div>
 
 
+@if (Model.EventPlayers.Count() > 0)
+{
+    <hr />
+
+    <h4>Events that @Html.DisplayFor(model => model.FirstName) is Signed Up For:</h4>
+
+    <br />
+
+    <div>
+        <table class="table-hover">
+            <tr>
+                <th>
+                    Event Name
+                </th>
+
+                <th>
+                    Event Date/Time
+                </th>
+
+                <th>
+                    Event Location
+                </th>
+
+                <th>
+                    Event Description
+                </th>
+
+                <th>
+
+                </th>
+            </tr>
+
+            @foreach (var eventPlayer in Model.EventPlayers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.EventName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.Date)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.EventLocation)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.EventDescription)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Events", new { id = eventPlayer.EventID }, "")
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+}
+
+@if (Model.Events.Count() > 0)
+{
+    <hr />
+
+    <h4>Events that @Html.DisplayFor(model => model.FirstName) is Hosting:</h4>
+
+    <br />
+
+    <div>
+        <table class="table-hover">
+            <tr>
+                <th>
+                    Event Name
+                </th>
+
+                <th>
+                    Event Date/Time
+                </th>
+
+                <th>
+                    Event Location
+                </th>
+
+                <th>
+                    Event Description
+                </th>
+
+                <th>
+
+                </th>
+            </tr>
+
+            @foreach (var hostedEvent in Model.Events)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(e => hostedEvent.EventName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(e => hostedEvent.Date)
+            </td>
+
+            <td>
+                @Html.DisplayFor(e => hostedEvent.EventLocation)
+            </td>
+
+            <td>
+                @Html.DisplayFor(e => hostedEvent.EventDescription)
+            </td>
+
+            <td>
+                @Html.ActionLink("Details", "Details", "Events", new { id = hostedEvent.ID }, "")
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Events", new { id = hostedEvent.ID }, "")
+            </td>
+        </tr>
+            }
+
+        </table>
+    </div>
+}
+
+
 
 <style>
+    .table-hover {
+        margin: 20px;
+    }
+
+    tr {
+        margin: 20px;
+    }
+
+    th {
+        margin: 20px;
+        min-width: 75px;
+        padding-right:20px;
+    }
+
+    td {
+        margin: 20px;
+        min-width: 75px;
+        padding-right:20px;
+    }
+
     #profPic {
         min-width: 50px;
         max-width: 250px;
