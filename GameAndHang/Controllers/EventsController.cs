@@ -24,6 +24,20 @@ namespace GameAndHang.Controllers
             return View(await events.ToListAsync());
         }
 
+        public ActionResult Search(string search)
+        {
+            ViewBag.Games = new SelectList(db.EventGames.Select(x => x.Game).ToList(), "ID", "Name");
+            return View(db.Events.Where(x => x.UnsupGames.Contains(search)));
+        }
+
+        public JsonResult GetData(string data)
+        {
+            List<Event> eventlist = new List<Event>();
+            db.Configuration.ProxyCreationEnabled = false;
+            eventlist = db.Events.Where(x => x.UnsupGames.Contains(data)).ToList();
+            return Json(eventlist, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Events/Details/5
         public async Task<ActionResult> Details(string id)
         {
@@ -45,8 +59,9 @@ namespace GameAndHang.Controllers
             //ViewBag.HostID = new SelectList(db.Users, "ID", "CredentialsID");
             //ViewBag.Games = new SelectList(db.Games, "ID", "Name");
             //+ System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
-            ViewBag.HostID = new SelectList(db.Users, "ID", "ID");
-            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
+            ViewBag.HostID = User.Identity.GetUserId();
+            //ViewBag.ApiUrl = https://maps.googleapis.com/maps/api/js?key= + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
             return View();
         }
 
@@ -57,7 +72,9 @@ namespace GameAndHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax, PlayersCount,UnsupGames,HostID")] Event @event)
         {
-            //@event.HostID = User.Identity.GetUserId();
+            var currentID = User.Identity.GetUserId();
+           
+            @event.HostID = currentID;
             Guid g = Guid.NewGuid();
             string gIDString = Convert.ToBase64String(g.ToByteArray());
             gIDString = gIDString.Replace("=", "");
@@ -77,7 +94,7 @@ namespace GameAndHang.Controllers
         }
 
         // GET: Events/Edit/5
-        public async  Task<ActionResult> Edit(int? id)
+        public async  Task<ActionResult> Edit(string id)
         {
             if (id == null)
             {
