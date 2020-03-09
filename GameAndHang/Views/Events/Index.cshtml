@@ -86,7 +86,11 @@
         @Html.DisplayFor(modelItem => item.UnsupGames)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.EventGames)
+        @foreach (var game in item.EventGames)
+        {
+            @Html.DisplayFor(modelItem => game.Game.Name)
+            <br />
+        }
     </td>
     <td>
         @if (item.HostID == User.Identity.GetUserId())

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<GameAndHang.Models.EventGame>
+@{
+    ViewBag.Title = "SearchBox";
+}
+
+<h2>SearchBox</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Event Name</th>
+            <th>Event Date</th>
+            <th>Event Game</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.Event.EventName</td>
+            <td>@item.Event.Date</td>
+            <td>@item.Game.Name</td>
+            <td>@Html.ActionLink("Details", "Details", new { id = item.Event.ID })</td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+

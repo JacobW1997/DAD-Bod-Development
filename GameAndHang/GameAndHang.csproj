@@ -441,6 +441,7 @@
     <Content Include="Views\Users\IndexUser.cshtml" />
     <Content Include="Views\Events\Search.cshtml" />
     <Content Include="Views\EventPlayers\Success.cshtml" />
+    <Content Include="Views\Events\SearchBox.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
