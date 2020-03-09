@@ -4,67 +4,214 @@
     ViewBag.Title = "IndexUser";
 }
 
-    <div class="container-xl" id="Profile">
+<div class="container-xl" id="Profile">
 
-        <div class="row" id="ProfileInfo">
+    <div class="row" id="ProfileInfo">
 
-            <img src="https://cdn.discordapp.com/attachments/664532703064096797/682074680122933318/ChewyProfPic.jpeg" id="profPic" />
+        <img src="https://cdn.discordapp.com/attachments/664532703064096797/682074680122933318/ChewyProfPic.jpeg" id="profPic" />
 
-            <div id="nameDiv" class="text-left">
-                <h1> @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h1>
-                <div id="accountInfo">
-                    <h4 style="margin-left:5px"> @Html.DisplayFor(model => model.AspNetUser.Email)</h4>
-                </div>
-                <div id="accountBio">
-                    <h4> "@Html.DisplayFor(model => model.Bio)"</h4>
-                </div>
-                <div id="editProfile" style="color: Highlight">
-                    @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </div>
+        <div id="nameDiv" class="text-left">
+            <h1> @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h1>
+            <div id="accountInfo">
+                <h4 style="margin-left:5px"> @Html.DisplayFor(model => model.AspNetUser.Email)</h4>
             </div>
-        </div>
-        <hr />
-        <div class="row">
-            <div class="col-lg-4" id="FriendsList">
-                <h4>     Friends List: </h4>
-                <ul class="list-group">
-                    <li class="list-group-item">Friend slot 1</li>
-                    <li class="list-group-item">Friend slot 2</li>
-                    <li class="list-group-item">Friend slot 3</li>
-                    <li class="list-group-item">Friend slot 4</li>
-                    <li class="list-group-item">Friend slot 5</li>
-                </ul>
+            <div id="accountBio">
+                <h4> "@Html.DisplayFor(model => model.Bio)"</h4>
             </div>
-            <div class="col-lg-4" id="FriendsList">
-                <h4>     Registered Events: </h4>
-                <ul class="list-group">
-                    <li class="list-group-item">Event slot 1</li>
-                    <li class="list-group-item">Event slot 2</li>
-                    <li class="list-group-item">Event slot 3</li>
-                    <li class="list-group-item">Event slot 4</li>
-                    <li class="list-group-item">Event slot 5</li>
-                </ul>
-
-            </div>
-            <div class="col-lg-4" id="FriendsList">
-                <h4>     Hosted Games: </h4>
-                <ul class="list-group">
-                    <li class="list-group-item">Host slot 1</li>
-                    <li class="list-group-item">Host slot 2</li>
-                    <li class="list-group-item">Host slot 3</li>
-                    <li class="list-group-item">Host slot 4</li>
-                    <li class="list-group-item">Host slot 5</li>
-                </ul>
+            <div id="editProfile" style="color: Highlight">
+                @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </div>
         </div>
     </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-4" id="FriendsList">
+            <h4>     Friends List: </h4>
+            <ul class="list-group">
+                <li class="list-group-item">Friend slot 1</li>
+                <li class="list-group-item">Friend slot 2</li>
+                <li class="list-group-item">Friend slot 3</li>
+                <li class="list-group-item">Friend slot 4</li>
+                <li class="list-group-item">Friend slot 5</li>
+            </ul>
+        </div>
+        <div class="col-lg-4" id="FriendsList">
+            <h4>     Registered Events: </h4>
+            <ul class="list-group">
+                <li class="list-group-item">Event slot 1</li>
+                <li class="list-group-item">Event slot 2</li>
+                <li class="list-group-item">Event slot 3</li>
+                <li class="list-group-item">Event slot 4</li>
+                <li class="list-group-item">Event slot 5</li>
+            </ul>
+
+        </div>
+        <div class="col-lg-4" id="FriendsList">
+            <h4>     Hosted Games: </h4>
+            <ul class="list-group">
+                <li class="list-group-item">Host slot 1</li>
+                <li class="list-group-item">Host slot 2</li>
+                <li class="list-group-item">Host slot 3</li>
+                <li class="list-group-item">Host slot 4</li>
+                <li class="list-group-item">Host slot 5</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@if (Model.EventPlayers.Count() > 0)
+{
+    <hr />
+
+    <h4>Events that @Html.DisplayFor(model => model.FirstName) is Signed Up For:</h4>
+
+    <br />
+
+    <div>
+        <table class="table-hover">
+            <tr>
+                <th>
+                    Event Name
+                </th>
+
+                <th>
+                    Event Date/Time
+                </th>
+
+                <th>
+                    Event Location
+                </th>
+
+                <th>
+                    Event Description
+                </th>
+
+                <th>
+
+                </th>
+            </tr>
+
+            @foreach (var eventPlayer in Model.EventPlayers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.EventName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.Date)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.EventLocation)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => eventPlayer.Event.EventDescription)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Events", new { id = eventPlayer.EventID }, "")
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+}
+
+@if (Model.Events.Count() > 0)
+{
+    <hr />
+
+    <h4>Events that @Html.DisplayFor(model => model.FirstName) is Hosting:</h4>
+
+    <br />
+
+    <div>
+        <table class="table-hover">
+            <tr>
+                <th>
+                    Event Name
+                </th>
+
+                <th>
+                    Event Date/Time
+                </th>
+
+                <th>
+                    Event Location
+                </th>
+
+                <th>
+                    Event Description
+                </th>
+
+                <th>
+
+                </th>
+            </tr>
+
+            @foreach (var hostedEvent in Model.Events)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(e => hostedEvent.EventName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => hostedEvent.Date)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => hostedEvent.EventLocation)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(e => hostedEvent.EventDescription)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Events", new { id = hostedEvent.ID }, "")
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Events", new { id = hostedEvent.ID }, "")
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+}
 
 <style>
-    #ProfileInfo{
-        margin-left:25px;
+        .table-hover {
+        margin: 20px;
     }
-    #editProfile{
-        margin-left:5px;
+
+    tr {
+        margin: 20px;
+    }
+
+    th {
+        margin: 20px;
+        min-width: 75px;
+        padding-right:20px;
+    }
+
+    td {
+        margin: 20px;
+        min-width: 75px;
+        padding-right:20px;
+    }
+
+    #ProfileInfo {
+        margin-left: 25px;
+    }
+
+    #editProfile {
+        margin-left: 5px;
     }
 
     body {
@@ -84,8 +231,7 @@
     }
 
     #FriendsList {
-
-     margin-top:10px;
+        margin-top: 10px;
     }
 
     .list-group-item {
