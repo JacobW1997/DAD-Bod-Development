@@ -63,6 +63,20 @@ namespace GameAndHang.Controllers
                 PlayerID = User.Identity.GetUserId(),
             };
 
+
+            int? numPlayers = event1.PlayersCount;
+        
+
+            var eventID = event1.ID;
+            var eventItem = db.Events.FirstOrDefault(x => x.ID == eventID);
+            if(eventItem != null)
+            {
+                eventItem.PlayersCount = numPlayers + 1;
+                db.Entry(eventItem).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+
             if (User.Identity.GetUserId() != null)
             {
                 db.EventPlayers.Add(eventPlayer);
