@@ -13,15 +13,41 @@ using Microsoft.AspNet.Identity;
 
 namespace GameAndHang.Controllers
 {
+
     public class EventsController : Controller
     {
+        [NonAction]
+        public bool NeededEvent(Event event1)
+        {
+            DateTime timeNow = DateTime.Now;
+
+            DateTime timeofEvent = event1.Date;
+
+            if (timeofEvent < timeNow)
+                return false;
+            else
+                return true;
+
+
+        }
+
         private GnHContext db = new GnHContext();
+
+       
 
         // GET: Events
         public async Task<ActionResult> Index()
         {
             var events = db.Events.Include(r => r.User);
-            return View(await events.ToListAsync());
+
+
+            var filtered = events.Where(NeededEvent);
+
+
+
+
+           // return View(await events.ToListAsync());
+            return View(filtered);
         }
 
         public ActionResult Search(string search)
@@ -91,7 +117,7 @@ namespace GameAndHang.Controllers
            //     return View(@event);
            // }
             //else
-            {
+            //{
                 @event.HostID = currentID;
                 Guid g = Guid.NewGuid();
                 string gIDString = Convert.ToBase64String(g.ToByteArray());
@@ -109,7 +135,7 @@ namespace GameAndHang.Controllers
 
                 ViewBag.HostID = new SelectList(db.Users, "ID", "ID", @event.HostID);
                 return View(@event);
-            }
+            
         }
 
         // GET: Events/Edit/5

@@ -93,6 +93,7 @@
     </dl>
 </div>
 
+
 @if (Model.EventPlayers.Select(x => x.PlayerID).Contains(User.Identity.GetUserId()))
 {
     <p>You are signed up for this event</p>
