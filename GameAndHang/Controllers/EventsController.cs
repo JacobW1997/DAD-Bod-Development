@@ -80,17 +80,17 @@ namespace GameAndHang.Controllers
         {
             var currentID = User.Identity.GetUserId();
             AspNetUser currentUser = db.AspNetUsers.Find(currentID);
-           if(currentID == null || currentUser.EmailConfirmed == false)
-            {
-                ModelState.AddModelError("HostID", "Plese login before creating an event!");
-                return View(@event);
-            }
-           else if(currentUser.EmailConfirmed == false)
-            {
-                ModelState.AddModelError("HostID", "Plese confirm your email before creating an event!");
-                return View(@event);
-            }
-            else
+           //if(currentID == null || currentUser.EmailConfirmed == false)
+           // {
+           //     ModelState.AddModelError("HostID", "Plese login before creating an event!");
+           //     return View(@event);
+           // }
+           //else if(currentUser.EmailConfirmed == false)
+           // {
+           //     ModelState.AddModelError("HostID", "Plese confirm your email before creating an event!");
+           //     return View(@event);
+           // }
+            //else
             {
                 @event.HostID = currentID;
                 Guid g = Guid.NewGuid();
