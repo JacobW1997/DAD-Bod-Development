@@ -37,6 +37,19 @@ namespace GameAndHang.Controllers
                 : "";
             var userId = User.Identity.GetUserId();
             User findUser = await db.Users.FindAsync(userId);
+
+            List<Event> UpcomingEvents = new List<Event>();
+            
+            foreach(var hostedEvent in findUser.Events)
+                    {
+                if (hostedEvent.Date <= DateTime.Now.AddDays(30) && hostedEvent.Date > DateTime.Now.AddDays(-1))
+                {
+                    UpcomingEvents.Add(hostedEvent);
+                }
+            }
+            
+            ViewBag.upcomingEvents = new List<Event>(UpcomingEvents);
+
             return View(findUser);
         }
 

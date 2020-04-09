@@ -94,14 +94,34 @@
 </div>
 
 
-@if (User.Identity.GetUserId() != null)
+@if (Model.EventPlayers.Select(x => x.PlayerID).Contains(User.Identity.GetUserId()))
 {
-    <div class="btn btn-primary">
-        @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
-    </div>
+    <p>You are signed up for this event</p>
+}
+else
+{
+    if (Model.PlayersCount != Model.PlayerSlotsMax)
+    {
+        if (User.Identity.GetUserId() != null)
+        {
+            <div class="btn btn-primary">
+                @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
+            </div>
+        }
+        else
+        {
+            <p>Please Login to Sing up for this event</p>
+        }
+    }
+    else
+    {
+        <p>This event is full</p>
+    }
 }
 
+
+
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
