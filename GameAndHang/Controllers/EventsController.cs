@@ -126,6 +126,8 @@ namespace GameAndHang.Controllers
 
                 @event.ID = gIDString;
 
+                @event.PlayersCount = 1;
+
                 if (ModelState.IsValid)
                 {
                     db.Events.Add(@event);
