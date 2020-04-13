@@ -14,6 +14,7 @@ namespace GameAndHang.Controllers
         {
             return View("Error");
         }
+        [HandleError]
         public ViewResult NotFound()
         {
             Response.StatusCode = 404;  //you may want to set this to 200
