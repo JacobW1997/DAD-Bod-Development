@@ -42,6 +42,10 @@ namespace GameAndHang.Controllers
         // GET: EventGames/Create
         public ActionResult Create()
         {
+            if (User.Identity.GetUserId() == null)
+            {
+                return RedirectToAction("Register", "Account");
+            }
             var getuserID = User.Identity.GetUserId();
             string currentUserID = db.Users
                 .Where(x => x.ID == getuserID)
@@ -57,8 +61,12 @@ namespace GameAndHang.Controllers
                 .Where(x => x.HostID == currentUser.ID)
                 .Select(x => x.EventName)
                 ;
+            if(!gameList.Any())
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-            ViewBag.EventID= new SelectList(db.Events, "ID", "EventName", gameList);
+            ViewBag.EventID= new SelectList(gameList, "EventName");
             ViewBag.GameID = new SelectList(db.Games, "ID", "Name");
             return View();
         }

@@ -17,16 +17,16 @@
                     <div class="form-horizontal">
                         <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            Event Name:
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.EventName, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.EventName, "", new { @class = "text-danger" })
-                            </div>
+                    <div class="form-group">
+                        * Event Name:
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.EventName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.EventName, "", new { @class = "text-danger" })
                         </div>
+                    </div>
 
                         <div class="form-group">
-                            Select if event is public:
+                             Select if event is public:
                             <div class="col-md-10">
                                 <div class="checkbox">
                                     @Html.EditorFor(model => model.IsPublic)
@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                            *@Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="form-group">
-                            Event Description
+                            * Event Description
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.EventDescription, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.EventDescription, "", new { @class = "text-danger" })
@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="form-group">
-                                Location
+                            * Location
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.EventLocation, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.EventLocation, "", new { @class = "text-danger" })
@@ -60,7 +60,7 @@
                         </div>
 
                         <div class="form-group">
-                                Min Players
+                            * Min Players
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.PlayerSlotsMin, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.PlayerSlotsMin, "", new { @class = "text-danger" })
@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="form-group">
-                                Max Players
+                            * Max Players
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.PlayerSlotsMax, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.PlayerSlotsMax, "", new { @class = "text-danger" })
@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.UnsupGames, "Game(if not listed)", htmlAttributes: new { @class = "control-label col-md-2" })
+                            *@Html.LabelFor(model => model.UnsupGames, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.UnsupGames, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.UnsupGames, "", new { @class = "text-danger" })

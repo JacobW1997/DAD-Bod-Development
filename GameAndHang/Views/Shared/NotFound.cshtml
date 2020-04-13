@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "NotFound";
+    Layout = "_Layout.cshtml";
+}
+
+
+
+<div class="container" id="ErrorContainer">
+
+    <div style=" padding:20px;">
+        <h3>
+            Application Error:
+        </h3>
+        <img id="errorImg" src="https://www.publicdomainpictures.net/pictures/250000/velka/erorr.jpg" />
+        <h4>
+            Sorry, The Page, You are Looking for is not found.
+        </h4>
+        <h6>@Html.ActionLink("Go Back To Home Page", "Index", "Home")</h6>
+        <br />
+        <br />
+    </div>
+
+
+</div>
+
+<style>
+    #errorImg{
+        width:250px;
+        height:250px;
+        border-radius:5%;
+    }
+    #ErrorContainer{
+        background-color: #93B7BE;
+        color: black;
+
+    }
+    #topBar{
+        margin-top:10px;
+        background-color: #fd413d; 
+        color: White;
+        height: 20px;
+        border-radius:5%;
+        width:inherit;
+    }
+    #bar{
+        background-color: #cc2936; 
+        width:inherit;
+    }
+</style>

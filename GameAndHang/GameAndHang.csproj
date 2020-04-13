@@ -222,6 +222,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CaptchaController.cs" />
+    <Compile Include="Controllers\CustomErrorController.cs" />
     <Compile Include="Controllers\EventGamesController.cs" />
     <Compile Include="Controllers\EventPlayersController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
@@ -442,8 +443,11 @@
     <Content Include="Views\Events\Search.cshtml" />
     <Content Include="Views\EventPlayers\Success.cshtml" />
     <Content Include="Views\Events\SearchBox.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\CustomError\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />

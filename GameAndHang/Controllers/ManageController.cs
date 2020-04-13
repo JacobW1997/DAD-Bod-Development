@@ -20,6 +20,7 @@ namespace GameAndHang.Controllers
         {
         }
 
+
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
@@ -52,6 +53,7 @@ namespace GameAndHang.Controllers
 
         //
         // GET: /Manage/Index
+        [HandleError]
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =

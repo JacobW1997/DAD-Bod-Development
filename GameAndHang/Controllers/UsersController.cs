@@ -16,9 +16,11 @@ namespace GameAndHang.Controllers
 {
     public class UsersController : Controller
     {
+
         private GnHContext db = new GnHContext();
 
-        // GET: Users
+        // GET: Users 
+        [HandleError]
         public async Task<ActionResult> Index()
         {
             var users = db.Users.Include(u => u.AspNetUser);
