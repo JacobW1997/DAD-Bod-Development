@@ -9,7 +9,7 @@ namespace GameAndHang.DAL
     public partial class GnHContext : DbContext
     {
         public GnHContext()
-            : base("name=DefaultConnection")
+            : base("name=GnHContext")
         {
         }
 
