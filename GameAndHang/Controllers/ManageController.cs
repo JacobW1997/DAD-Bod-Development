@@ -53,7 +53,6 @@ namespace GameAndHang.Controllers
 
         //
         // GET: /Manage/Index
-        [HandleError]
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =

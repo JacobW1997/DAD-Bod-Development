@@ -20,7 +20,6 @@ namespace GameAndHang.Controllers
         private GnHContext db = new GnHContext();
 
         // GET: Users 
-        [HandleError]
         public async Task<ActionResult> Index()
         {
             var users = db.Users.Include(u => u.AspNetUser);
