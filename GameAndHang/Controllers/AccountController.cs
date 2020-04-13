@@ -16,6 +16,7 @@ namespace GameAndHang.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+
         private GnHContext db = new GnHContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
