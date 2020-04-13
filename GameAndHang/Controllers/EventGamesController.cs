@@ -57,16 +57,17 @@ namespace GameAndHang.Controllers
                 .Select(x => x)
                 .Single();
 
-            var gameList = db.Events
+            IQueryable<Event> gameList = db.Events
                 .Where(x => x.HostID == currentUser.ID)
-                .Select(x => x.EventName)
+                .Select(x => x)
                 ;
-            if(!gameList.Any())
+
+            if (!gameList.Any())
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.EventID= new SelectList(gameList, "EventName");
+            ViewBag.EventID= new SelectList(gameList, "ID", "EventName");
             ViewBag.GameID = new SelectList(db.Games, "ID", "Name");
             return View();
         }
@@ -79,11 +80,17 @@ namespace GameAndHang.Controllers
         public async Task<ActionResult> Create([Bind(Include = "ID,EventID,GameID")] EventGame eventGame)
         {
             //var gameID = db.Events
-                //.Where(x => x.EventName == eventGame.EventList)
-                //.Select(x => x.ID)
-                //.Single();
-           
+            //.Where(x => x.EventName == eventGame.EventList)
+            //.Select(x => x.ID)
+            //.Single();
+
             //eventGame.EventID = gameID;
+            var findEventID = db.Events
+                .Where(x => x.EventName == eventGame.Event.EventName)
+                .Select(x => x.ID);
+
+            //eventGame.EventID = findEventID.ToString();
+
 
             if (ModelState.IsValid)
             {

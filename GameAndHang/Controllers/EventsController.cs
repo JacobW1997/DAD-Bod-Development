@@ -84,7 +84,7 @@ namespace GameAndHang.Controllers
             //ViewBag.Games = new SelectList(db.Games, "ID", "Name");
             //+ System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             ViewBag.HostID = User.Identity.GetUserId();
-            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key= "+  System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             return View();
         }
 
@@ -114,6 +114,7 @@ namespace GameAndHang.Controllers
                 string gIDString = Convert.ToBase64String(g.ToByteArray());
                 gIDString = gIDString.Replace("=", "");
                 gIDString = gIDString.Replace("+", "");
+                gIDString = gIDString.Replace("/", "");
 
                 @event.ID = gIDString;
 
