@@ -12,7 +12,7 @@ namespace GameAndHang.Controllers
         [HandleError]
         public ActionResult Index()
         {
-            return View("Error");
+            return View("NotFound");
         }
         [HandleError]
         public ViewResult NotFound()
