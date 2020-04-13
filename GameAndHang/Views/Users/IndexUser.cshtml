@@ -21,10 +21,10 @@
                 <div id="editProfile" style="color: Highlight">
                     @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </div>
+                </div>
             </div>
         </div>
         <hr />
-    </div>
 
     <div class="nav-pills" id="navPills">
 
@@ -33,6 +33,7 @@
             <li><a id="tab" data-toggle="pill" href="#signedUpEvents"> Hosted Events </a></li>
             <li><a id="tab" data-toggle="pill" href="#upcomingEvents"> Upcoming Events </a></li>
             <li><a id="tab" data-toggle="pill" href="#"> Friends List </a></li>
+            <li><a id="tab" data-toggle="pill" href="#Review"> Leave a Review </a></li>
         </ul>
 
     </div>
@@ -168,7 +169,7 @@
             <div id="upcomingEvents" class="tab-pane fade in active">
                 <hr />
                 <h4>@Html.DisplayFor(model => model.FirstName)'s Upcoming Events:</h4>
-                 
+
 
                 <br />
                 <table class="table-hover">
@@ -199,7 +200,7 @@
                     {
                         if (hostedEvent.Date <= DateTime.Now.AddDays(30) && hostedEvent.Date > DateTime.Now.AddDays(-1))
                         {
-                            <tr> 
+                            <tr>
                                 <td>
                                     @Html.DisplayFor(e => hostedEvent.EventName)
                                 </td>
@@ -229,102 +230,118 @@
                 </table>
             </div>
         }
+        @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
+        {
+        <div id="Review" class="tab-pane fade in active">
+            <div class="form-horizontal" id="myForm" method="post" name="review">
+                <div class="control-group">
+                    <label class="control-label">Review</label>
+                    <div class="form-group">
+                        <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
+                    </div>
+                        @Html.HiddenFor(i => i.ID)
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Submit" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-</div>
-
-
-
-<style>
-        .table-hover {
-        margin: 20px;
-    }
-
-    tr {
-        margin: 20px;
-    }
-
-    th {
-        margin: 20px;
-        min-width: 75px;
-        padding-right:20px;
-    }
-
-    td {
-        margin: 20px;
-        min-width: 75px;
-        padding-right:20px;
-    }
-
-    #ProfileInfo {
-        margin-left: 25px;
-    }
-
-    #editProfile {
-        margin-left: 5px;
-    }
-
-    body {
-        background-color: #93B7BE
-    }
-
-    #profPic {
-        min-width: 50px;
-        max-width: 250px;
-        min-height: 50px;
-        max-height: 250px;
-        border-radius: 5%;
-        border-style: double;
-        border-width: 5px;
-        margin-top: 20px;
-        margin-right: 10px;
-    }
-
-    #FriendsList {
-        margin-top: 10px;
-    }
-
-    #Profile {
-    }
-
-    .body-content {
-        padding-left: 15px;
-        padding-right: 15px;
-        color: black;
-    }
-
-    #nameDiv {
-        margin-top: 30px;
-        margin-left: 5px;
-    }
-
-    #title {
-        margin-top: 10px;
-    }
-
-    #accountInfo {
-        font-size: 20px;
-    }
-
-    #accountBio {
-        margin-top: 5px;
-    }
-
-    #tab{
-        background-color:Highlight;
-        margin-left: 8px;
-        color: black;
-        border-radius: 5%;
-        padding:5px;
-        font-size: 24px;
-    }
-    #navPills{
-        margin:auto;
-        width: 60%;
-    }
+        }
 
 
-</style>
 
 
+        <style>
+            .table-hover {
+                margin: 20px;
+            }
+
+            tr {
+                margin: 20px;
+            }
+
+            th {
+                margin: 20px;
+                min-width: 75px;
+                padding-right: 20px;
+            }
+
+            td {
+                margin: 20px;
+                min-width: 75px;
+                padding-right: 20px;
+            }
+
+            #ProfileInfo {
+                margin-left: 25px;
+            }
+
+            #editProfile {
+                margin-left: 5px;
+            }
+
+            body {
+                background-color: #93B7BE
+            }
+
+            #profPic {
+                min-width: 50px;
+                max-width: 250px;
+                min-height: 50px;
+                max-height: 250px;
+                border-radius: 5%;
+                border-style: double;
+                border-width: 5px;
+                margin-top: 20px;
+                margin-right: 10px;
+            }
+
+            #FriendsList {
+                margin-top: 10px;
+            }
+
+            #Profile {
+            }
+
+            .body-content {
+                padding-left: 15px;
+                padding-right: 15px;
+                color: black;
+            }
+
+            #nameDiv {
+                margin-top: 30px;
+                margin-left: 5px;
+            }
+
+            #title {
+                margin-top: 10px;
+            }
+
+            #accountInfo {
+                font-size: 20px;
+            }
+
+            #accountBio {
+                margin-top: 5px;
+            }
+
+            #tab {
+                background-color: Highlight;
+                margin-left: 8px;
+                color: black;
+                border-radius: 5%;
+                padding: 5px;
+                font-size: 24px;
+            }
+
+            #navPills {
+                margin: auto;
+                width: 60%;
+            }
+        </style>
 
 

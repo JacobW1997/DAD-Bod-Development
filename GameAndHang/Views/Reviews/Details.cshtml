@@ -1,0 +1,42 @@
+﻿@model GameAndHang.Models.Review
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Review</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ReviewString)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReviewString)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reviewer_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reviewer_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Host_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Host_ID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

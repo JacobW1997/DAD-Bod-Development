@@ -72,5 +72,7 @@ namespace GameAndHang.DAL
                 .WithRequired(e => e.User)
                 .HasForeignKey(e => e.HostID);
         }
+
+        public System.Data.Entity.DbSet<GameAndHang.Models.Review> Reviews { get; set; }
     }
 }
