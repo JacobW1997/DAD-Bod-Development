@@ -34,6 +34,7 @@
             <li><a id="tab" data-toggle="pill" href="#upcomingEvents"> Upcoming Events </a></li>
             <li><a id="tab" data-toggle="pill" href="#"> Friends List </a></li>
             <li><a id="tab" data-toggle="pill" href="#Review"> Leave a Review </a></li>
+            <li><a id="tab" data-toggle="pill" href="#displayReview"> Host Reviews </a></li>
         </ul>
 
     </div>
@@ -230,26 +231,41 @@
                 </table>
             </div>
         }
+
         @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
         {
-        <div id="Review" class="tab-pane fade in active">
-            <div class="form-horizontal" id="myForm" method="post" name="review">
-                <div class="control-group">
-                    <label class="control-label">Review</label>
-                    <div class="form-group">
-                        <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
-                    </div>
-                        @Html.HiddenFor(i => i.ID)
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Submit" class="btn btn-default" />
+            <div id="Review" class="tab-pane fade in active">
+                <div class="form-horizontal" id="myForm" method="post" name="review">
+                    <div class="control-group">
+                        <label class="control-label">Review</label>
+                        <div class="form-group">
+                            <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
+                        </div>
+                            @Html.HiddenFor(i => i.ID)
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Submit" class="btn btn-default" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        }
+        
+        
+        <div id="displayReview" class="tab-pane fade in active">
+            <ul>
+                @foreach (var item in ViewBag.Reviews)
+                {
+                    <li>
+                        @item
+                    </li>
+                }
+            </ul>
+        
         </div>
 
-        }
+    </div>
 
 
 
@@ -342,6 +358,9 @@
                 margin: auto;
                 width: 60%;
             }
-        </style>
 
+            #displayReview {
+                margin-top: 10px;
+            }
+        </style>
 

@@ -40,6 +40,15 @@ namespace GameAndHang.Controllers
             User findUser = await db.Users.FindAsync(userId);
 
             List<Event> UpcomingEvents = new List<Event>();
+
+            var userID = findUser.ID;
+
+            var userreviews = (from b in db.Reviews 
+                               where b.Host_ID == userID 
+                               select b.ReviewString).ToList();
+
+            ViewBag.Reviews = userreviews;
+
             
             foreach(var hostedEvent in findUser.Events)
                     {
