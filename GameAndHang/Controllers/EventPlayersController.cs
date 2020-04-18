@@ -57,6 +57,13 @@ namespace GameAndHang.Controllers
                 .Select(x => x)
                 .Single();
 
+            var hostID = event1.HostID;
+            User host = db.Users.Find(hostID);
+
+            host.HostXP += 1;
+            db.Entry(host).State = EntityState.Modified;
+            db.SaveChanges();
+
             EventPlayer eventPlayer = new EventPlayer
             {
                 EventID = event1.ID,

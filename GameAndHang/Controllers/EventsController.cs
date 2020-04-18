@@ -84,7 +84,8 @@ namespace GameAndHang.Controllers
             //ViewBag.Games = new SelectList(db.Games, "ID", "Name");
             //+ System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             ViewBag.HostID = User.Identity.GetUserId();
-            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
+            //ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8";
             return View();
         }
 
@@ -97,18 +98,18 @@ namespace GameAndHang.Controllers
         {
             var currentID = User.Identity.GetUserId();
             AspNetUser currentUser = db.AspNetUsers.Find(currentID);
-            if (currentID == null || currentUser.EmailConfirmed == false)
-            {
-                ModelState.AddModelError("HostID", "Plese login before creating an event!");
-                return View(@event);
-            }
-            else if (currentUser.EmailConfirmed == false)
-            {
-                ModelState.AddModelError("HostID", "Plese confirm your email before creating an event!");
-                return View(@event);
-            }
-            else
-            {
+            //if (currentID == null || currentUser.EmailConfirmed == false)
+            //{
+            //    ModelState.AddModelError("HostID", "Plese login before creating an event!");
+            //    return View(@event);
+            //}
+            //else if (currentUser.EmailConfirmed == false)
+            //{
+            //    ModelState.AddModelError("HostID", "Plese confirm your email before creating an event!");
+            //    return View(@event);
+            //}
+           
+            
                 @event.HostID = currentID;
                 Guid g = Guid.NewGuid();
                 string gIDString = Convert.ToBase64String(g.ToByteArray());
@@ -120,6 +121,16 @@ namespace GameAndHang.Controllers
 
                 @event.PlayersCount = 1;
 
+                User TheUser = db.Users.Find(currentID);
+
+                if (TheUser != null)
+                {
+                    TheUser.HostXP += 20;
+                    db.Entry(TheUser).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+
                 if (ModelState.IsValid)
                 {
                     db.Events.Add(@event);
@@ -129,7 +140,7 @@ namespace GameAndHang.Controllers
 
                 ViewBag.HostID = new SelectList(db.Users, "ID", "ID", @event.HostID);
                 return View(@event);
-            }
+            
         }
 
         // GET: Events/Edit/5
