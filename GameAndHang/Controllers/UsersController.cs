@@ -54,6 +54,12 @@ namespace GameAndHang.Controllers
             return View(findUser);
         }
 
+        public ActionResult HostProfile(User host)
+        {
+
+            return View(host);
+        }
+
         public string GetUserName(string ID)
         {
             User UserName = db.Users.Find(ID);

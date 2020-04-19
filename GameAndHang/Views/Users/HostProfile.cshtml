@@ -1,0 +1,351 @@
+﻿@model GameAndHang.Models.User
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "IndexUser";
+}
+
+<div class="container-xl" id="Profile">
+
+    <div class="row" id="ProfileInfo">
+
+        <img src="https://cdn.discordapp.com/attachments/664532703064096797/682074680122933318/ChewyProfPic.jpeg" id="profPic" />
+
+        <div id="nameDiv" class="text-left">
+            <h1> @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h1>
+            <div id="accountInfo">
+                <h4 style="margin-left:5px"> @Html.DisplayFor(model => model.AspNetUser.Email)</h4>
+            </div>
+            <div id="accountBio">
+                <h4> "@Html.DisplayFor(model => model.Bio)"</h4>
+            </div>
+            @if (User.Identity.GetUserId() == Model.ID)
+            {
+                <div id="editProfile" style="color: Highlight">
+                    @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="nav-pills" id="navPills">
+
+    <ul class="nav nav-pills">
+        <li class="active"><a id="tab" data-toggle="pill" href="#hostedEvents"> Events </a></li>
+        <li><a id="tab" data-toggle="pill" href="#signedUpEvents"> Hosted Events </a></li>
+        <li><a id="tab" data-toggle="pill" href="#upcomingEvents"> Upcoming Events </a></li>
+        <li><a id="tab" data-toggle="pill" href="#"> Friends List </a></li>
+        <li><a id="tab" data-toggle="pill" href="#Review"> Leave a Review </a></li>
+    </ul>
+
+</div>
+
+<div class="tab-content">
+
+    @if (Model.EventPlayers.Count() > 0)
+    {
+        <div id="hostedEvents" class="tab-pane fade in active">
+            <hr />
+
+            <h4>Events that @Html.DisplayFor(model => model.FirstName) is Signed Up For:</h4>
+
+            <br />
+            <table class="table-hover">
+                <tr>
+                    <th>
+                        Event Name
+                    </th>
+
+                    <th>
+                        Event Date/Time
+                    </th>
+
+                    <th>
+                        Event Location
+                    </th>
+
+                    <th>
+                        Event Description
+                    </th>
+
+                </tr>
+
+                @foreach (var eventPlayer in Model.EventPlayers)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(e => eventPlayer.Event.EventName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(e => eventPlayer.Event.Date)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(e => eventPlayer.Event.EventLocation)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(e => eventPlayer.Event.EventDescription)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Events", new { id = eventPlayer.EventID }, "")
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    }
+
+    @if (Model.Events.Count() > 0)
+    {
+
+        <div id="signedUpEvents" class="tab-pane fade in active">
+            <hr />
+
+            <h4>Events that @Html.DisplayFor(model => model.FirstName) is Hosting:</h4>
+
+            <br />
+            <table class="table-hover">
+                <tr>
+                    <th>
+                        Event Name
+                    </th>
+
+                    <th>
+                        Event Date/Time
+                    </th>
+
+                    <th>
+                        Event Location
+                    </th>
+
+                    <th>
+                        Event Description
+                    </th>
+
+                    <th>
+
+                    </th>
+                </tr>
+
+                @foreach (var hostedEvent in Model.Events)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(e => hostedEvent.EventName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(e => hostedEvent.Date)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(e => hostedEvent.EventLocation)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(e => hostedEvent.EventDescription)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Events", new { id = hostedEvent.ID }, "")
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Events", new { id = hostedEvent.ID }, "")
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    }
+
+    @if (Model.Events.Count() > 0)
+    {
+
+        <div id="upcomingEvents" class="tab-pane fade in active">
+            <hr />
+            <h4>@Html.DisplayFor(model => model.FirstName)'s Upcoming Events:</h4>
+
+
+            <br />
+            <table class="table-hover">
+                <tr>
+                    <th>
+                        Event Name
+                    </th>
+
+                    <th>
+                        Event Date/Time
+                    </th>
+
+                    <th>
+                        Event Location
+                    </th>
+
+                    <th>
+                        Event Description
+                    </th>
+
+                    <th>
+
+                    </th>
+
+                </tr>
+
+                @foreach (var hostedEvent in Model.Events)
+                {
+                    if (hostedEvent.Date <= DateTime.Now.AddDays(30) && hostedEvent.Date > DateTime.Now.AddDays(-1))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(e => hostedEvent.EventName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(e => hostedEvent.Date)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(e => hostedEvent.EventLocation)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(e => hostedEvent.EventDescription)
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Details", "Details", "Events", new { id = hostedEvent.ID }, "")
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Events", new { id = hostedEvent.ID }, "")
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    }
+    @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
+    {
+        <div id="Review" class="tab-pane fade in active">
+            <div class="form-horizontal" id="myForm" method="post" name="review">
+                <div class="control-group">
+                    <label class="control-label">Review</label>
+                    <div class="form-group">
+                        <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
+                    </div>
+                    @Html.HiddenFor(i => i.ID)
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Submit" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    </div>
+
+
+    <style>
+        .table-hover {
+            margin: 20px;
+        }
+
+        tr {
+            margin: 20px;
+        }
+
+        th {
+            margin: 20px;
+            min-width: 75px;
+            padding-right: 20px;
+        }
+
+        td {
+            margin: 20px;
+            min-width: 75px;
+            padding-right: 20px;
+        }
+
+        #ProfileInfo {
+            margin-left: 25px;
+        }
+
+        #editProfile {
+            margin-left: 5px;
+        }
+
+        body {
+            background-color: #93B7BE
+        }
+
+        #profPic {
+            min-width: 50px;
+            max-width: 250px;
+            min-height: 50px;
+            max-height: 250px;
+            border-radius: 5%;
+            border-style: double;
+            border-width: 5px;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+
+        #FriendsList {
+            margin-top: 10px;
+        }
+
+        #Profile {
+        }
+
+        .body-content {
+            padding-left: 15px;
+            padding-right: 15px;
+            color: black;
+        }
+
+        #nameDiv {
+            margin-top: 30px;
+            margin-left: 5px;
+        }
+
+        #title {
+            margin-top: 10px;
+        }
+
+        #accountInfo {
+            font-size: 20px;
+        }
+
+        #accountBio {
+            margin-top: 5px;
+        }
+
+        #tab {
+            background-color: Highlight;
+            margin-left: 8px;
+            color: black;
+            border-radius: 5%;
+            padding: 5px;
+            font-size: 24px;
+        }
+
+        #navPills {
+            margin: auto;
+            width: 60%;
+        }
+    </style>
+
+
