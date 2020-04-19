@@ -251,11 +251,8 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-  
   </ItemGroup>
-
   <ItemGroup>
-  
     <Content Include="App_Data\down.sql" />
     <Content Include="App_Data\SEEDGAH.sql" />
     <Content Include="App_Data\UPGAH.sql" />
@@ -455,9 +452,8 @@
     <Content Include="Views\Reviews\Index.cshtml" />
     <Content Include="Views\Reviews\Success.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
- 
+    <Content Include="Views\Users\HostProfile.cshtml" />
   </ItemGroup>
-    
   <ItemGroup>
     <Folder Include="Views\CustomError\" />
   </ItemGroup>

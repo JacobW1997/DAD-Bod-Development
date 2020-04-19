@@ -4,18 +4,19 @@
 @{
     ViewBag.Title = "Index";
 }
+<h2 align="center" style="padding-top: 20px">Events</h2>
+<p align="center">If you would like to sign up for an event click on the event details link. You can 
+    also view a hosts profile by clicking on their name.</p>
 
-<h2>Events</h2>
 
-
-<p>
+<p align="center">
     @if (User.Identity.GetUserId() != null)
     {
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Click here host your own event", "Create")
     }
 </p>
 <table class="table">
-    <tr>
+    <tr style="text-align:left">
         <th>
             Host
             @*@Html.DisplayNameFor(model => model.User.FirstName)*@
@@ -32,11 +33,11 @@
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
-            Event Description
+            Description
             @*@Html.DisplayNameFor(model => model.EventDescription)*@
         </th>
         <th>
-            Event Location
+            Location
             @*@Html.DisplayNameFor(model => model.EventLocation)*@
         </th>
         <th>
@@ -59,13 +60,20 @@
 @foreach (var item in Model) {
 <tr>
     <td>
-        @Html.DisplayFor(modelItem => item.User.FirstName)
+        @Html.ActionLink(item.User.FirstName, "HostProfile", "Users", item.User, null)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.EventName)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.IsPublic)
+        @if(item.IsPublic == true)
+        {
+            <p>Public</p>
+        }
+        else
+        {
+            <p>Private</p>
+        }
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Date)

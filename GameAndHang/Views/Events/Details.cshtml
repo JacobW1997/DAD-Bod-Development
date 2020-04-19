@@ -5,7 +5,8 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@Html.DisplayFor(model => model.EventName)</h2>
+<h2 align="center" style="padding-top: 20px;
+font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
 
 <div>
     <hr />
@@ -20,21 +21,19 @@
         </dd>
 
         <dt>
-            Event Name
-            @*@Html.DisplayNameFor(model => model.EventName)*@
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EventName)
-        </dd>
-
-        <dt>
             Event Type
             @*@Html.DisplayNameFor(model => model.IsPublic)*@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IsPublic)
+            @if (Model.IsPublic == true)
+            {
+                <p>Public</p>
+            }
+            else
+            {
+                <p>Private</p>
+            }
         </dd>
 
         <dt>
@@ -82,6 +81,15 @@
         </dd>
 
         <dt>
+            Current player count
+            @*@Html.DisplayNameFor(model => model.PlayerSlotsMax)*@
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlayersCount)
+        </dd>
+
+        <dt>
             Unsupported Game
             @*@Html.DisplayNameFor(model => model.UnsupGames)*@
         </dt>
@@ -93,35 +101,68 @@
     </dl>
 </div>
 
+<br />
 
-@if (Model.EventPlayers.Select(x => x.PlayerID).Contains(User.Identity.GetUserId()))
-{
-    <p>You are signed up for this event</p>
-}
-else
-{
-    if (Model.PlayersCount != Model.PlayerSlotsMax)
+    @if (Model.IsPublic == true)
     {
-        if (User.Identity.GetUserId() != null)
+        if (Model.EventPlayers.Select(x => x.PlayerID).Contains(User.Identity.GetUserId()))
         {
-            <div class="btn btn-primary">
-                @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
-            </div>
+            <p style="font-size:20px">You are signed up for this event</p>
         }
         else
         {
-            <p>Please Login to Sing up for this event</p>
+            if (Model.PlayersCount != Model.PlayerSlotsMax)
+            {
+                if (User.Identity.GetUserId() != null)
+                {
+                    <div class="btn btn-primary" style="color:white">
+                        @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
+                    </div>
+                }
+                else
+                {
+                    <p style="font-size:20px">Please Login to Sing up for this event</p>
+                }
+            }
+            else
+            {
+                <p style="font-size:20px">This event is full</p>
+            }
         }
     }
     else
     {
-        <p>This event is full</p>
+        <p style="font-size:20px">This is a private event</p>
     }
-}
 
 
+
+
+<style type="text/css">
+
+    dl {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    dt {
+        flex-basis: 20%;
+        font-size: 20px;
+        padding: 2px 4px;
+        text-align: right;
+        color: #0078D7;
+    }
+
+    dd {
+        flex-basis: 70%;
+        font-size: 20px;
+        flex-grow: 1;
+        margin: 0;
+        padding: 2px 4px;
+    }
+</style>
 
 
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Events", "Index")
 </p>
