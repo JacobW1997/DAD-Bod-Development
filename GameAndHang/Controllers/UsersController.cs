@@ -63,10 +63,10 @@ namespace GameAndHang.Controllers
             return View(findUser);
         }
 
-        public ActionResult HostProfile(User host)
+        public async Task<ActionResult> HostProfile(User host)
         {
-
-            return View(host);
+            User FindUsr = await db.Users.FindAsync(host.ID);
+            return View(FindUsr);
         }
 
         public string GetUserName(string ID)

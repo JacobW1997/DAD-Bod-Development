@@ -60,7 +60,7 @@
 @foreach (var item in Model) {
 <tr>
     <td>
-        @Html.ActionLink(item.User.FirstName, "HostProfile", "Users", item.User, null)
+        @Html.ActionLink(item.User.FirstName, "HostProfile", "Users", item.User.AspNetUser, null)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.EventName)
