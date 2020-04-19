@@ -18,6 +18,9 @@
                 <div id="accountBio">
                     <h4> "@Html.DisplayFor(model => model.Bio)"</h4>
                 </div>
+                <div>
+                    <p>Host XP: @Model.HostXP </p>
+                </div>
                 <div id="editProfile" style="color: Highlight">
                     @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </div>
@@ -268,7 +271,7 @@
     </div>
 
 
-
+        </div>
 
         <style>
             .table-hover {

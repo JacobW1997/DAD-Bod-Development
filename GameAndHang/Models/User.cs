@@ -36,6 +36,8 @@ namespace GameAndHang.Models
         [Required]
         public string Bio { get; set; }
 
+        public int HostXP { get; set; }
+
         [Column(TypeName = "image")]
         public byte[] ProfilePic { get; set; }
 
