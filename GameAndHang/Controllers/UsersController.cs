@@ -66,6 +66,15 @@ namespace GameAndHang.Controllers
         public async Task<ActionResult> HostProfile(User host)
         {
             User FindUsr = await db.Users.FindAsync(host.ID);
+
+            var userID = host.ID;
+
+            var userreviews = (from b in db.Reviews
+                               where b.Host_ID == userID
+                               select b.ReviewString).ToList();
+
+            ViewBag.Reviews = userreviews;
+
             return View(FindUsr);
         }
 

@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "IndexUser";
 }
-
 <div class="container-xl" id="Profile">
 
     <div class="row" id="ProfileInfo">
@@ -18,30 +17,27 @@
             <div id="accountBio">
                 <h4> "@Html.DisplayFor(model => model.Bio)"</h4>
             </div>
-            @if (User.Identity.GetUserId() == Model.ID)
-            {
-                <div id="editProfile" style="color: Highlight">
-                    @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </div>
-            }
-
+            <div>
+                <p>Host XP: @Model.HostXP </p>
+            </div>
+            <div id="editProfile" style="color: Highlight">
+                @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </div>
         </div>
     </div>
 </div>
 <hr />
 
 <div class="nav-pills" id="navPills">
-
     <ul class="nav nav-pills">
         <li class="active"><a id="tab" data-toggle="pill" href="#hostedEvents"> Events </a></li>
         <li><a id="tab" data-toggle="pill" href="#signedUpEvents"> Hosted Events </a></li>
         <li><a id="tab" data-toggle="pill" href="#upcomingEvents"> Upcoming Events </a></li>
         <li><a id="tab" data-toggle="pill" href="#"> Friends List </a></li>
         <li><a id="tab" data-toggle="pill" href="#Review"> Leave a Review </a></li>
+        <li><a id="tab" data-toggle="pill" href="#displayReview"> Host Reviews </a></li>
     </ul>
-
 </div>
-
 <div class="tab-content">
 
     @if (Model.EventPlayers.Count() > 0)
@@ -239,7 +235,7 @@
         <div id="Review" class="tab-pane fade in active">
             <div class="form-horizontal" id="myForm" method="post" name="review">
                 <div class="control-group">
-                    <label class="control-label">Review</label>
+                    <label class="control-label tab-pane fade in active">Review</label>
                     <div class="form-group">
                         <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
                     </div>
@@ -255,97 +251,110 @@
 
     }
 
+    <div id="displayReview" class="tab-pane fade in active">
+        <ul>
+            @foreach (var item in ViewBag.Reviews)
+            {
+                <li>
+                    @item
+                </li>
+            }
+        </ul>
+
     </div>
 
+</div>
 
-    <style>
-        .table-hover {
-            margin: 20px;
-        }
+    </div>
 
-        tr {
-            margin: 20px;
-        }
+<style>
+    .table-hover {
+        margin: 20px;
+    }
 
-        th {
-            margin: 20px;
-            min-width: 75px;
-            padding-right: 20px;
-        }
+    tr {
+        margin: 20px;
+    }
 
-        td {
-            margin: 20px;
-            min-width: 75px;
-            padding-right: 20px;
-        }
+    th {
+        margin: 20px;
+        min-width: 75px;
+        padding-right: 20px;
+    }
 
-        #ProfileInfo {
-            margin-left: 25px;
-        }
+    td {
+        margin: 20px;
+        min-width: 75px;
+        padding-right: 20px;
+    }
 
-        #editProfile {
-            margin-left: 5px;
-        }
+    #ProfileInfo {
+        margin-left: 25px;
+    }
 
-        body {
-            background-color: #93B7BE
-        }
+    #editProfile {
+        margin-left: 5px;
+    }
 
-        #profPic {
-            min-width: 50px;
-            max-width: 250px;
-            min-height: 50px;
-            max-height: 250px;
-            border-radius: 5%;
-            border-style: double;
-            border-width: 5px;
-            margin-top: 20px;
-            margin-right: 10px;
-        }
+    body {
+        background-color: #93B7BE
+    }
 
-        #FriendsList {
-            margin-top: 10px;
-        }
+    #profPic {
+        min-width: 50px;
+        max-width: 250px;
+        min-height: 50px;
+        max-height: 250px;
+        border-radius: 5%;
+        border-style: double;
+        border-width: 5px;
+        margin-top: 20px;
+        margin-right: 10px;
+    }
 
-        #Profile {
-        }
+    #FriendsList {
+        margin-top: 10px;
+    }
 
-        .body-content {
-            padding-left: 15px;
-            padding-right: 15px;
-            color: black;
-        }
+    #Profile {
+    }
 
-        #nameDiv {
-            margin-top: 30px;
-            margin-left: 5px;
-        }
+    .body-content {
+        padding-left: 15px;
+        padding-right: 15px;
+        color: black;
+    }
 
-        #title {
-            margin-top: 10px;
-        }
+    #nameDiv {
+        margin-top: 30px;
+        margin-left: 5px;
+    }
 
-        #accountInfo {
-            font-size: 20px;
-        }
+    #title {
+        margin-top: 10px;
+    }
 
-        #accountBio {
-            margin-top: 5px;
-        }
+    #accountInfo {
+        font-size: 20px;
+    }
 
-        #tab {
-            background-color: Highlight;
-            margin-left: 8px;
-            color: black;
-            border-radius: 5%;
-            padding: 5px;
-            font-size: 24px;
-        }
+    #accountBio {
+        margin-top: 5px;
+    }
 
-        #navPills {
-            margin: auto;
-            width: 60%;
-        }
-    </style>
+    #tab {
+        background-color: Highlight;
+        margin-left: 8px;
+        color: black;
+        border-radius: 5%;
+        padding: 5px;
+        font-size: 24px;
+    }
+
+    #navPills {
+        margin: auto;
+        width: 60%;
+    }
+</style>
 
 
