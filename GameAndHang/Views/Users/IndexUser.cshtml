@@ -17,10 +17,13 @@
                 <div id="accountBio">
                     <h4> "@Html.DisplayFor(model => model.Bio)"</h4>
                 </div>
+                <div>
+                    <p>Host XP: @Model.HostXP </p>
+                </div>
                 <div id="editProfile" style="color: Highlight">
                     @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </div>
-                </div>
+            </div>
             </div>
         </div>
         <hr />
@@ -32,6 +35,7 @@
             <li><a id="tab" data-toggle="pill" href="#upcomingEvents"> Upcoming Events </a></li>
             <li><a id="tab" data-toggle="pill" href="#"> Friends List </a></li>
             <li><a id="tab" data-toggle="pill" href="#Review"> Leave a Review </a></li>
+            <li><a id="tab" data-toggle="pill" href="#displayReview"> Host Reviews </a></li>
         </ul>
     </div>
     <div class="tab-content">
@@ -228,24 +232,38 @@
         }
         @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
         {
-        <div id="Review" class="tab-pane fade in active">
-            <div class="form-horizontal" id="myForm" method="post" name="review">
-                <div class="control-group">
-                    <label class="control-label tab-pane fade in active">Review</label>
-                    <div class="form-group">
-                        <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
-                    </div>
+            <div id="Review" class="tab-pane fade in active">
+                <div class="form-horizontal" id="myForm" method="post" name="review">
+                    <div class="control-group">
+                        <label class="control-label tab-pane fade in active">Review</label>
+                        <div class="form-group">
+                            <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
+                        </div>
                         @Html.HiddenFor(i => i.ID)
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Submit" class="btn btn-default" />
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Submit" class="btn btn-default" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         }
+
+        <div id="displayReview" class="tab-pane fade in active">
+            <ul>
+                @foreach (var item in ViewBag.Reviews)
+                {
+                    <li>
+                        @item
+                    </li>
+                }
+            </ul>
+
+        </div>
+
+    </div>
 
     </div>
 
