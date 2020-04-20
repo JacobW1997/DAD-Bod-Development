@@ -5,27 +5,44 @@
     ViewBag.Title = "Details";
 }
 
-<h2 align="center" style="padding-top: 20px;
-font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
 
-<div>
+
+<div class="container">
+
+    <h2 id="eventName" align="center" style="padding-top: 20px;
+font-size: 50px">
+        @Html.DisplayFor(model => model.EventName)
+    </h2>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            Host
-            @*@Html.DisplayNameFor(model => model.User.CredentialsID)*@
+        <dt style="border-top-style:double; height: 168px; border-bottom:double">
+            <div style="text-align:center; font-weight:bold; margin-bottom:7px;">-Host Info-</div>
+              First Name:
+            <br />
+            <br />
+            User Name:
+            <br />
+            XP Gained:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
+            <br />
+            @Html.ActionLink(Model.User.FirstName, "HostProfile", "Users", Model.User.AspNetUser, null) <img src="https://cdn.discordapp.com/attachments/664532703064096797/682074680122933318/ChewyProfPic.jpeg" id="profPic" />
+            <br />
+            @Html.DisplayFor(model => model.User.DisplayName),
+            <br />
+            @Html.DisplayFor(model => model.User.HostXP)
         </dd>
 
-        <dt>
+        <dt style="height:120px; ">
+            <div style="text-align:center; font-weight:bold;">-Event Info-</div>
             Event Type
+            <div style="margin-top:13px;">Event Date</div>
             @*@Html.DisplayNameFor(model => model.IsPublic)*@
         </dt>
 
         <dd>
+            <br />
             @if (Model.IsPublic == true)
             {
                 <p>Public</p>
@@ -34,15 +51,9 @@ font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
             {
                 <p>Private</p>
             }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-
-        <dd>
             @Html.DisplayFor(model => model.Date)
         </dd>
+
 
         <dt>
             Event Description
@@ -53,7 +64,7 @@ font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
             @Html.DisplayFor(model => model.EventDescription)
         </dd>
 
-        <dt>
+        <dt style="border-bottom:double">
             Event Location
             @*@Html.DisplayNameFor(model => model.EventLocation)*@
         </dt>
@@ -62,7 +73,7 @@ font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
             @Html.DisplayFor(model => model.EventLocation)
         </dd>
 
-        <dt>
+        <dt style="border-bottom:double">
             Min Players
             @*@Html.DisplayNameFor(model => model.PlayerSlotsMin)*@
         </dt>
@@ -71,7 +82,7 @@ font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
             @Html.DisplayFor(model => model.PlayerSlotsMin)
         </dd>
 
-        <dt>
+        <dt style="border-bottom:double">
             Max Players
             @*@Html.DisplayNameFor(model => model.PlayerSlotsMax)*@
         </dt>
@@ -80,7 +91,7 @@ font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
             @Html.DisplayFor(model => model.PlayerSlotsMax)
         </dd>
 
-        <dt>
+        <dt style="border-bottom:double">
             Current player count
             @*@Html.DisplayNameFor(model => model.PlayerSlotsMax)*@
         </dt>
@@ -89,15 +100,16 @@ font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
             @Html.DisplayFor(model => model.PlayersCount)
         </dd>
 
-        <dt>
+        @if (Model.UnsupGames != null)
+        {
+        <dt style="border-bottom:double">
             Unsupported Game
-            @*@Html.DisplayNameFor(model => model.UnsupGames)*@
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.UnsupGames)
         </dd>
-
+        }
     </dl>
 </div>
 
@@ -143,6 +155,11 @@ font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
     dl {
         display: flex;
         flex-flow: row wrap;
+        border:solid;
+        border-radius:1%;
+        border-width: 3px;
+        background-color:#93B7BE;
+        font-weight:400;
     }
 
     dt {
@@ -150,7 +167,11 @@ font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
         font-size: 20px;
         padding: 2px 4px;
         text-align: right;
-        color: #0078D7;
+        color: black;
+        border-right-style:double;
+        border-left-style:double;
+        height:50px;
+        font-weight:400;
     }
 
     dd {
@@ -159,6 +180,22 @@ font-size: 50px">@Html.DisplayFor(model => model.EventName)</h2>
         flex-grow: 1;
         margin: 0;
         padding: 2px 4px;
+        color: black;
+        margin-left: 5px;
+    }
+    #eventName{
+        border:solid;
+        border-radius:1%;
+        border-width: 3px;
+        background-color:#93B7BE;
+        margin-top: 10px;
+        color: black;
+        border-color:Highlight;
+    }
+    #profPic{
+        width: 70px;
+        height: 70px;
+        border-radius:50%;
     }
 </style>
 
