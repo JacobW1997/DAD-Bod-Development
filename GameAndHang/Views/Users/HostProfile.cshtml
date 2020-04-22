@@ -20,9 +20,13 @@
             <div>
                 <p>Host XP: @Model.HostXP </p>
             </div>
-            <div id="editProfile" style="color: Highlight">
-                @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </div>
+            @if (User.Identity.GetUserId() == Model.ID)
+            {
+                <div id="editProfile" style="color: Highlight">
+                    @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </div>
+            }
+
         </div>
     </div>
 </div>
