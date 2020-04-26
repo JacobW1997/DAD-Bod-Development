@@ -4,13 +4,8 @@
 @{
     ViewBag.Title = "Details";
 }
-
-
-
 <div class="container">
-
-    <h2 id="eventName" align="center" style="padding-top: 20px;
-font-size: 50px">
+    <h2 id="eventName" align="center" style="padding-top: 20px; font-size: 50px">
         @Html.DisplayFor(model => model.EventName)
     </h2>
     <hr />
@@ -38,7 +33,6 @@ font-size: 50px">
             <div style="text-align:center; font-weight:bold;">-Event Info-</div>
             Event Type
             <div style="margin-top:13px;">Event Date</div>
-            @*@Html.DisplayNameFor(model => model.IsPublic)*@
         </dt>
 
         <dd>
@@ -57,7 +51,6 @@ font-size: 50px">
 
         <dt>
             Event Description
-            @*@Html.DisplayNameFor(model => model.EventDescription)*@
         </dt>
 
         <dd>
@@ -66,7 +59,6 @@ font-size: 50px">
 
         <dt style="border-bottom:double">
             Event Location
-            @*@Html.DisplayNameFor(model => model.EventLocation)*@
         </dt>
 
         <dd>
@@ -75,7 +67,6 @@ font-size: 50px">
 
         <dt style="border-bottom:double">
             Min Players
-            @*@Html.DisplayNameFor(model => model.PlayerSlotsMin)*@
         </dt>
 
         <dd>
@@ -84,7 +75,6 @@ font-size: 50px">
 
         <dt style="border-bottom:double">
             Max Players
-            @*@Html.DisplayNameFor(model => model.PlayerSlotsMax)*@
         </dt>
 
         <dd>
@@ -93,7 +83,6 @@ font-size: 50px">
 
         <dt style="border-bottom:double">
             Current player count
-            @*@Html.DisplayNameFor(model => model.PlayerSlotsMax)*@
         </dt>
 
         <dd>
@@ -127,7 +116,7 @@ font-size: 50px">
             {
                 if (User.Identity.GetUserId() != null)
                 {
-                    <div class="btn btn-primary" style="color:white">
+                    <div id="signUpButton">
                         @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
                     </div>
                 }
@@ -196,6 +185,11 @@ font-size: 50px">
         width: 70px;
         height: 70px;
         border-radius:50%;
+    }
+    #signUpButton{
+        color: white;
+        margin-bottom:10px;
+        font-size:20px;
     }
 </style>
 

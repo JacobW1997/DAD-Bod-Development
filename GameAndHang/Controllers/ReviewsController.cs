@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using GameAndHang.DAL;
@@ -38,7 +39,7 @@ namespace GameAndHang.Controllers
         }
 
         
-        public ActionResult ReviewCreate(string review, string ID)
+        public async Task<ActionResult> ReviewCreate(string review, string ID)
         {
             Review newReview = new Review();
             newReview.ReviewString = review;
@@ -48,6 +49,7 @@ namespace GameAndHang.Controllers
             string gIDString = Convert.ToBase64String(g.ToByteArray());
             gIDString = gIDString.Replace("=", "");
             gIDString = gIDString.Replace("+", "");
+            gIDString = gIDString.Replace("/", "");
 
             newReview.ID = gIDString;
             newReview.Host_ID = ID;
@@ -55,7 +57,7 @@ namespace GameAndHang.Controllers
             if (ModelState.IsValid)
             {
                 db.Reviews.Add(newReview);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Success", "Reviews");
             }
 

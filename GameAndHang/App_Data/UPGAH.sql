@@ -123,3 +123,14 @@ CREATE TABLE [dbo].[EventPlayers](
 	CONSTRAINT [FK_dbo.EventPlayers_dbo.Events_ID] FOREIGN KEY ([EventID]) REFERENCES [dbo].[Events] ([ID]),
 	CONSTRAINT [FK_dbo.EventPlayers_dbo.Users_ID] FOREIGN KEY ([PlayerID]) REFERENCES [dbo].[Users] ([ID]),
 	);
+
+    CREATE TABLE [dbo].[Reviews]
+(
+    [ID]   NVARCHAR (128) NOT NULL,
+    [ReviewString] NVARCHAR (1000),
+    [Reviewer_ID] NVARCHAR(128) NOT NULL,
+    [Host_ID] NVARCHAR (128) NOT NULL
+
+    CONSTRAINT [PK_dbo.Reviews] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_dbo.Reviews_dbo.Users_Host_ID] FOREIGN KEY ([Host_ID]) REFERENCES [dbo].[Users] ([ID]) ON DELETE CASCADE 
+);
