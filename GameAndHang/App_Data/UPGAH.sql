@@ -79,7 +79,7 @@ CREATE TABLE [dbo].[Users]
 	[DOB]			DATE			    NOT NULL,
 	[DisplayName]	NVARCHAR (16)		NOT NULL,
 	[Bio]			NVARCHAR(MAX)				,
-	[ProfilePic]	IMAGE						,
+	[ProfilePic]	VARBINARY(max)						,
 	CONSTRAINT [PK_dbo.Users] PRIMARY KEY CLUSTERED ([ID] ASC),
 	--CONSTRAINT [FK_dbo.Users_dbo.AspNetUsers_Id] FOREIGN KEY ([ID]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
 );

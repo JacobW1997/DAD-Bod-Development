@@ -11,6 +11,7 @@ using GameAndHang.DAL;
 using GameAndHang.Models;
 using Microsoft.AspNet.Identity;
 using static GameAndHang.Controllers.ManageController;
+using System.IO;
 
 namespace GameAndHang.Controllers
 {
@@ -191,6 +192,33 @@ namespace GameAndHang.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public byte[] ConvertToByte(HttpPostedFileBase image)
+        {
+            byte[] tempByte = null;
+            BinaryReader ImgReader = new BinaryReader(image.InputStream);
+            tempByte = ImgReader.ReadBytes((int)image.ContentLength);
+            return tempByte;
+        }
+
+        public void UploadPhotoToDB(HttpPostedFileBase file)
+        {
+            String myuserID = User.Identity.GetUserId();
+            User CurrentUser = db.Users.Find(myuserID);
+            CurrentUser.ProfilePic = ConvertToByte(file);
+            db.SaveChanges();
+        }
+
+        public ActionResult IndexPhoto()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult IndexPhoto(HttpPostedFileBase file)
+        {
+            UploadPhotoToDB(file);
+            return RedirectToAction("IndexUser", "Users"); ;
         }
     }
 }
