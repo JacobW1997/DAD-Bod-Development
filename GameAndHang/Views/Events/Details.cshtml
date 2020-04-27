@@ -10,7 +10,7 @@
     </h2>
     <hr />
     <dl class="dl-horizontal">
-        <dt style="border-top-style:double; height: 168px; border-bottom:double">
+        <dt style="padding-top:6px; height: 168px; border-bottom:solid">
             <div style="text-align:center; font-weight:bold; margin-bottom:7px;">-Host Info-</div>
               First Name:
             <br />
@@ -19,10 +19,18 @@
             <br />
             XP Gained:
         </dt>
-
         <dd>
             <br />
-            @Html.ActionLink(Model.User.FirstName, "HostProfile", "Users", Model.User.AspNetUser, null) <img src="https://cdn.discordapp.com/attachments/664532703064096797/682074680122933318/ChewyProfPic.jpeg" id="profPic" />
+            @Html.ActionLink(Model.User.FirstName, "HostProfile", "Users", Model.User.AspNetUser, null)
+            @if (Model.User.ProfilePic == null)
+            {
+            <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+            }
+            else {
+            string imageBase64 = Convert.ToBase64String(Model.User.ProfilePic);
+            string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+            <img src="@imageSrc"  id="profPic" />
+            }
             <br />
             @Html.DisplayFor(model => model.User.DisplayName),
             <br />
@@ -47,57 +55,20 @@
             }
             @Html.DisplayFor(model => model.Date)
         </dd>
-
-
-        <dt>
-            Event Description
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EventDescription)
-        </dd>
-
-        <dt style="border-bottom:double">
-            Event Location
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EventLocation)
-        </dd>
-
-        <dt style="border-bottom:double">
-            Min Players
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PlayerSlotsMin)
-        </dd>
-
-        <dt style="border-bottom:double">
-            Max Players
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PlayerSlotsMax)
-        </dd>
-
-        <dt style="border-bottom:double">
-            Current player count
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PlayersCount)
-        </dd>
-
+        <dt>Event Description</dt>
+        <dd>@Html.DisplayFor(model => model.EventDescription)</dd>
+        <dt style="border-bottom:solid"> Event Location</dt>
+        <dd>@Html.DisplayFor(model => model.EventLocation)</dd>
+        <dt style="border-bottom:solid">Min Players</dt>
+        <dd>@Html.DisplayFor(model => model.PlayerSlotsMin)</dd>
+        <dt style="border-bottom:solid">Max Players</dt>
+        <dd>@Html.DisplayFor(model => model.PlayerSlotsMax)</dd>
+        <dt>Current player count</dt>
+        <dd>@Html.DisplayFor(model => model.PlayersCount)</dd>
         @if (Model.UnsupGames != null)
         {
-        <dt style="border-bottom:double">
-            Unsupported Game
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UnsupGames)
-        </dd>
+        <dt>Unsupported Game</dt>
+        <dd>@Html.DisplayFor(model => model.UnsupGames)</dd>
         }
     </dl>
 </div>
@@ -147,8 +118,10 @@
         border:solid;
         border-radius:1%;
         border-width: 3px;
-        background-color:#93B7BE;
         font-weight:400;
+        background-color:#08415C;
+        border-color:white;
+
     }
 
     dt {
@@ -156,9 +129,8 @@
         font-size: 20px;
         padding: 2px 4px;
         text-align: right;
-        color: black;
-        border-right-style:double;
-        border-left-style:double;
+        color: white;
+        border-right-style:solid;
         height:50px;
         font-weight:400;
     }
@@ -169,27 +141,30 @@
         flex-grow: 1;
         margin: 0;
         padding: 2px 4px;
-        color: black;
+        color: white;
         margin-left: 5px;
     }
-    #eventName{
-        border:solid;
-        border-radius:1%;
+    #eventName {
+        border: solid;
+        border-radius: 1%;
         border-width: 3px;
-        background-color:#93B7BE;
+        background-color: #08415C;
         margin-top: 10px;
-        color: black;
-        border-color:Highlight;
+        color: white;
+        border-color: white;
     }
-    #profPic{
+    #profPic {
         width: 70px;
         height: 70px;
-        border-radius:50%;
+        border-radius: 50%;
     }
     #signUpButton{
         color: white;
         margin-bottom:10px;
         font-size:20px;
+    }
+    body {
+        background-color: #93B7BE
     }
 </style>
 
