@@ -83,6 +83,8 @@ namespace GameAndHang.Controllers
 
             int xp = FindUsr.HostXP;
 
+            ViewBag.ImagePath = @"~/Content/Images/Level1.png";
+
             int newLevel = HostLevel(xp);
 
             if (FindUsr != null)
