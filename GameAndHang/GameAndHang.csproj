@@ -233,19 +233,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AspNetRole.cs" />
-    <Compile Include="Models\AspNetUser.cs" />
+    <Compile Include="Models\API.cs" />
+    <Compile Include="Models\ASPAccount\AccountViewModels.cs" />
+    <Compile Include="Models\ASPAccount\AspNetRole.cs" />
+    <Compile Include="Models\ASPAccount\AspNetUser.cs" />
     <Compile Include="Models\Registration.cs" />
-    <Compile Include="Models\AspNetUserClaim.cs" />
-    <Compile Include="Models\AspNetUserLogin.cs" />
+    <Compile Include="Models\ASPAccount\AspNetUserClaim.cs" />
+    <Compile Include="Models\ASPAccount\AspNetUserLogin.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\EventGame.cs" />
     <Compile Include="Models\EventPlayer.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="DAL\GnHContext.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ASPAccount\IdentityModels.cs" />
+    <Compile Include="Models\ASPAccount\ManageViewModels.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\User.cs" />
@@ -272,6 +273,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\API Scripts\EventCreationMap.js" />
+    <Content Include="Scripts\BoardGameAPIRequests.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -453,6 +455,7 @@
     <Content Include="Views\Reviews\Success.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\Users\HostProfile.cshtml" />
+    <Content Include="Views\Home\Codex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\CustomError\" />
