@@ -6,20 +6,20 @@
 }
 <h2 align="center" style="padding-top: 20px">Events</h2>
 <p align="center">If you would like to sign up for an event click on the event details link. You can 
-    also view a hosts profile by clicking on their name.</p>
+    also view a hosts profile by clicking on their name. </p>
+<p align="center">By hosting events you will gain XP and increase your host level!</p>
 
 
 <p align="center">
     @if (User.Identity.GetUserId() != null)
     {
-    @Html.ActionLink("Click here host your own event", "Create")
+    @Html.ActionLink("Click here to host your own event", "Create")
     }
 </p>
 <table class="table">
     <tr style="text-align:left">
         <th>
             Host
-            @*@Html.DisplayNameFor(model => model.User.FirstName)*@
         </th>
         <th>
             Event Name

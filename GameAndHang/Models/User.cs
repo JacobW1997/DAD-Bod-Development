@@ -38,6 +38,8 @@ namespace GameAndHang.Models
 
         public int HostXP { get; set; }
 
+        public int HostLevel { get; set; }
+
         [Column(TypeName = "image")]
         public byte[] ProfilePic { get; set; }
 
