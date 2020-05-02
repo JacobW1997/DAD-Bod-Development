@@ -80,6 +80,21 @@ function codeAddress() {
     });
 }
 
+function getLocCoords() {
+    var address = document.getElementById('eventaddress').value;
+    geocoder.geocode({ 'address': address }, function (results, status) {
+        if (status == 'OK') {
+            var latDiv = document.getElementById('eventlat');
+            var latTxt = document.createTextNode(results[0].geometry.location.lat());
+            latDiv.appendChild(latTxt);
+            var longDiv = document.getElementById('eventlong');
+            var longTxt = document.createTextNode(results[0].geometry.location.lng());
+            longDiv.appendChild(longTxt);
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
 
 /* Here's the syntax for using this script in the .cshtml file:
  * 
