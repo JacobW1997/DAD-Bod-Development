@@ -70,11 +70,24 @@ namespace GameAndHang.Controllers
 
             var userID = host.ID;
 
+            double numRatings = (from b in db.Reviews
+                              where b.Host_ID == userID
+                              select b).Count();
+
+            double sumRatings = (from b in db.Reviews
+                              where b.Host_ID == userID
+                              select b.Rating).Sum();
+
             var userreviews = (from b in db.Reviews
                                where b.Host_ID == userID
                                select b.ReviewString).ToList();
 
+
+            var format = String.Format("{0:0.#}", sumRatings / numRatings);
+
             ViewBag.Reviews = userreviews;
+
+            ViewBag.Rating = format;
 
             return View(FindUsr);
         }
