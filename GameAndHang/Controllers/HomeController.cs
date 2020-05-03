@@ -40,7 +40,7 @@ namespace GameAndHang.Controllers
         public ActionResult GetGames()
         {           
             //string cred = System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"];
-            string URL = "https://www.boardgameatlas.com/api/search?order_by=popularity&limit=20&client_id=xv4UwTJIGG";
+            string URL = "https://www.boardgameatlas.com/api/search?order_by=popularity&limit=20&client_id=" + System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"].ToString();
             Debug.WriteLine(URL);
             var allData = SendRequest(URL);
             JObject rootObj = JObject.Parse(allData);
