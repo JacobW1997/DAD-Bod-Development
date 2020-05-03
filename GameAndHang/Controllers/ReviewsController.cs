@@ -39,7 +39,7 @@ namespace GameAndHang.Controllers
         }
 
         
-        public async Task<ActionResult> ReviewCreate(string review, string ID)
+        public async Task<ActionResult> ReviewCreate(string review, string ID, int answer)
         {
             Review newReview = new Review();
             newReview.ReviewString = review;
@@ -53,6 +53,7 @@ namespace GameAndHang.Controllers
 
             newReview.ID = gIDString;
             newReview.Host_ID = ID;
+            newReview.Rating = answer;
 
             if (ModelState.IsValid)
             {

@@ -11,6 +11,49 @@
         $("#confirm").hide()
     }
 </script>
+@if (User.Identity.GetUserId() != null)
+{
+    <div class="container" style="margin-top:3%">
+        <a href="#" class="btn btn-info" onclick="AddExperience(0)">Rate this host</a>
+
+        <div class="modal fade" id="mymodal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 align="center" id="modaltitle" style="font-size:20px;"></h4>
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    </div>
+                    <div class="modal-body">
+                        <p align="center">Please rate the host below (1 = worst host, 5 = best host)</p>
+                        @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
+                        {
+                            @Html.HiddenFor(i => i.ID)
+                            <div class="form-group required" style="position: relative; left: 150px;">
+                                @Html.RadioButton("Answer", "1") <span>1</span>
+                                @Html.RadioButton("Answer", "2") <span>2</span>
+                                @Html.RadioButton("Answer", "3") <span>3</span>
+                                @Html.RadioButton("Answer", "4") <span>4</span>
+                                @Html.RadioButton("Answer", "5") <span>5</span>
+                            </div>
+                            <p style="position: relative; left: 140px;">Leave a comment below</p>
+                            <div class="form-group" style="position: relative; left: 90px;">
+                                <textarea rows="10" style="width:1000px" id="reviewAnswer" name="review"></textarea>
+                            </div>
+                            <div class="form-group" style="position: relative; left: 75px;">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Submit" class="btn btn-block btn-primary" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
 <div class="container" id="profileCard">
     <div class="row">
         <div class="col-12">
@@ -46,6 +89,7 @@
                                 <h4 class="d-block"> @Html.DisplayFor(model => model.AspNetUser.Email)</h4>
                                 <h5 class="d-block">"@Html.DisplayFor(model => model.Bio)"</h5>
                                 <h6 class="d-block"> Host XP:  @Model.HostXP</h6>
+                                <h6 class="d-block"> Host rating:  @ViewBag.Rating (out of 5)</h6>
                                 
                                 @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                             </div>
@@ -64,6 +108,7 @@
                             <li><a id="tab" data-toggle="pill" href="#displayReview"> Host Reviews </a></li>
                         </ul>
                     </div>
+
                     <div>
                         <h7 class="d-block" id="hostlevel" style="position: absolute; top:10px; right:10px">
                             Level @Model.HostLevel
@@ -222,6 +267,17 @@
     </div>
 </div>
 
+
+<script>
+    function AddExperience(ReviwerID) {
+        $("#modaltitle").html("Please rate your experience with the host and add a comment about the event");
+        $("#mymodal").modal();
+        $('div.form-group.required').length > 0
+    }
+</script>
+
+
+
 <style>
     .card-body {
         background-color: #08415C;
@@ -262,6 +318,7 @@
         height: 70px;
         width: 70px;
     }
+
 
     #ribbon{
         height: 60px;

@@ -10,11 +10,15 @@ namespace GameAndHang.Models
     {
         public string ID { get; set; }
 
+        [Required]
         [StringLength(1000)]
         public string ReviewString { get; set; }
 
         public string Reviewer_ID { get; set; }
 
         public string Host_ID { get; set; }
+
+        [Required]
+        public int Rating { get; set; }
     }
 }
