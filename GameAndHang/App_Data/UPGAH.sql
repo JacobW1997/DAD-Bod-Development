@@ -91,8 +91,6 @@ CREATE TABLE [dbo].[Events](
 	[Date]				DATE				NOT NULL,
 	[EventDescription]	NVARCHAR(MAX)       NOT NULL,
 	[EventLocation]		NVARCHAR (MAX)      NOT NULL,
-    [EventLat]          FLOAT                       ,
-    [EventLong]         FLOAT                       ,
 	[PlayerSlotsMin]	INT                 NOT NULL,
 	[PlayerSlotsMax]	INT                 NOT NULL,
 	[PlayersCount]		INT							,
