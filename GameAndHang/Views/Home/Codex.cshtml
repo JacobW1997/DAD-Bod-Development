@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "Codex";
+}
+
+<body>
+    <div class="jumbotron" style="background-color:#08415C" id="Title">
+        <h1 style="text-align:center; font-size:55px; color:white">Codex</h1>
+        <p style="text-align: center; font-size: 22px; color: white" class="lead">All the info you need to host a game</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <h2>Getting started:</h2>
+                <p>
+                    An account will be required to use most features on this site
+                </p>
+                <p><a class="btn btn-secondary" href="https://go.microsoft.com/fwlink/?LinkId=301865">Login </a></p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h2>Hosting Events:</h2>
+                <p>After you have created an account you can host an event!</p>
+                <p><a class="btn btn-secondary" href="https://go.microsoft.com/fwlink/?LinkId=301866">Create an Event!</a></p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h2>Games:</h2>
+                <p>We use an API to support a large list of games!</p>
+                <p><a class="btn btn-secondary" href="https://go.microsoft.com/fwlink/?LinkId=301867">Jump</a></p>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="col-12" id="GameOutput">
+      
+    </div>
+</body>
+
+<style>
+    body {
+        background-color: #93B7BE
+    }
+
+    .card {
+        background-color: #08415C;
+        color: white;
+        padding: 8px;
+        border-style: solid;
+        border-color: white;
+        border-width: 2.8px;
+        border-radius: 5%;
+        text-align: center;
+        margin-top:10px;
+    }
+
+    #Title {
+        border-style: solid;
+        border-color: white;
+        border-width: 2.8px;
+    }
+
+
+
+    #GameOverview {
+        text-align: center;
+    }
+
+
+    span.stars, span.stars span {
+    display: block;
+    background: url(stars.png) 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+}
+
+span.stars span {
+    background-position: 0 0;
+}
+</style>
+
+@section scripts
+{
+    <script src="~/Scripts/BoardGameAPIRequests.js"></script>
+}

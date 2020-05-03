@@ -44,6 +44,17 @@ namespace GameAndHang.Controllers
 
             var userID = findUser.ID;
 
+            int xp = findUser.HostXP;
+
+            int newLevel = HostLevel(xp);
+
+            if (findUser != null)
+            {
+                findUser.HostLevel = newLevel;
+                db.Entry(findUser).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
             var userreviews = (from b in db.Reviews 
                                where b.Host_ID == userID 
                                select b.ReviewString).ToList();
@@ -70,6 +81,7 @@ namespace GameAndHang.Controllers
 
             var userID = host.ID;
 
+
             double numRatings = (from b in db.Reviews
                               where b.Host_ID == userID
                               select b).Count();
@@ -77,6 +89,20 @@ namespace GameAndHang.Controllers
             double sumRatings = (from b in db.Reviews
                               where b.Host_ID == userID
                               select b.Rating).Sum();
+
+            int xp = FindUsr.HostXP;
+
+            ViewBag.ImagePath = @"~/Content/Images/Level1.png";
+
+            int newLevel = HostLevel(xp);
+
+            if (FindUsr != null)
+            {
+                FindUsr.HostLevel = newLevel;
+                db.Entry(FindUsr).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
 
             var userreviews = (from b in db.Reviews
                                where b.Host_ID == userID
@@ -90,6 +116,44 @@ namespace GameAndHang.Controllers
             ViewBag.Rating = format;
 
             return View(FindUsr);
+        }
+
+        public int HostLevel(int xp)
+        {
+            int hostlevel = 0;
+
+            switch(xp)
+            {
+                case int n when (n < 20):
+                    hostlevel = 1;
+                    break;
+
+                case int n when (n >= 20 && n < 50):
+                    hostlevel = 2;
+                    break;
+
+                case int n when (n >= 50 && n < 100):
+                    hostlevel = 3;
+                    break;
+
+                case int n when (n >= 100 && n < 160):
+                    hostlevel = 4;
+                    break;
+
+                case int n when (n >= 160 && n < 220):
+                    hostlevel = 5;
+                    break;
+
+                case int n when (n >= 220 && n < 300):
+                    hostlevel = 6;
+                    break;
+
+                case int n when (n >= 300):
+                    hostlevel = 7;
+                    break;
+            }
+
+            return hostlevel;
         }
 
         public string GetUserName(string ID)

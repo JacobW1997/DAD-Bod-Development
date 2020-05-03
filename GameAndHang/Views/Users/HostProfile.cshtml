@@ -53,10 +53,11 @@
 }
 
 
+
 <div class="container" id="profileCard">
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card" style="position: relative">
 
                 <div class="card-body">
                     <div class="card-title mb-4">
@@ -89,6 +90,7 @@
                                 <h5 class="d-block">"@Html.DisplayFor(model => model.Bio)"</h5>
                                 <h6 class="d-block"> Host XP:  @Model.HostXP</h6>
                                 <h6 class="d-block"> Host rating:  @ViewBag.Rating (out of 5)</h6>
+                                
                                 @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                             </div>
                             <div class="ml-auto">
@@ -106,6 +108,42 @@
                             <li><a id="tab" data-toggle="pill" href="#displayReview"> Host Reviews </a></li>
                         </ul>
                     </div>
+
+                    <div>
+                        <h7 class="d-block" id="hostlevel" style="position: absolute; top:10px; right:10px">
+                            Level @Model.HostLevel
+                            @switch (Model.HostLevel)
+                            {
+                                case 1:
+                                    <img src="~/Content/Images/Level1.png" id="level"/>
+                                    break;
+
+                                case 2:
+                                    <img src="~/Content/Images/Level2.png" id="level"/>
+                                    break;
+
+                                case 3:
+                                    <img src="~/Content/Images/Level3.png" id="level"/>
+                                    break;
+
+                                case 4:
+                                    <img src="~/Content/Images/Level4.png" id="ribbon"/>
+                                    break;
+
+                                case 5:
+                                    <img src="~/Content/Images/Level5.png" id="ribbon"/>
+                                    break;
+
+                                case 6:
+                                    <img src="~/Content/Images/Level6.png" id="ribbon"/>
+                                    break;
+
+                                case 7:
+                                    <img src="~/Content/Images/Level7.png" id="orb"/>
+                                    break;
+                            }
+                        </h7>
+                    </div>
                 </div>
             </div>
         </div>
@@ -115,7 +153,7 @@
 <hr />
 <div class="tab-content">
     @if (Model.EventPlayers.Count() > 0)
-    {
+                        {
         <div id="hostedEvents" class="tab-pane fade in active">
             <hr />
             <h4>Events that @Html.DisplayFor(model => model.FirstName) is Signed Up For:</h4>
@@ -230,7 +268,6 @@
 </div>
 
 
-
 <script>
     function AddExperience(ReviwerID) {
         $("#modaltitle").html("Please rate your experience with the host and add a comment about the event");
@@ -238,6 +275,7 @@
         $('div.form-group.required').length > 0
     }
 </script>
+
 
 
 <style>
@@ -274,6 +312,26 @@
 
     #editProfile {
         margin-left: 5px;
+    }
+
+    #level{
+        height: 70px;
+        width: 70px;
+    }
+
+
+    #ribbon{
+        height: 60px;
+        width: 60px;
+    }
+
+    #orb{
+        height: 60px;
+        width: 60px;
+    }
+
+    #hostlevel{
+        font-size: 30px;
     }
 
     body {
