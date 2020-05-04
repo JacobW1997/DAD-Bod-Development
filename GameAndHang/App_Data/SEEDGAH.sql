@@ -13,8 +13,8 @@ INSERT INTO [dbo].[Users] (CredentialsID, FirstName, LastName, DOB) VALUES
     ('b500adf6-8dba-4ca0-8ae1-8e4f8835bb55', 'Nick', 'Herman', '1989-03-23');
 
 INSERT INTO [dbo].[Events] (EventName, IsPublic, Date, EventDescription, EventLocation, PlayerSlotsMin, PlayerSlotsMax, UnsupGames, HostID) VALUES
-    ('The Hangout', '1', '12/05/2019 09:12:45', 'A chill event', 'WOU student center', 2, 4, '', 1),
-    ('DnD Mega Event', '1', '12/05/2019 09:12:45', 'Come hang out at Joes and game', 'Joes Coffee Shop', 2, 6, '', 2);
+    ('The Hangout', '1', '12/05/2019 09:12:45', 'A chill event', 'WOU student center', 44.852370, -123.238240, 2, 4, '', 1),
+    ('DnD Mega Event', '1', '12/05/2019 09:12:45', 'Come hang out at Joes and game', 'Joes Coffee Shop', '', '', 2, 6, '', 2);
 
 INSERT INTO [dbo].[EventPlayers] (PlayerID, EventID) VALUES
   (2, 1),
