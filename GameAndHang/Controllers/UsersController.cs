@@ -118,43 +118,44 @@ namespace GameAndHang.Controllers
             return View(FindUsr);
         }
 
-       /* public int HostLevel(int xp)
+        public int HostLevel(int xp)
         {
-            int hostlevel = 0;
-
-            switch(xp)
+            if(xp < 10)
             {
-                case int n when (n < 20):
-                    hostlevel = 1;
-                    break;
-
-                case int n when (n >= 20 && n < 50):
-                    hostlevel = 2;
-                    break;
-
-                case int n when (n >= 50 && n < 100):
-                    hostlevel = 3;
-                    break;
-
-                case int n when (n >= 100 && n < 160):
-                    hostlevel = 4;
-                    break;
-
-                case int n when (n >= 160 && n < 220):
-                    hostlevel = 5;
-                    break;
-
-                case int n when (n >= 220 && n < 300):
-                    hostlevel = 6;
-                    break;
-
-                case int n when (n >= 300):
-                    hostlevel = 7;
-                    break;
+                return 1;
             }
 
+            if (xp >= 20 && xp < 50)
+            {
+                return 2;
+            }
+            if (xp >= 50 && xp < 100)
+            {
+                return 3;
+            }
+            if (xp >= 100 && xp < 160)
+            {
+                return 4;
+            }
+            if (xp >= 160 && xp < 220)
+            {
+                return 5;
+            }
+            if (xp >= 220 && xp < 300)
+            {
+                return 6;
+            }
+            if (xp >= 300)
+            {
+                return 7;
+            }
+            return -1;
+        }
+
+
             return hostlevel;
-        }*/
+        }
+
 
         public string GetUserName(string ID)
         {
