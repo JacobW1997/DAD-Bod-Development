@@ -112,35 +112,33 @@
                     <div>
                         <h7 class="d-block" id="hostlevel" style="position: absolute; top:10px; right:10px">
                             Level @Model.HostLevel
-                            @switch (Model.HostLevel)
+                            @if (Model.HostLevel == 1)
                             {
-                                case 1:
-                                    <img src="~/Content/Images/Level1.png" id="level"/>
-                                    break;
-
-                                case 2:
-                                    <img src="~/Content/Images/Level2.png" id="level"/>
-                                    break;
-
-                                case 3:
-                                    <img src="~/Content/Images/Level3.png" id="level"/>
-                                    break;
-
-                                case 4:
-                                    <img src="~/Content/Images/Level4.png" id="ribbon"/>
-                                    break;
-
-                                case 5:
-                                    <img src="~/Content/Images/Level5.png" id="ribbon"/>
-                                    break;
-
-                                case 6:
-                                    <img src="~/Content/Images/Level6.png" id="ribbon"/>
-                                    break;
-
-                                case 7:
-                                    <img src="~/Content/Images/Level7.png" id="orb"/>
-                                    break;
+                                <img src="~/Content/Images/Level1.png" id="level" />
+                            }
+                            else if (Model.HostLevel == 2)
+                            {
+                                <img src="~/Content/Images/Level2.png" id="level" />
+                            }
+                            else if (Model.HostLevel == 3)
+                            {
+                                <img src="~/Content/Images/Level3.png" id="level" />
+                            }
+                            else if (Model.HostLevel == 4)
+                            {
+                                <img src="~/Content/Images/Level4.png" id="ribbon" />
+                            }
+                            else if (Model.HostLevel == 5)
+                            {
+                                <img src="~/Content/Images/Level5.png" id="ribbon" />
+                            }
+                            else if (Model.HostLevel == 6)
+                            {
+                                <img src="~/Content/Images/Level6.png" id="ribbon" />
+                            }
+                            else if (Model.HostLevel == 7)
+                            {
+                                <img src="~/Content/Images/Level7.png" id="orb" />
                             }
                         </h7>
                     </div>
