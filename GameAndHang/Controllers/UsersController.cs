@@ -46,11 +46,11 @@ namespace GameAndHang.Controllers
 
             int xp = findUser.HostXP;
 
-            int newLevel = HostLevel(xp);
+            //int newLevel = HostLevel(xp);
 
             if (findUser != null)
             {
-                findUser.HostLevel = newLevel;
+                //findUser.HostLevel = newLevel;
                 db.Entry(findUser).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -94,11 +94,11 @@ namespace GameAndHang.Controllers
 
             ViewBag.ImagePath = @"~/Content/Images/Level1.png";
 
-            int newLevel = HostLevel(xp);
+            //int newLevel = HostLevel(xp);
 
             if (FindUsr != null)
             {
-                FindUsr.HostLevel = newLevel;
+                //FindUsr.HostLevel = newLevel;
                 db.Entry(FindUsr).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -124,6 +124,7 @@ namespace GameAndHang.Controllers
             {
                 return 1;
             }
+
             if (xp >= 20 && xp < 50)
             {
                 return 2;
@@ -150,6 +151,11 @@ namespace GameAndHang.Controllers
             }
             return -1;
         }
+
+
+            return hostlevel;
+        }
+
 
         public string GetUserName(string ID)
         {
