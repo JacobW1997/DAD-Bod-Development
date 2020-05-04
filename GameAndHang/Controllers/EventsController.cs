@@ -39,6 +39,7 @@ namespace GameAndHang.Controllers
 
             var filtered = events.Where(NeededEvent);
 
+
            // return View(await events.ToListAsync());
             return View(filtered);
         }

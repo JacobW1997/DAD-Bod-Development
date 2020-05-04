@@ -94,11 +94,11 @@ namespace GameAndHang.Controllers
 
             ViewBag.ImagePath = @"~/Content/Images/Level1.png";
 
-            //int newLevel = HostLevel(xp);
+            int newLevel = HostLevel(xp);
 
             if (FindUsr != null)
             {
-                //FindUsr.HostLevel = newLevel;
+                FindUsr.HostLevel = newLevel;
                 db.Entry(FindUsr).State = EntityState.Modified;
                 db.SaveChanges();
             }
