@@ -24,3 +24,12 @@ INSERT INTO [dbo].[EventGames] (EventID, GameID) VALUES
   (1, 2),
   (1, 4),
   (2, 1);
+
+INSERT INTO dbo.RelationshipTypes VALUES 
+('Friends'),
+('PendingFirstUser'),
+('PendingSecondUser'),
+('BlockFirstUser'),
+('BlockSecondUser'),
+('BlockBoth'),
+('Rejected');

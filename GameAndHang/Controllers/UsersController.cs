@@ -55,21 +55,21 @@ namespace GameAndHang.Controllers
                 db.SaveChanges();
             }
 
-            var userreviews = (from b in db.Reviews 
-                               where b.Host_ID == userID 
+            var userreviews = (from b in db.Reviews
+                               where b.Host_ID == userID
                                select b.ReviewString).ToList();
 
             ViewBag.Reviews = userreviews;
 
-            
-            foreach(var hostedEvent in findUser.Events)
-                    {
+
+            foreach (var hostedEvent in findUser.Events)
+            {
                 if (hostedEvent.Date <= DateTime.Now.AddDays(30) && hostedEvent.Date > DateTime.Now.AddDays(-1))
                 {
                     UpcomingEvents.Add(hostedEvent);
                 }
             }
-            
+
             ViewBag.upcomingEvents = new List<Event>(UpcomingEvents);
 
             return View(findUser);
@@ -83,12 +83,12 @@ namespace GameAndHang.Controllers
 
 
             double numRatings = (from b in db.Reviews
-                              where b.Host_ID == userID
-                              select b).Count();
+                                 where b.Host_ID == userID
+                                 select b).Count();
 
             double sumRatings = (from b in db.Reviews
-                              where b.Host_ID == userID
-                              select b.Rating).Sum();
+                                 where b.Host_ID == userID
+                                 select b.Rating).Sum();
 
             int xp = FindUsr.HostXP;
 
@@ -120,7 +120,7 @@ namespace GameAndHang.Controllers
 
         public int HostLevel(int xp)
         {
-            if(xp < 10)
+            if (xp < 10)
             {
                 return 1;
             }
@@ -153,8 +153,6 @@ namespace GameAndHang.Controllers
         }
 
 
-            return hostlevel;
-        }
 
 
         public string GetUserName(string ID)

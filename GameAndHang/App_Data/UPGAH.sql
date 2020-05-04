@@ -91,6 +91,8 @@ CREATE TABLE [dbo].[Events](
 	[Date]				DATE				NOT NULL,
 	[EventDescription]	NVARCHAR(MAX)       NOT NULL,
 	[EventLocation]		NVARCHAR (MAX)      NOT NULL,
+	[EventLat]          FLOAT,
+	[EventLong]         FLOAT,
 	[PlayerSlotsMin]	INT                 NOT NULL,
 	[PlayerSlotsMax]	INT                 NOT NULL,
 	[PlayersCount]		INT							,
@@ -134,3 +136,30 @@ CREATE TABLE [dbo].[EventPlayers](
     CONSTRAINT [PK_dbo.Reviews] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_dbo.Reviews_dbo.Users_Host_ID] FOREIGN KEY ([Host_ID]) REFERENCES [dbo].[Users] ([ID]) ON DELETE CASCADE 
 );
+
+CREATE TABLE [dbo].[Relationship]
+(
+	[ID]			INT IDENTITY (1,1)	NOT NULL,
+	[UserFirstID]	NVARCHAR(128) NOT NULL,
+	[UserSecondID]	NVARCHAR(128) NOT NULL,
+	[Type]			INT NOT NULL
+
+	PRIMARY KEY (UserFirstID, UserSecondID)
+	CONSTRAINT[FK_dbo.Relationship_dbo.RelationshipTypes_ID] FOREIGN KEY ([Type]) REFERENCES [dbo].[RelationshipTypes] (ID) ON DELETE CASCADE
+);
+
+CREATE TABLE [dbo].[APIEventGames](
+	[ID]			INT IDENTITY (1,1)  NOT NULL,
+	[EventID]		NVARCHAR(128)       NOT NULL,
+	[GameID]		NVARCHAR(16)        NOT NULL,
+	CONSTRAINT [PK_dbo.APIEventGames] PRIMARY KEY CLUSTERED ([ID] ASC),
+	CONSTRAINT [FK_dbo.APIEventGames_dbo.Events_ID] FOREIGN KEY ([EventID]) REFERENCES [dbo].[Events] ([ID])
+);
+
+CREATE TABLE [dbo].[RelationshipTypes]
+(
+	[ID]		INT IDENTITY (1,1) NOT NULL,
+	[Type]		NVARCHAR(20) NOT NULL
+	CONSTRAINT [PK_dbo.RelationshipTypes] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
