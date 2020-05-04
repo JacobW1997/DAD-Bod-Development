@@ -14,7 +14,7 @@
                     {
                         @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
+                    <div class="form-horizontal" method="post">
                         <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
@@ -52,9 +52,9 @@
                         </div>
 
                         <div class="form-group">
-                            * Addresss
+                            * Address
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.EventLocation, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.EventLocation, new { htmlAttributes = new { @class = "form-control", id = "address", onchange="getLocCoords" } })
                                 @Html.ValidationMessageFor(model => model.EventLocation, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -95,7 +95,7 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" onclick="getLocCoords()" />
+                                <input type="submit" value="Create" class="btn btn-default" @*onsubmit="getLocCoords()"*@  id="submitButton"/>
                             </div>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                     <div id="map" style="width: 520px; height: 480px; padding: 10px; color: black;"></div>
                     <br/>
                     <div>
-                        <input id="address" type="text" value="Salem, OR">
+                        @*<input id="address" type="text" value="Salem, OR">*@
                         <input type="button" value="Submit" onclick="codeAddress()">
                     </div>
                 </div>

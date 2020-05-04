@@ -80,21 +80,43 @@ function codeAddress() {
     });
 }
 
+//$(document).on('submit', '#submitButton', function (getLocCoords) {
+//    getLocCoords.preventDefault();
+//    var address = document.getElementById('eventaddress').value;
+//    console.log(address);
+//    geocoder.geocode({ 'address': address }, function (results, status) {
+//        if (status == 'OK') {
+//            var latDiv = document.getElementById('eventlat');
+//            var latTxt = document.createTextNode(results[0].geometry.location.lat());
+//            latDiv.appendChild(latTxt);
+//            var longDiv = document.getElementById('eventlong');
+//            var longTxt = document.createTextNode(results[0].geometry.location.lng());
+//            longDiv.appendChild(longTxt);
+//        } else {
+//            alert('Geocode was not successful for the following reason: ' + status);
+//        }
+//    });
+//});
+
+//document.getElementById('submitButton').addEventListener("submit", getLocCoords);
+
 function getLocCoords() {
-    var address = document.getElementById('eventaddress').value;
-    geocoder.geocode({ 'address': address }, function (results, status) {
+    var address = document.getElementById('address').value;
+    var data = geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == 'OK') {
-            var latDiv = document.getElementById('eventlat');
-            var latTxt = document.createTextNode(results[0].geometry.location.lat());
-            latDiv.appendChild(latTxt);
-            var longDiv = document.getElementById('eventlong');
-            var longTxt = document.createTextNode(results[0].geometry.location.lng());
-            longDiv.appendChild(longTxt);
+            return results;
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
         }
     });
-}
+
+    var latDiv = document.getElementById('eventlat');
+    var latTxt = document.createTextNode(data[0].geometry.location.lat());
+    latDiv.innerHTML = latTxt;
+    var longDiv = document.getElementById('eventlong');
+    var longTxt = document.createTextNode(data[0].geometry.location.lng());
+    longDiv.innerHTML = longTxt;
+};
 
 /* Here's the syntax for using this script in the .cshtml file:
  * 

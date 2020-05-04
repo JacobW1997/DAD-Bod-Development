@@ -33,9 +33,9 @@ namespace GameAndHang.Models
         [Required]
         public string EventLocation { get; set; }
 
-        public float EventLat { get; set; }
+        public float? EventLat { get; set; }
 
-        public float EventLong { get; set; }
+        public float? EventLong { get; set; }
 
         [Range(2,49, ErrorMessage = "Must be between 2 and 49")]
         [LessThan("PlayerSlotsMax", ErrorMessage = "Must be less than max players")]

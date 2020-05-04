@@ -40,6 +40,7 @@
             Location
             @*@Html.DisplayNameFor(model => model.EventLocation)*@
         </th>
+        <th>Lat</th>
         <th>
             Min Players
             @*@Html.DisplayNameFor(model => model.PlayerSlotsMin)*@
@@ -66,7 +67,7 @@
         @Html.DisplayFor(modelItem => item.EventName)
     </td>
     <td>
-        @if(item.IsPublic == true)
+        @if (item.IsPublic == true)
         {
             <p>Public</p>
         }
@@ -83,6 +84,9 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.EventLocation)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EventLat)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.PlayerSlotsMin)
@@ -114,7 +118,7 @@
         {
             @Html.ActionLink("Details", "Details", new { id = item.ID });
         }
-        
+
     </td>
 </tr>
 }
