@@ -33,6 +33,10 @@ namespace GameAndHang.Models
         [Required]
         public string EventLocation { get; set; }
 
+        public double? EventLat { get; set; }
+
+        public double? EventLong { get; set; }
+
         [Range(2,49, ErrorMessage = "Must be between 2 and 49")]
         [LessThan("PlayerSlotsMax", ErrorMessage = "Must be less than max players")]
         public int PlayerSlotsMin { get; set; }
@@ -48,6 +52,9 @@ namespace GameAndHang.Models
 
         [StringLength(128)]
         public string HostID { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<APIEventGame> APIEventGames { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventGame> EventGames { get; set; }

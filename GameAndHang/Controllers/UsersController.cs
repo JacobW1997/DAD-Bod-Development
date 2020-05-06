@@ -296,5 +296,22 @@ namespace GameAndHang.Controllers
             UploadPhotoToDB(file);
             return RedirectToAction("IndexUser", "Users"); ;
         }
+        public void SendFriendRequest(string senderID, string recieverID)
+        {
+            Relationship newRelationship = new Relationship();
+            newRelationship.UserSecondID = senderID;
+            newRelationship.UserFirstID = recieverID;
+
+            newRelationship.Type = 3;
+        }
+        public void CheckRelationships(string ID)
+        {
+            List<Relationship> friendshipIDs = new List<Relationship>();
+            friendshipIDs.Append(db.Relationships.Find(ID)).Where(item=> item.UserFirstID == ID || item.UserSecondID == ID && item.Type == 1);
+        }
+        public void ConfirmRelationship(string ID)
+        {
+
+        }
     }
 }

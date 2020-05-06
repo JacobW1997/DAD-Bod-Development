@@ -60,6 +60,9 @@
     <Reference Include="FoolproofValidation, Version=0.9.5851.39121, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Foolproof.0.9.4518\lib\net45\FoolproofValidation.dll</HintPath>
     </Reference>
+    <Reference Include="GoogleMaps.LocationServices, Version=1.2.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\GoogleMaps.LocationServices.1.2.0.5\lib\netstandard2.0\GoogleMaps.LocationServices.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -234,6 +237,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\API.cs" />
+    <Compile Include="Models\APIEventGame.cs" />
     <Compile Include="Models\ASPAccount\AccountViewModels.cs" />
     <Compile Include="Models\ASPAccount\AspNetRole.cs" />
     <Compile Include="Models\ASPAccount\AspNetUser.cs" />
@@ -247,6 +251,8 @@
     <Compile Include="DAL\GnHContext.cs" />
     <Compile Include="Models\ASPAccount\IdentityModels.cs" />
     <Compile Include="Models\ASPAccount\ManageViewModels.cs" />
+    <Compile Include="Models\Relationship.cs" />
+    <Compile Include="Models\RelationshipType.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\User.cs" />

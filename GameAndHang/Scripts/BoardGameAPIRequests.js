@@ -14,6 +14,7 @@ function errorOnAjax() {
     console.log('Error on AJAX return');
 }
 
+
 function displayGames(games) {
     console.log(games);
 
@@ -28,8 +29,6 @@ function displayGames(games) {
             $('#outputCard' + i).append('<p> Average Rating: ' + games.average_user_rating[i] + '<p>');
             $('#outputCard' + i).append('<p>Min Players: ' + games.min_players[i] + '<p>');
             $('#outputCard' + i).append('<p>Max Players: ' + games.max_players[i] + '<p>');
-
-            
         }
         $('#GameOutput').append('</div>');
     }

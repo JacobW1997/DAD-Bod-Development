@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameAndHang.DAL;
 using GameAndHang.Models;
+using GoogleMaps.LocationServices;
 using Microsoft.AspNet.Identity;
 
 namespace GameAndHang.Controllers
@@ -90,58 +91,77 @@ namespace GameAndHang.Controllers
             return View();
         }
 
+        public void CheckLoginStatus(string currentID, AspNetUser currentUser)
+        {
+            if (currentID == null || currentUser.EmailConfirmed == false)
+            {
+                ModelState.AddModelError("HostID", "Plese login before creating an event!");
+            }
+            else if (currentUser.EmailConfirmed == false)
+            {
+                ModelState.AddModelError("HostID", "Plese confirm your email before creating an event!");
+            }
+        }
+
+        public void ConvertAddressToCoords(Event currentEvent)
+        {
+            //Convert to Coords
+            var address = currentEvent.EventLocation;
+            var locServ = new GoogleLocationService(apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString());
+            Console.WriteLine("Converting to point");
+            var point = locServ.GetLatLongFromAddress(address);
+            Console.WriteLine(point.ToString());
+            if(point != null)
+            {
+                currentEvent.EventLat = (float)point.Latitude;
+                currentEvent.EventLong = (float)point.Longitude;
+            }
+            //ModelState.AddModelError("Event Address", "The address you have netered is invalid!");
+        }
+
+        public void CreateNewID(Event currentEvent)
+        {
+            Guid g = Guid.NewGuid();
+            string gIDString = Convert.ToBase64String(g.ToByteArray());
+            gIDString = gIDString.Replace("=", "");
+            gIDString = gIDString.Replace("+", "");
+            gIDString = gIDString.Replace("/", "");
+            currentEvent.ID = gIDString;
+        }
+
         // POST: Events/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax, PlayersCount,UnsupGames,HostID")] Event @event)
+        public async Task<ActionResult> Create([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax,PlayersCount,UnsupGames,HostID")] Event @event)
         {
             var currentID = User.Identity.GetUserId();
             AspNetUser currentUser = db.AspNetUsers.Find(currentID);
-            //if (currentID == null || currentUser.EmailConfirmed == false)
-            //{
-            //    ModelState.AddModelError("HostID", "Plese login before creating an event!");
-            //    return View(@event);
-            //}
-            //else if (currentUser.EmailConfirmed == false)
-            //{
-            //    ModelState.AddModelError("HostID", "Plese confirm your email before creating an event!");
-            //    return View(@event);
-            //}
+            User TheUser = db.Users.Find(currentID);
            
-            
-                @event.HostID = currentID;
-                Guid g = Guid.NewGuid();
-                string gIDString = Convert.ToBase64String(g.ToByteArray());
-                gIDString = gIDString.Replace("=", "");
-                gIDString = gIDString.Replace("+", "");
-                gIDString = gIDString.Replace("/", "");
+            //Check If user is logged in, Convert address to lat log, Create a new ID and attach to event
+            //CheckLoginStatus(currentID, currentUser);
+            ConvertAddressToCoords(@event);
+            CreateNewID(@event);
 
-                @event.ID = gIDString;
+            @event.HostID = currentID;
+            @event.PlayersCount = 1;
 
-                @event.PlayersCount = 1;
-
-                User TheUser = db.Users.Find(currentID);
-
-                if (TheUser != null)
-                {
-                    TheUser.HostXP += 20;
-                    db.Entry(TheUser).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-
-
-                if (ModelState.IsValid)
-                {
-                    db.Events.Add(@event);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Create", "EventGames");
-                }
-
-                ViewBag.HostID = new SelectList(db.Users, "ID", "ID", @event.HostID);
-                return View(@event);
-            
+            if (TheUser != null)
+            {
+                TheUser.HostXP += 20;
+                db.Entry(TheUser).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            if (ModelState.IsValid)
+            {
+                db.Events.Add(@event);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Create", "EventGames");
+            }
+            ViewBag.HostID = new SelectList(db.Users, "ID", "ID", @event.HostID);
+            return View(@event);
         }
 
         // GET: Events/Edit/5
@@ -211,6 +231,7 @@ namespace GameAndHang.Controllers
             }
             base.Dispose(disposing);
         }
+
 
 
     }
