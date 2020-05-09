@@ -62,13 +62,14 @@
         });
     </script>*@
 
-<br/>
+<body onload="getUserLoc(), initMap()">
+    <br />
 
-@*<div class="jumbotron">*@
+    @*<div class="jumbotron">*@
     <h3 style="text-align:center">
         Search for an Event!
     </h3>
-@*</div>*@
+    @*</div>*@
 
     <div class="row">
         <div class="col-md-auto">
@@ -78,7 +79,11 @@
             @using (Html.BeginForm("Search", "Events", FormMethod.Get))
             {
                 @Html.TextBox("search")
-                <input type="submit" value="Search" />
+                @*@Html.Hidden("UserLat", "", new { @id = "userlat" })
+                @Html.Hidden("UserLong", "", new { @id = "userlong" })*@
+                <input hidden name="UserLat" id="userlat" type="text" />
+                <input hidden name="UserLong" id="userlong" type="text" />
+                <input id="userlochere" type="submit" value="Search" />
             }
         </div>
         <div class="col-md-auto">
@@ -93,27 +98,44 @@
         </div>
     </div>
 
-@if (Model.Count() > 0) { 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Event Name</th>
-                <th>Event Date</th>
-                <th>Games</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.EventName</td>
-                    <td>@item.Date</td>
-                    <td>@item.UnsupGames</td>
-                    <td>@Html.ActionLink("Details", "Details", new { id = item.ID })</td>
-                </tr>
-                }
-            
-        </tbody>
-    </table>
-}
+    @if (Model.Count() > 0)
+    {
+        <div class="col-auto">
+            <br />
+            <h6> The following events within 30 miles matched your search criteria: </h6>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Event Date</th>
+                        <th>Games</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td class="name">@item.EventName</td>
+                            <td>@item.Date</td>
+                            <td>@item.UnsupGames</td>
+                            <td>@Html.ActionLink("Details", "Details", new { id = item.ID })</td>
+                            <td hidden class="lat">@item.EventLat</td>
+                            <td hidden class="long">@item.EventLong</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-auto">
+            <div id="map" style="width: 520px; height: 480px; padding: 10px; color: black;"></div>
+        </div>
+    }
+</body>
+
+
+<script src="~/Scripts/API Scripts/SearchMapEtc.js"></script>
+
+<script async defer
+        src=@ViewBag.ApiUrl>
+</script>

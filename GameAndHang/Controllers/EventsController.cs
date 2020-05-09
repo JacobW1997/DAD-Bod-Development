@@ -45,16 +45,78 @@ namespace GameAndHang.Controllers
             return View(filtered);
         }
 
-        public ActionResult Search(string search)
+        public ActionResult Search(string search, double? UserLat, double? UserLong)
         {
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
             ViewBag.Games = new SelectList(db.Games.Select(x => x.Name), "Name");
-            return View(db.Events.Where(x => x.UnsupGames.Contains(search)));
+            var searchResults = db.Events.Where(x => x.EventName.Contains(search));
+            if (UserLat != null && UserLong != null)
+            {
+                searchResults = proximityFilter(searchResults, UserLat, UserLong).AsQueryable();
+            }
+            return View(searchResults);
         }
 
-        public ActionResult SearchBox(string Games)
+        public ActionResult SearchBox(string Games, double? UserLat, double? UserLong)
         {
             //string gameName = data.Name;
-            return View(db.EventGames.Where(x => x.Game.Name.Contains(Games)));
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
+            ViewBag.Games = new SelectList(db.Games.Select(x => x.Name), "Name");
+            var searchResults = db.EventGames.Where(x => x.Game.Name.Contains(Games));
+            if (UserLat != null && UserLong != null)
+            {
+                //searchResults = proximityFilter(searchResults, UserLat, UserLong).AsQueryable();
+            }
+            return View(searchResults);
+        }
+
+        private IEnumerable<Event> proximityFilter(IQueryable<Event> events, double? userLat, double? userLong)
+        {
+            IEnumerable<Event> filteredEvents = new List<Event>().AsEnumerable();
+            IEnumerable<Event> eventsWithNoLocData = new List<Event>().AsEnumerable();
+            foreach (Event @event in events)
+            {
+                double dist = distanceToUser(@event, userLat, userLong);
+
+                if(dist < 0)
+                {
+                    eventsWithNoLocData = eventsWithNoLocData.Append(@event);     //save events with NULL for their lat/long
+                }
+
+                else if(dist < 50)
+                {
+                    filteredEvents = filteredEvents.Append(@event);      //Filter out events farther away than 50km
+                }
+                
+            }
+
+            return filteredEvents.Concat(eventsWithNoLocData);   //return neaby events followed by null-data events
+        }
+
+        private double distanceToUser(Event @event, double? userLat, double? userLong)
+        {
+            if (@event.EventLat == null || @event.EventLong == null)    //double check that the event actually has location data
+            {
+                return -1;
+            }
+
+            int radius = 6371; // Radius of the earth in km
+
+            double eradLat = (double)@event.EventLat * (Math.PI/180) ;  // Convert to radians
+            double eradLong = (double)@event.EventLong * (Math.PI / 180);
+            double uradLat = (double)userLat * (Math.PI / 180);
+            double uradLong = (double)userLong * (Math.PI / 180);
+
+            //Haversine formula to calculate great-circle distance: https://en.wikipedia.org/wiki/Haversine_formula
+            double sqrtContents = haversine(uradLat - eradLat) + Math.Cos(eradLat) * Math.Cos(uradLat) * haversine(uradLong - eradLong);
+
+            double dist = 2 * radius * Math.Asin(Math.Sqrt(sqrtContents));
+            return dist;
+        }
+
+        private double haversine(double theta)
+        {
+            return (1 - Math.Cos(theta)) / 2;
         }
 
         //public JsonResult GetData(string data)
@@ -87,8 +149,13 @@ namespace GameAndHang.Controllers
             //ViewBag.Games = new SelectList(db.Games, "ID", "Name");
             //+ System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             ViewBag.HostID = User.Identity.GetUserId();
-            //ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
-            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
+
+            
+            //  DEPLOYED --->   ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
+            //  LOCAL --->      ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
+            
+
             return View();
         }
 
@@ -108,7 +175,13 @@ namespace GameAndHang.Controllers
         {
             //Convert to Coords
             var address = currentEvent.EventLocation;
-            var locServ = new GoogleLocationService(apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString());
+
+            
+            //  DEPLOYED --->   apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() 
+            //  LOCAL --->      apikey: "AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8"
+            var locServ = new GoogleLocationService(apikey: "AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8");
+            
+            
             Console.WriteLine("Converting to point");
             var point = locServ.GetLatLongFromAddress(address);
             Console.WriteLine(point.ToString());
