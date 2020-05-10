@@ -89,7 +89,7 @@
                                 <h4 class="d-block"> @Html.DisplayFor(model => model.AspNetUser.Email)</h4>
                                 <h5 class="d-block">"@Html.DisplayFor(model => model.Bio)"</h5>
                                 <h6 class="d-block"> Host XP:  @Model.HostXP</h6>
-                                <h6 class="d-block"> Host rating:  @ViewBag.Rating (out of 5)</h6>
+                                <h6 class="d-block"> Host rating:  @ViewBag.Rating (out of 5 with @ViewBag.numRatings reviews)</h6>
                                 
                                 @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                             </div>
@@ -275,86 +275,7 @@
 </script>
 
 
+<link href="~/Content/ProfilePage.css" rel="stylesheet" />
 
-<style>
-    .card-body {
-        background-color: #08415C;
-        background-size: 700px;
-        border-style: solid;
-    }
-
-    .table-hover {
-        margin: 20px;
-    }
-
-    tr {
-        margin: 20px;
-    }
-
-    th {
-        margin: 20px;
-        min-width: 75px;
-        padding-right: 20px;
-    }
-
-    td {
-        margin: 20px;
-        min-width: 75px;
-        padding-right: 20px;
-    }
-
-    #profileCard {
-        margin-top: 25px;
-        color: white;
-    }
-
-    #editProfile {
-        margin-left: 5px;
-    }
-
-    #level{
-        height: 70px;
-        width: 70px;
-    }
-
-
-    #ribbon{
-        height: 60px;
-        width: 60px;
-    }
-
-    #orb{
-        height: 60px;
-        width: 60px;
-    }
-
-    #hostlevel{
-        font-size: 30px;
-    }
-
-    body {
-        background-color: #93B7BE
-    }
-
-    .body-content {
-        padding-left: 15px;
-        padding-right: 15px;
-        color: black;
-    }
-
-    #tab {
-        background-color: Highlight;
-        margin-left: 8px;
-        color: black;
-        border-radius: 5%;
-        padding: 5px;
-        font-size: 24px;
-    }
-
-    #navPills {
-        margin: auto;
-        width: 90%;
-    }
-</style>
 
 

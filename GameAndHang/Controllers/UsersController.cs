@@ -86,9 +86,15 @@ namespace GameAndHang.Controllers
                                  where b.Host_ID == userID
                                  select b).Count();
 
-            double sumRatings = (from b in db.Reviews
-                                 where b.Host_ID == userID
+
+            double sumRatings = 0;
+            if(numRatings != 0)
+            {
+                 sumRatings = (from b in db.Reviews
+                                where b.Host_ID == userID
                                  select b.Rating).Sum();
+            }
+            
 
             int xp = FindUsr.HostXP;
 
@@ -109,11 +115,25 @@ namespace GameAndHang.Controllers
                                select b.ReviewString).ToList();
 
 
-            var format = String.Format("{0:0.#}", sumRatings / numRatings);
+            var format = "test";
+            if(numRatings != 0 && sumRatings != 0)
+            {
+                format = String.Format("{0:0.#}", sumRatings / numRatings);
+            }
+            else if(numRatings > 0 && sumRatings == 0)
+            {
+                format = "0";
+            }
+            else
+            {
+                format = "This host has no ratings";
+            }
 
             ViewBag.Reviews = userreviews;
 
             ViewBag.Rating = format;
+
+            ViewBag.NumRatings = numRatings;
 
             return View(FindUsr);
         }
