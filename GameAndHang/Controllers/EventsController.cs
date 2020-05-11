@@ -178,10 +178,9 @@ namespace GameAndHang.Controllers
             ViewBag.HostID = User.Identity.GetUserId();
 
 
-            //  DEPLOYED --->   ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
-            //  LOCAL --->      ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
-            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
+            //ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
 
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key="+ System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
 
             return View();
         }
@@ -203,16 +202,17 @@ namespace GameAndHang.Controllers
             //Convert to Coords
             var address = currentEvent.EventLocation;
 
+
             
             //  DEPLOYED --->   apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() 
-            //  LOCAL --->      apikey: "AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8"
+            //  LOCAL --->      apikey: ""
             var locServ = new GoogleLocationService(apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString());
             
             
             Console.WriteLine("Converting to point");
             var point = locServ.GetLatLongFromAddress(address);
             Console.WriteLine(point.ToString());
-            if(point != null)
+            if (point != null)
             {
                 currentEvent.EventLat = (float)point.Latitude;
                 currentEvent.EventLong = (float)point.Longitude;
@@ -230,6 +230,7 @@ namespace GameAndHang.Controllers
             currentEvent.ID = gIDString;
         }
 
+
         // POST: Events/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -240,10 +241,10 @@ namespace GameAndHang.Controllers
             var currentID = User.Identity.GetUserId();
             AspNetUser currentUser = db.AspNetUsers.Find(currentID);
             User TheUser = db.Users.Find(currentID);
-           
+
             //Check If user is logged in, Convert address to lat log, Create a new ID and attach to event
             //CheckLoginStatus(currentID, currentUser);
-            ConvertAddressToCoords(@event);
+            //ConvertAddressToCoords(@event);
             CreateNewID(@event);
 
             @event.HostID = currentID;
@@ -255,6 +256,9 @@ namespace GameAndHang.Controllers
                 db.Entry(TheUser).State = EntityState.Modified;
                 db.SaveChanges();
             }
+
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+
             if (ModelState.IsValid)
             {
                 db.Events.Add(@event);
