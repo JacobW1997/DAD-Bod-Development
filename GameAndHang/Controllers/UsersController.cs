@@ -67,6 +67,7 @@ namespace GameAndHang.Controllers
 
         public void GetFriendsData()
         {
+            var currentID = User.Identity.GetUserId();
             List<User> Pendingfriends = new List<User>();
             List<User> UnconfirmedFirends = new List<User>();
             List<User> ConfirmedFriends = new List<User>();
@@ -76,15 +77,24 @@ namespace GameAndHang.Controllers
 
             foreach (string item in pendingFriendIds)
             {
+                if (item != currentID)
+                {
                 Pendingfriends.Add(db.Users.Find(item));
+                }
             }
             foreach (string item in unconfirmedFriendIDs)
             {
-                UnconfirmedFirends.Add(db.Users.Find(item));
+                if (item != currentID)
+                {
+                 UnconfirmedFirends.Add(db.Users.Find(item));
+                }
             }
             foreach (string item in confirmedFriendsIDs)
             {
-                ConfirmedFriends.Add(db.Users.Find(item));
+                    if (item != currentID)
+                    {
+                         ConfirmedFriends.Add(db.Users.Find(item));
+                    }
             }
             ViewBag.PendingFriends = Pendingfriends;
             ViewBag.UnconfirmedFriends = UnconfirmedFirends;
@@ -115,25 +125,45 @@ namespace GameAndHang.Controllers
         public List<string> CheckRelationships(int type)
         {
             string secondaryID = User.Identity.GetUserId();
-            List<Relationship> friendshipIDs = new List<Relationship>();
-            var friendships = (from b in db.Relationships where b.UserFirstID == secondaryID | b.UserSecondID == secondaryID && b.Type == type select b.UserFirstID).ToList();
-            return friendships;
+            List<string> ConfirmedFriends = new List<string>();
+            List<string> getFriendships = (from b in db.Relationships where b.UserFirstID == secondaryID | b.UserSecondID == secondaryID && b.Type == type select b.UserFirstID).ToList();
+            List<string> getMoreFriendships = (from b in db.Relationships where b.UserFirstID == secondaryID | b.UserSecondID == secondaryID && b.Type == type select b.UserSecondID).ToList();
+
+            foreach(var item in getFriendships)
+            {
+                ConfirmedFriends.Add(item);
+            }
+            foreach(var item in getMoreFriendships)
+            {
+                ConfirmedFriends.Add(item);
+            }
+
+            return ConfirmedFriends;
         }
 
         public void CheckHostRelationships(string id)
         {
             List<User> ConfirmedFriends = new List<User>();
-            List<string> confirmedFriendsIDs = (from b in db.Relationships where b.UserFirstID == id | b.UserSecondID == id && b.Type == 1 select b.UserFirstID).ToList();
-            if (confirmedFriendsIDs.Contains(id))
-            {
-                confirmedFriendsIDs.Remove(id);
-            }
+            List <string> confirmedFriendsIDs = (from b in db.Relationships where b.UserFirstID == id | b.UserSecondID == id && b.Type == 1 select b.UserFirstID ).ToList();
+            List <string> moreConfirmedFriendIDs = (from b in db.Relationships where b.UserFirstID == id | b.UserSecondID == id && b.Type == 1 select b.UserSecondID).ToList();
 
 
             foreach (string item in confirmedFriendsIDs)
             {
                 ConfirmedFriends.Add(db.Users.Find(item));
             }
+            foreach(string item in moreConfirmedFriendIDs)
+            {
+                ConfirmedFriends.Add(db.Users.Find(item));
+            }
+            foreach (var item in ConfirmedFriends.ToList())
+            if (item.ID == id)
+            {
+                    ConfirmedFriends.Remove(item);
+            }
+            
+
+
             ViewBag.ConfirmedFriends = ConfirmedFriends;
         }
 
