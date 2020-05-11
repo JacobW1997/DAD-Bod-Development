@@ -86,7 +86,11 @@
                                 <h4 class="d-block"> @Html.DisplayFor(model => model.AspNetUser.Email)</h4>
                                 <h5 class="d-block">"@Html.DisplayFor(model => model.Bio)"</h5>
                                 <h6 class="d-block"> Host XP:  @Model.HostXP</h6>
-                                <h6 class="d-block"> Host rating:  @ViewBag.Rating (out of 5)</h6>
+
+                                <h6 class="d-block"> Host rating:  @ViewBag.Rating (out of 5 with @ViewBag.numRatings reviews)</h6>
+                                
+                                @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+
                             </div>
                             <div class="ml-auto">
                                 <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
@@ -293,6 +297,22 @@
             </ul>
         </div>
     </div>
+
+</div>
+
+
+<script>
+    function AddExperience(ReviwerID) {
+        $("#modaltitle").html("Please rate your experience with the host and add a comment about the event");
+        $("#mymodal").modal();
+        $('div.form-group.required').length > 0
+    }
+</script>
+
+
+<link href="~/Content/ProfilePage.css" rel="stylesheet" />
+
+
 
 
     <script>
