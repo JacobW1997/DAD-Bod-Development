@@ -1,7 +1,7 @@
 ﻿@model GameAndHang.Models.User
 @using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "IndexUser";
+    ViewBag.Title = "HostProfile";
 }
 <script>
     function myFunction() {
@@ -27,7 +27,7 @@
                         <p align="center">Please rate the host below (1 = worst host, 5 = best host)</p>
                         @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
                         {
-                            @Html.HiddenFor(i => i.ID)
+                            @Html.HiddenFor(i => i.ID, new { id = "modelID" })
                             <div class="form-group required" style="position: relative; left: 150px;">
                                 @Html.RadioButton("Answer", "1") <span>1</span>
                                 @Html.RadioButton("Answer", "2") <span>2</span>
@@ -52,8 +52,6 @@
     </div>
 }
 
-
-
 <div class="container" id="profileCard">
     <div class="row">
         <div class="col-12">
@@ -77,9 +75,8 @@
                                         <img src="@imageSrc" style="width: 150px; height: 200px" class="img-thumbnail" />
                                     }
                                     <div class="middle">
-                                        <label for="files" class="btn btn-secondary" style="margin-top:6px;">Change</label>
-                                        <input style="display: none;" accept="image/*" type="file" name="file" id="files" value="Change" onchange="myFunction()" />
-                                        <input type="submit" class="btn btn-secondary" value="Confirm" id="confirm" style="display: none;" onclick="hideConfirm()" />
+                                        <label id="relationshipBtn" class="btn btn-secondary" style="margin-top:6px;">BTN</label>
+                                        @Html.ActionLink("Send Request", "SendFriendRequest", "Relationship", new { recieverID = Model.ID }, new { onclick = "return HelpSendFriendRequest(this);" })
                                     </div>
 
                                 }
@@ -89,9 +86,11 @@
                                 <h4 class="d-block"> @Html.DisplayFor(model => model.AspNetUser.Email)</h4>
                                 <h5 class="d-block">"@Html.DisplayFor(model => model.Bio)"</h5>
                                 <h6 class="d-block"> Host XP:  @Model.HostXP</h6>
+
                                 <h6 class="d-block"> Host rating:  @ViewBag.Rating (out of 5 with @ViewBag.numRatings reviews)</h6>
                                 
                                 @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+
                             </div>
                             <div class="ml-auto">
                                 <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
@@ -103,12 +102,11 @@
                             <li class="active"><a id="tab" data-toggle="pill" href="#hostedEvents"> Events </a></li>
                             <li><a id="tab" data-toggle="pill" href="#signedUpEvents"> Hosted Events </a></li>
                             <li><a id="tab" data-toggle="pill" href="#upcomingEvents"> Upcoming Events </a></li>
-                            <li><a id="tab" data-toggle="pill" href="#"> Friends List </a></li>
+                            <li><a id="tab" data-toggle="pill" href="#FriendsList"> Friends List </a></li>
                             <li><a id="tab" data-toggle="pill" href="#Review"> Leave a Review </a></li>
                             <li><a id="tab" data-toggle="pill" href="#displayReview"> Host Reviews </a></li>
                         </ul>
                     </div>
-
                     <div>
                         <h7 class="d-block" id="hostlevel" style="position: absolute; top:10px; right:10px">
                             Level @Model.HostLevel
@@ -148,10 +146,10 @@
     </div>
 </div>
 
-<hr />
 <div class="tab-content">
     @if (Model.EventPlayers.Count() > 0)
-                        {
+    {
+    <hr />
         <div id="hostedEvents" class="tab-pane fade in active">
             <hr />
             <h4>Events that @Html.DisplayFor(model => model.FirstName) is Signed Up For:</h4>
@@ -218,7 +216,6 @@
                     <th>Event Location</th>
                     <th>Event Description</th>
                 </tr>
-
                 @foreach (var hostedEvent in Model.Events)
                 {
                     if (hostedEvent.Date <= DateTime.Now.AddDays(30) && hostedEvent.Date > DateTime.Now.AddDays(-1))
@@ -236,33 +233,71 @@
             </table>
         </div>
     }
-    @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
-    {
-        <div id="Review" class="tab-pane fade in active">
-            <div class="form-horizontal" id="myForm" method="post" name="review">
-                <div class="control-group">
-                    <label class="control-label tab-pane fade in active">Review</label>
-                    <div class="form-group">
-                        <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
-                    </div>
-                    @Html.HiddenFor(i => i.ID)
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Submit" class="btn btn-default" />
+
+<div id="FriendsList" class="tab-pane fade in active">
+    <h4>@Html.DisplayFor(model => model.FirstName)'s Friends List:</h4>
+    <table>
+        @if (ViewBag.ConfirmedFriends.Count != 0)
+            
+        {
+        foreach (var person in ViewBag.ConfirmedFriends)
+        {
+        <tr class="card" id="friendCard">
+            <td>
+                <div class="card-img">
+                    @if (person.ProfilePic == null)
+                    {
+                        <img src="http://placehold.it/150x150" id="friendPic"  class="img-thumbnail" />
+                    }
+                    else
+                    {
+                        string imageBase64 = Convert.ToBase64String(person.ProfilePic);
+                        string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+                        <img src="@imageSrc" id="friendPic" />
+                    }
+                    @person.FirstName @person.LastName @Html.ActionLink("Profile", "HostProfile/", "Users", new { host = person.ID }, new { onclick = "return NavigetToFriend(this);" })
+                </div>
+
+                    
+               
+            </td>
+        </tr>
+        }
+        }
+
+    </table>
+
+</div>
+
+        @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
+        {
+            <div id="Review" class="tab-pane fade in active">
+                <div class="form-horizontal" id="myForm" method="post" name="review">
+                    <div class="control-group">
+                        <label class="control-label tab-pane fade in active">Review</label>
+                        <div class="form-group">
+                            <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
+                        </div>
+                        @Html.HiddenFor(i => i.ID)
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Submit" class="btn btn-default" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        }
+        <div id="displayReview" class="tab-pane fade in active">
+            <ul>
+                @foreach (var item in ViewBag.Reviews)
+                {
+                    <li> @item</li>
+                }
+            </ul>
         </div>
-    }
-    <div id="displayReview" class="tab-pane fade in active">
-        <ul>
-            @foreach (var item in ViewBag.Reviews)
-            {
-                <li> @item</li>
-            }
-        </ul>
     </div>
+
 </div>
 
 
@@ -279,3 +314,113 @@
 
 
 
+
+    <script>
+        function AddExperience(ReviwerID) {
+            $("#modaltitle").html("Please rate your experience with the host and add a comment about the event");
+            $("#mymodal").modal();
+            $('div.form-group.required').length > 0
+        }
+    </script>
+
+
+
+    <style>
+        #friendCard{
+            height:150px;
+            width:500px;
+            background-color:#08415C;
+            border-style: solid;
+            color:white;
+            font-size:24px;
+        }
+        #friendPic{
+            height: 100px;
+            width: 100px;
+            border-style: solid;
+            border-color:white;
+            border-width:1px;
+            background-color: white;
+        }
+
+        .card-body {
+            background-color: #08415C;
+            background-size: 700px;
+            border-style: solid;
+        }
+
+        .table-hover {
+            margin: 20px;
+        }
+
+        tr {
+            margin: 20px;
+        }
+
+        th {
+            margin: 20px;
+            min-width: 75px;
+            padding-right: 20px;
+        }
+
+        td {
+            margin: 20px;
+            min-width: 75px;
+            padding-right: 20px;
+        }
+
+        #profileCard {
+            margin-top: 25px;
+            color: white;
+        }
+
+        #editProfile {
+            margin-left: 5px;
+        }
+
+        #level {
+            height: 70px;
+            width: 70px;
+        }
+
+
+        #ribbon {
+            height: 60px;
+            width: 60px;
+        }
+
+        #orb {
+            height: 60px;
+            width: 60px;
+        }
+
+        #hostlevel {
+            font-size: 30px;
+        }
+
+        body {
+            background-color: #93B7BE
+        }
+
+        .body-content {
+            padding-left: 15px;
+            padding-right: 15px;
+            color: black;
+        }
+
+        #tab {
+            background-color: Highlight;
+            margin-left: 8px;
+            color: black;
+            border-radius: 5%;
+            padding: 5px;
+            font-size: 24px;
+        }
+
+        #navPills {
+            margin: auto;
+            width: 90%;
+        }
+    </style>
+
+    <script src="~/Scripts/RelationshipFunctions.js"></script>

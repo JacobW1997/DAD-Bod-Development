@@ -26,7 +26,7 @@
         <div class="col-sm-3">
             <div class="card" id="card">
                 <h4 class="card-title" align="center" style="--animation-order: 3;">@item.EventName</h4>
-                <p class="card-text" align="center"> Host: @Html.ActionLink(item.User.FirstName, "HostProfile", "Users", item.User.AspNetUser, new { @class = "my-class" })  </p>
+                <p class="card-text" align="center"> Host: @Html.ActionLink(item.User.FirstName, "HostProfile", "Users",new { host = item.User.AspNetUser.Id.ToString() }, htmlAttributes: new { title = "Users"})  </p>
                 @if (item.IsPublic == true)
                 {
                     <p class="card-text" align="center"> Event type: Public</p>

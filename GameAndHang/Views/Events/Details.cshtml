@@ -21,7 +21,7 @@
         </dt>
         <dd>
             <br />
-            @Html.ActionLink(Model.User.FirstName, "HostProfile", "Users", Model.User.AspNetUser, null)
+            @Html.ActionLink(Model.User.FirstName, "HostProfile", "Users", new { host = Model.User.ID.ToString() }, htmlAttributes: new { title = "Users" })
             @if (Model.User.ProfilePic == null)
             {
             <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />

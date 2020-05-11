@@ -41,6 +41,7 @@
                                 <label for="EventLocation">Location</label>
                                 <input type="text" id="EventLocation" name="EventLocation" required />
                                 @Html.ValidationMessageFor(model => model.EventLocation, "", new { @class = "text-danger" })
+                               
                             </div>
 
                         </div>
@@ -51,11 +52,13 @@
                                 @Html.ValidationMessageFor(model => model.UnsupGames, "", new { @class = "text-danger" })
                             </div>
 
+
                         </div>
                         <div class="col-md-10">
                             <div class="question">
                                 <label for="PlayerSlotsMin">Min Players</label>
                                 <input type="number" id="PlayerSlotsMin" name="PlayerSlotsMin" required />
+
                                 @Html.ValidationMessageFor(model => model.PlayerSlotsMin, "", new { @class = "text-danger" })
                             </div>
 
@@ -77,6 +80,7 @@
 
                         </div>
 
+
                         <div class="col-md-10">
                             <div class="form-group">
                                 <div class="checkbox">
@@ -85,6 +89,10 @@
                                     @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+
+                        <div class="form-group">
+                            @Html.ValidationMessageFor(m => m.HostID)
+
                         </div>
 
                         <div>
