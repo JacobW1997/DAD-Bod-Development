@@ -26,27 +26,16 @@ namespace GameAndHang.Controllers
             var users = db.Users.Include(u => u.AspNetUser);
             return View(await users.ToListAsync());
         }
-
-        public async Task<ActionResult> IndexUser(ManageMessageId? message)
+        
+        public async Task<ActionResult> IndexUser()
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
             var userId = User.Identity.GetUserId();
             User findUser = await db.Users.FindAsync(userId);
-
             List<Event> UpcomingEvents = new List<Event>();
-
             var userID = findUser.ID;
-
             int xp = findUser.HostXP;
-
             int newLevel = HostLevel(xp);
+            int countReviews = 0;
 
             if (findUser != null)
             {
@@ -54,14 +43,17 @@ namespace GameAndHang.Controllers
                 db.Entry(findUser).State = EntityState.Modified;
                 db.SaveChanges();
             }
-
-            var userreviews = (from b in db.Reviews
-                               where b.Host_ID == userID
-                               select b.ReviewString).ToList();
-
-            ViewBag.Reviews = userreviews;
-
-
+            countReviews += (from b in db.Reviews where b.Host_ID == userID select b.ReviewString).Count();
+            if (countReviews > 0)
+            {
+                var userreviews = (from b in db.Reviews where b.Host_ID == userID select b.ReviewString).ToList();
+                ViewBag.Reviews = userreviews;
+            }
+            else
+            {
+                ViewBag.Reviews = "No reviews yet!";
+            }
+            GetFriendsData();
             foreach (var hostedEvent in findUser.Events)
             {
                 if (hostedEvent.Date <= DateTime.Now.AddDays(30) && hostedEvent.Date > DateTime.Now.AddDays(-1))
@@ -69,32 +61,103 @@ namespace GameAndHang.Controllers
                     UpcomingEvents.Add(hostedEvent);
                 }
             }
-
             ViewBag.upcomingEvents = new List<Event>(UpcomingEvents);
-
             return View(findUser);
         }
 
-        public async Task<ActionResult> HostProfile(User host)
+        public void GetFriendsData()
         {
-            User FindUsr = await db.Users.FindAsync(host.ID);
+            List<User> Pendingfriends = new List<User>();
+            List<User> UnconfirmedFirends = new List<User>();
+            List<User> ConfirmedFriends = new List<User>();
+            List<string> pendingFriendIds = CheckPendingFriendships();
+            List<string> unconfirmedFriendIDs = CheckUnConfirmedFriendships();
+            List<string> confirmedFriendsIDs = CheckRelationships(1);
 
-            var userID = host.ID;
+            foreach (string item in pendingFriendIds)
+            {
+                Pendingfriends.Add(db.Users.Find(item));
+            }
+            foreach (string item in unconfirmedFriendIDs)
+            {
+                UnconfirmedFirends.Add(db.Users.Find(item));
+            }
+            foreach (string item in confirmedFriendsIDs)
+            {
+                ConfirmedFriends.Add(db.Users.Find(item));
+            }
+            ViewBag.PendingFriends = Pendingfriends;
+            ViewBag.UnconfirmedFriends = UnconfirmedFirends;
+            ViewBag.ConfirmedFriends = ConfirmedFriends;
+        }
+        public List<string> CheckPendingFriendships()
+        {
+            string secondaryID = User.Identity.GetUserId();
+            List<Relationship> friendshipIDs = new List<Relationship>();
+            var friendships = (from b in db.Relationships where b.UserFirstID == secondaryID && b.Type == 2 select b.UserSecondID).ToList();
+            return friendships;
+        }
+        public List<string> CheckPendingFriendships(string id)
+        {
+            string secondaryID = id;
+            List<Relationship> friendshipIDs = new List<Relationship>();
+            var friendships = (from b in db.Relationships where b.UserFirstID == secondaryID && b.Type == 2 select b.UserSecondID).ToList();
+            return friendships;
+        }
+        public List<string> CheckUnConfirmedFriendships()
+        {
+            string secondaryID = User.Identity.GetUserId();
+            List<Relationship> friendshipIDs = new List<Relationship>();
+            var friendships = (from b in db.Relationships where b.UserSecondID == secondaryID && b.Type == 2 select b.UserFirstID).ToList();
+            return friendships;
+        }
+
+        public List<string> CheckRelationships(int type)
+        {
+            string secondaryID = User.Identity.GetUserId();
+            List<Relationship> friendshipIDs = new List<Relationship>();
+            var friendships = (from b in db.Relationships where b.UserFirstID == secondaryID | b.UserSecondID == secondaryID && b.Type == type select b.UserFirstID).ToList();
+            return friendships;
+        }
+
+        public void CheckHostRelationships(string id)
+        {
+            List<User> ConfirmedFriends = new List<User>();
+            List<string> confirmedFriendsIDs = (from b in db.Relationships where b.UserFirstID == id | b.UserSecondID == id && b.Type == 1 select b.UserFirstID).ToList();
+            if (confirmedFriendsIDs.Contains(id))
+            {
+                confirmedFriendsIDs.Remove(id);
+            }
 
 
-            double numRatings = (from b in db.Reviews
-                                 where b.Host_ID == userID
-                                 select b).Count();
+            foreach (string item in confirmedFriendsIDs)
+            {
+                ConfirmedFriends.Add(db.Users.Find(item));
+            }
+            ViewBag.ConfirmedFriends = ConfirmedFriends;
+        }
 
-            double sumRatings = (from b in db.Reviews
-                                 where b.Host_ID == userID
-                                 select b.Rating).Sum();
+        public async Task<ActionResult> HostProfile(string host)
+        {
+            User FindUsr = await db.Users.FindAsync(host);
+            var userID = FindUsr.ID;
+            double? numRatings = 0;
+            double? sumRatings = 0;
+            int xp = 0;
 
-            int xp = FindUsr.HostXP;
+            xp += FindUsr.HostXP;
+
+            CheckHostRelationships(FindUsr.ID);
+
+            int newLevel = HostLevel(xp);
 
             ViewBag.ImagePath = @"~/Content/Images/Level1.png";
 
-            int newLevel = HostLevel(xp);
+            numRatings += (from b in db.Reviews where b.Host_ID == userID select b).Count();
+
+            if(numRatings > 0) {
+            sumRatings += (from b in db.Reviews where b.Host_ID == userID select b.Rating).Sum();
+            }
 
             if (FindUsr != null)
             {
@@ -103,77 +166,36 @@ namespace GameAndHang.Controllers
                 db.SaveChanges();
             }
 
-
-            var userreviews = (from b in db.Reviews
-                               where b.Host_ID == userID
-                               select b.ReviewString).ToList();
-
-
+            List<string> userreviews = (from b in db.Reviews where b.Host_ID == userID select b.ReviewString).ToList();
             var format = String.Format("{0:0.#}", sumRatings / numRatings);
-
+            if(userreviews != null)
+            {
             ViewBag.Reviews = userreviews;
-
+            }
+            else
+            {
+                ViewBag.Reviews = "No Reviews Yet";
+            }
             ViewBag.Rating = format;
-
             return View(FindUsr);
         }
 
         public int HostLevel(int xp)
         {
-            if (xp < 10)
-            {
-                return 1;
-            }
-
-            if (xp >= 20 && xp < 50)
-            {
-                return 2;
-            }
-            if (xp >= 50 && xp < 100)
-            {
-                return 3;
-            }
-            if (xp >= 100 && xp < 160)
-            {
-                return 4;
-            }
-            if (xp >= 160 && xp < 220)
-            {
-                return 5;
-            }
-            if (xp >= 220 && xp < 300)
-            {
-                return 6;
-            }
-            if (xp >= 300)
-            {
-                return 7;
-            }
+            if (xp < 10) return 1;
+            if (xp >= 20 && xp < 50) return 2;
+            if (xp >= 50 && xp < 100) return 3;
+            if (xp >= 100 && xp < 160) return 4;
+            if (xp >= 160 && xp < 220) return 5;
+            if (xp >= 220 && xp < 300) return 6;
+            if (xp >= 300) return 7;
             return -1;
         }
-
-
-
 
         public string GetUserName(string ID)
         {
             User UserName = db.Users.Find(ID);
             return (UserName.DisplayName);
-        }
-
-        // GET: Users/Details/5
-        public async Task<ActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = await db.Users.FindAsync(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
         }
 
         // GET: Users/Create
@@ -296,22 +318,11 @@ namespace GameAndHang.Controllers
             UploadPhotoToDB(file);
             return RedirectToAction("IndexUser", "Users"); ;
         }
-        public void SendFriendRequest(string senderID, string recieverID)
+        public ActionResult FriendProfile(string id)
         {
-            Relationship newRelationship = new Relationship();
-            newRelationship.UserSecondID = senderID;
-            newRelationship.UserFirstID = recieverID;
+            User requestedUser = db.Users.Find(id);
+            return RedirectToAction("HostProfile/", new { host = requestedUser });
+        }
 
-            newRelationship.Type = 3;
-        }
-        public void CheckRelationships(string ID)
-        {
-            List<Relationship> friendshipIDs = new List<Relationship>();
-            friendshipIDs.Append(db.Relationships.Find(ID)).Where(item=> item.UserFirstID == ID || item.UserSecondID == ID && item.Type == 1);
-        }
-        public void ConfirmRelationship(string ID)
-        {
-
-        }
     }
 }
