@@ -110,7 +110,7 @@ namespace GameAndHang.Controllers
         {
             //Convert to Coords
             var address = currentEvent.EventLocation;
-            var locServ = new GoogleLocationService(apikey: "AIzaSyDuwWq60IrpVvV1uNd - 1IvOmlAZ2tAGAM8");
+            var locServ = new GoogleLocationService(apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap");
             Console.WriteLine("Converting to point");
             var point = locServ.GetLatLongFromAddress(address);
             Console.WriteLine(point.ToString());

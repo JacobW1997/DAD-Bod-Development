@@ -44,7 +44,7 @@ namespace GameAndHang.Controllers
         public void ConfirmRelationship(string PrimaryID, int type)
         {
             string SecondaryID = User.Identity.GetUserId();
-            Relationship existingRelationship = GetRelationship(PrimaryID, SecondaryID);
+            Relationship existingRelationship = GetRelationship(SecondaryID,PrimaryID);
             existingRelationship.Type = type;
             SaveChanges(existingRelationship);
         }
