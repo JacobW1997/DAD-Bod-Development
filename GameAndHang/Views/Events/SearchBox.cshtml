@@ -3,7 +3,36 @@
     ViewBag.Title = "SearchBox";
 }
 
-<h2>SearchBox</h2>
+<br />
+
+@*<div class="jumbotron">*@
+<h3 style="text-align:center">
+    Search for an Event!
+</h3>
+@*</div>*@
+
+<div class="row">
+    <div class="col-md-auto">
+        <div>
+            Search by Event Name
+        </div>
+        @using (Html.BeginForm("Search", "Events", FormMethod.Get))
+        {
+            @Html.TextBox("search")
+            <input type="submit" value="Search" />
+        }
+    </div>
+    <div class="col-md-auto">
+        <div>
+            Search by Game
+        </div>
+        @using (Html.BeginForm("SearchBox", "Events", FormMethod.Get))
+        {
+            @Html.DropDownList("Games", null, htmlAttributes: new { @class = "form-control" })
+            <input type="submit" value="Search" />
+        }
+    </div>
+</div>
 
 <table class="table table-striped">
     <thead>
@@ -17,12 +46,12 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>@item.Event.EventName</td>
-            <td>@item.Event.Date</td>
-            <td>@item.Game.Name</td>
-            <td>@Html.ActionLink("Details", "Details", new { id = item.Event.ID })</td>
-        </tr>
+            <tr>
+                <td>@item.Event.EventName</td>
+                <td>@item.Event.Date</td>
+                <td>@item.Game.Name</td>
+                <td>@Html.ActionLink("Details", "Details", new { id = item.Event.ID })</td>
+            </tr>
         }
 
     </tbody>
