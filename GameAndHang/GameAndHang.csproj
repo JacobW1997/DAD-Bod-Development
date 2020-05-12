@@ -279,6 +279,7 @@
     <Content Include="Content\Codex.css" />
     <Content Include="Content\EventCreate.css" />
     <Content Include="Content\EventsList.css" />
+    <Content Include="Content\HostProfile.css" />
     <Content Include="Content\Images\Level1.png" />
     <Content Include="Content\Images\Level2.png" />
     <Content Include="Content\Images\Level3.png" />
@@ -287,6 +288,7 @@
     <Content Include="Content\Images\Level6.png" />
     <Content Include="Content\Images\Level7.png" />
     <Content Include="Content\ProfilePage.css" />
+    <Content Include="Content\Success.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
