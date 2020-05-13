@@ -278,34 +278,11 @@
 
             </table>
         </div>
-  
-    @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
-    {
-        <div id="Review" class="tab-pane fade in">
-            <div class="form-horizontal" id="myForm" method="post" name="review">
-                <div class="control-group">
-                    <label class="control-label tab-pane fade in">Review</label>
-                    <div class="form-group">
-                        <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
-                    </div>
-                    @Html.HiddenFor(i => i.ID)
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Submit" class="btn btn-default" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+
 
 
     <div id="displayReview" class="tab-pane fade in card">
         <ul style="margin-top: 10px; background-color:#08415C">
-            @if(ViewBag.Reviews == "")
-            {
-                <li id="listitem">No Reviews Yet!</li>
-            }
             @foreach (var item in ViewBag.Reviews)
             {
                 <li id="listitem"> @item</li>
