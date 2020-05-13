@@ -353,13 +353,7 @@ namespace GameAndHang.Controllers
 
             IQueryable<Event> gameList = db.Events
                 .Where(x => x.HostID == currentUser.ID)
-                .Select(x => x)
-                ;
-
-            if (!gameList.Any())
-            {
-                return RedirectToAction("Index", "Home");
-            }
+                .Select(x => x);
 
             ViewBag.EventID = new SelectList(gameList, "ID", "EventName");
             ViewBag.GameID = id;

@@ -88,7 +88,7 @@
                     @foreach (var gameName in Model.APIEventGames)
                     {
 
-                <p id="textDisplay"> @Html.ActionLink(gameName.GameName, "APIGame/", new { id = gameName.GameID })</p>
+                <p id="textDisplay"> @Html.ActionLink(gameName.GameName, "APIGame", new { id = gameName.GameID })</p>
                     }
                 </div>
                 <div class="card-footer">
