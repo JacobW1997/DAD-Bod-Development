@@ -14,9 +14,11 @@ namespace GameAndHang.Models
         [StringLength(128)]
         public string EventID { get; set; }
 
-        [Required]
         [StringLength(16)]
         public string GameID { get; set; }
+
+        [StringLength(32)]
+        public string GameName { get; set; }
 
         public virtual Event Event { get; set; }
     }

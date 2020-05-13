@@ -56,7 +56,6 @@ namespace GameAndHang.Controllers
             }
 
             ViewBag.EventID = new SelectList(gameList, "ID", "EventName");
-
             ViewBag.GameID = id;
             
             return View();
@@ -218,20 +217,44 @@ namespace GameAndHang.Controllers
         // POST: APIEventGames/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,EventID,GameID")] APIEventGame aPIEventGame)
+        public ActionResult APIGame([Bind(Include = "ID,EventID,GameID,GameName")] APIEventGame aPIEventGame)
         {
-            if (ModelState.IsValid)
-            {
+            aPIEventGame.Event = db.Events.Find(aPIEventGame.EventID);
+            aPIEventGame.GameID.ToString();
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+
                 db.APIEventGames.Add(aPIEventGame);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            ViewBag.EventID = new SelectList(db.Events, "ID", "EventName", aPIEventGame.EventID);
-            return View(aPIEventGame);
+            return View("Details", "Event", aPIEventGame.EventID);
         }
+
+
+        //    [HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult SaveEventGame(string gameID, string eventID, string gameName)
+        //{
+        //    APIEventGame aPIEventGame = new APIEventGame();
+
+        //    aPIEventGame.Event = db.Events.Find(eventID);
+        //    aPIEventGame.GameID = gameID;
+        //    aPIEventGame.GameName = gameName;
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.APIEventGames.Add(aPIEventGame);
+        //        db.SaveChanges();
+        //        return View("Home", "Index");
+        //    }
+
+        //    ViewBag.EventID = new SelectList(db.Events, "ID", "EventName", aPIEventGame.EventID);
+        //    return View(aPIEventGame);
+        //}
+
+
         public ActionResult Edit(int? id)
         {
             if (id == null)

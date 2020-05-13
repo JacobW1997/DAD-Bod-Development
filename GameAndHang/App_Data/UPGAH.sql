@@ -152,6 +152,7 @@ CREATE TABLE [dbo].[APIEventGames](
 	[ID]			INT IDENTITY (1,1)  NOT NULL,
 	[EventID]		NVARCHAR(128)       NOT NULL,
 	[GameID]		NVARCHAR(16)        NOT NULL,
+	[GameName]		NVARCHAR(32)		NOT NULL,
 	CONSTRAINT [PK_dbo.APIEventGames] PRIMARY KEY CLUSTERED ([ID] ASC),
 	CONSTRAINT [FK_dbo.APIEventGames_dbo.Events_ID] FOREIGN KEY ([EventID]) REFERENCES [dbo].[Events] ([ID])
 );

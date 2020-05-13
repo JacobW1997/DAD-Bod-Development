@@ -84,10 +84,12 @@ namespace GameAndHang.Controllers
             //string gameName = data.Name;
             ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
             ViewBag.Games = new SelectList(db.Games.Select(x => x.Name), "Name");
-            var searchResults = db.EventGames.Where(x => x.Game.Name.Contains(Games));
+            var EGSearchResults = db.EventGames.Where(x => x.Game.Name.Contains(Games));
+            var searchResults = db.Events.Where(s => s.EventGames.Intersect(EGSearchResults).Count() > 0);
             if (UserLat != null && UserLong != null)
             {
-                //searchResults = proximityFilter(searchResults, UserLat, UserLong).AsQueryable();
+                searchResults = proximityFilter(searchResults, UserLat, UserLong).AsQueryable();
+                
             }
             return View(searchResults);
         }
@@ -107,7 +109,7 @@ namespace GameAndHang.Controllers
 
                 if(dist < 0)
                 {
-                    eventsWithNoLocData = eventsWithNoLocData.Append(@event);     //save events with NULL for their lat/long
+                    //eventsWithNoLocData = eventsWithNoLocData.Append(@event);     //save events with NULL for their lat/long
                 }
 
                 else if(dist < 50)
@@ -205,7 +207,7 @@ namespace GameAndHang.Controllers
             
             //  DEPLOYED --->   apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() 
             //  LOCAL --->      apikey: ""
-            var locServ = new GoogleLocationService(apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString());
+            var locServ = new GoogleLocationService(apikey: "AIzaSyDuwWq60IrpVvV1uNd - 1IvOmlAZ2tAGAM8");
             
             
 
@@ -244,7 +246,7 @@ namespace GameAndHang.Controllers
 
             //Check If user is logged in, Convert address to lat log, Create a new ID and attach to event
             //CheckLoginStatus(currentID, currentUser);
-            //ConvertAddressToCoords(@event);
+            ConvertAddressToCoords(@event);
             CreateNewID(@event);
 
             @event.HostID = currentID;
