@@ -4,9 +4,17 @@
     ViewBag.Title = "Success";
 }
 
-<h2 align="center" style="padding-top: 20px">You have successfully signed up for this event! Have fun and be safe gamer.</h2>
-<br />
-<p align="center">
-    @Html.ActionLink("Back to Events", "Index", "Events")
-</p>
+<body>
+    <h2 align="center" style="padding-top: 20px">You have successfully signed up for this event! Have fun and be safe gamer.</h2>
+    <div class="container" align="center">
+        <button class="button">
+            @Html.ActionLink("Home Page", "Index", "Home", null, new { @class = "my-class" })
+        </button>
+        <button class="button">
+            @Html.ActionLink("Back to Events", "Index", "Events", null, new { @class = "my-class" })
+        </button>
+    </div>
 
+</body>
+
+<link href="~/Content/Success.css" rel="stylesheet" />
