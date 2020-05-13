@@ -9,6 +9,7 @@
     }
     function hideConfirm() {
         $("#confirm").hide()
+
     }
 </script>
 @if (User.Identity.GetUserId() != null)
@@ -74,22 +75,27 @@
 
                                         <img src="@imageSrc" style="width: 150px; height: 200px" class="img-thumbnail" />
                                     }
-                                    <div class="middle">
-                                        <label id="relationshipBtn" class="btn btn-secondary" style="margin-top:6px;">BTN</label>
-                                        @Html.ActionLink("Send Request", "SendFriendRequest", "Relationship", new { recieverID = Model.ID }, new { onclick = "return HelpSendFriendRequest(this);" })
-                                    </div>
+                                    if (User.Identity.GetUserId() != Model.ID)
+                                    {
+                                        <div id="middle">
+
+                                            @Html.ActionLink("Send Friend Request", "SendFriendRequest", "Relationship", new { recieverID = Model.ID }, new { onclick = "return HelpSendFriendRequest(this);" })
+                                        </div>
+                                    }
+
 
                                 }
                             </div>
                             <div class="userData ml-3">
                                 <h2 class="d-block" style="font-size: 2.5rem; font-weight: bold">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
-                                <h4 class="d-block"> @Html.DisplayFor(model => model.AspNetUser.Email)</h4>
+                                
+                                <h5 class="d-block"> @Html.DisplayFor(model => model.DisplayName)</h5>
                                 <h5 class="d-block">"@Html.DisplayFor(model => model.Bio)"</h5>
+
                                 <h6 class="d-block"> Host XP:  @Model.HostXP</h6>
 
                                 <h6 class="d-block"> Host rating:  @ViewBag.Rating (out of 5 with @ViewBag.numRatings reviews)</h6>
-                                
-                                @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+
 
                             </div>
                             <div class="ml-auto">
@@ -149,11 +155,11 @@
     @if (Model.EventPlayers.Count() > 0)
     {
     <hr />
-        <div id="hostedEvents" class="tab-pane fade in active">
+        <div id="hostedEvents" class="tab-pane fade in card">
             <hr />
-            <h4>Events that @Html.DisplayFor(model => model.FirstName) is Signed Up For:</h4>
+            <h4 class="card-header">Events that @Html.DisplayFor(model => model.FirstName) is Signed Up For:</h4>
             <br />
-            <table class="table-hover">
+            <table style="border:none" class="table-hover card-body" >
                 <tr>
                     <th>Event Name</th>
                     <th>Event Date/Time</th>
@@ -176,11 +182,11 @@
 
     @if (Model.Events.Count() > 0)
     {
-        <div id="signedUpEvents" class="tab-pane fade in active">
+        <div id="signedUpEvents" class="tab-pane fade in card">
             <hr />
-            <h4>Events that @Html.DisplayFor(model => model.FirstName) is Hosting:</h4>
+            <h4 class="card-header">Events that @Html.DisplayFor(model => model.FirstName) is Hosting:</h4>
             <br />
-            <table class="table-hover">
+            <table style="border:none" class="table-hover card-body">
                 <tr>
                     <th>Event Name</th>
                     <th>Event Date/Time</th>
@@ -204,11 +210,11 @@
 
     @if (Model.Events.Count() > 0)
     {
-        <div id="upcomingEvents" class="tab-pane fade in active">
+        <div id="upcomingEvents" class="tab-pane fade in card">
             <hr />
-            <h4>@Html.DisplayFor(model => model.FirstName)'s Upcoming Events:</h4>
+            <h4 class="card-header">@Html.DisplayFor(model => model.FirstName)'s Upcoming Events:</h4>
             <br />
-            <table class="table-hover">
+            <table style="border:none" class="table-hover card-body">
                 <tr>
                     <th>Event Name</th>
                     <th>Event Date/Time</th>
@@ -233,7 +239,7 @@
         </div>
     }
 
-<div id="FriendsList" class="tab-pane fade in active">
+<div id="FriendsList" class="tab-pane fade in">
     <h4>@Html.DisplayFor(model => model.FirstName)'s Friends List:</h4>
     <table>
         @if (ViewBag.ConfirmedFriends.Count != 0)
@@ -268,7 +274,7 @@
 
 </div>
 
-        <div id="displayReview" class="tab-pane fade in active">
+        <div id="displayReview" class="tab-pane fade in ">
             <ul>
                 @foreach (var item in ViewBag.Reviews)
                 {
@@ -278,7 +284,33 @@
         </div>
     </div>
 
+<style>
+    #eventCard #signedUpEvents #upcomingEvents {
+    background: #08415C;
+    color: white;
+    padding: 8px;
+    font-size:20px;
+}
+    #hostedEvents{
+        background:#08415C;
+        border:none;
+        
+    }
+    .table-hover{
+        border:none;
+    }
+    .tbody{
+                border:none;
+    }
+    .table{
+        padding:10px;
+        margin-bottom:20px;
+    }
+    .card{
+        color:white;
+    }
 
+</style>
 
 
 <script>

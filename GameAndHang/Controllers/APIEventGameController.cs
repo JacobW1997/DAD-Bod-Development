@@ -64,7 +64,7 @@ namespace GameAndHang.Controllers
         public void GetGame(string id)
         {
             string cred = System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"];
-            string URL = "https://www.boardgameatlas.com/api/search?ids=" + id + "&client_id=" + cred;
+            string URL = "https://www.boardgameatlas.com/api/search?ids=" + id + "&client_id=" + "xv4UwTJIGG";
             Debug.WriteLine(URL);
             string allData = SendRequest(URL);
 
