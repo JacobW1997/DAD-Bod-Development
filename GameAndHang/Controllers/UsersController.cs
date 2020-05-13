@@ -279,6 +279,8 @@ namespace GameAndHang.Controllers
         {
             //var userID = User.Identity.GetUserId();
             user.ID = User.Identity.GetUserId();
+            user.HostXP = 0;
+            user.HostLevel = 0;
             if (ModelState.IsValid)
             {
                 db.Users.Add(user);
