@@ -224,6 +224,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\APIEventGameController.cs" />
     <Compile Include="Controllers\CaptchaController.cs" />
     <Compile Include="Controllers\CustomErrorController.cs" />
     <Compile Include="Controllers\EventGamesController.cs" />
@@ -239,6 +240,7 @@
     </Compile>
     <Compile Include="Models\API.cs" />
     <Compile Include="Models\APIEventGame.cs" />
+    <Compile Include="Models\APIGame.cs" />
     <Compile Include="Models\ASPAccount\AccountViewModels.cs" />
     <Compile Include="Models\ASPAccount\AspNetRole.cs" />
     <Compile Include="Models\ASPAccount\AspNetUser.cs" />
@@ -476,6 +478,8 @@
     <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\Users\HostProfile.cshtml" />
     <Content Include="Views\Home\Codex.cshtml" />
+    <Content Include="Views\APIEventGame\Create.cshtml" />
+    <Content Include="Views\APIEventGame\APIGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\CustomError\" />

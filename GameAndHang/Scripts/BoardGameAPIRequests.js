@@ -29,7 +29,9 @@ function displayGames(games) {
             $('#outputCard' + i).append('<p> Average Rating: ' + games.average_user_rating[i] + '<p>');
             $('#outputCard' + i).append('<p>Min Players: ' + games.min_players[i] + '<p>');
             $('#outputCard' + i).append('<p>Max Players: ' + games.max_players[i] + '<p>');
+            $('#outputCard' + i).append('<a onclick = getGames('+games.id[i]+'); href=/APIEventGame/APIGame/' + games.id[i] + '>Details</a>');
         }
         $('#GameOutput').append('</div>');
     }
 }
+
