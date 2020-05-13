@@ -182,7 +182,7 @@
 
     @if (Model.Events.Count() > 0)
     {
-        <div id="signedUpEvents" class="tab-pane fade in card">
+        <div id="signedUpEvents" style="margin-top: 5px;" class="tab-pane fade in card">
             <hr />
             <h4 class="card-header">Events that @Html.DisplayFor(model => model.FirstName) is Hosting:</h4>
             <br />
@@ -210,7 +210,7 @@
 
     @if (Model.Events.Count() > 0)
     {
-        <div id="upcomingEvents" class="tab-pane fade in card">
+        <div id="upcomingEvents" style="margin-top: 5px;"class="tab-pane fade in card">
             <hr />
             <h4 class="card-header">@Html.DisplayFor(model => model.FirstName)'s Upcoming Events:</h4>
             <br />
@@ -247,7 +247,7 @@
         {
         foreach (var person in ViewBag.ConfirmedFriends)
         {
-        <tr class="card" id="friendCard">
+        <tr class="card" id="friendCard" style="margin-top: 8px;">
             <td>
                 <div class="card-img">
                     @if (person.ProfilePic == null)
@@ -275,10 +275,10 @@
 </div>
 
         <div id="displayReview" class="tab-pane fade in ">
-            <ul>
+            <ul style="margin-top: 10px; color:#08415C">
                 @foreach (var item in ViewBag.Reviews)
                 {
-                    <li> @item</li>
+                    <li id="listitem"> @item</li>
                 }
             </ul>
         </div>
@@ -299,6 +299,19 @@
     .table-hover{
         border:none;
     }
+
+    #listitem{
+        font-size: 20px;
+        list-style-type: square;
+        color: white;
+    }
+
+    #displayReview{
+        margin-top: 5px;
+        background: #08415C;
+        padding: 8px;
+    }
+
     .tbody{
                 border:none;
     }
