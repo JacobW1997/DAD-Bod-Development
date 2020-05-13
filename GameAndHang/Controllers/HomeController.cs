@@ -39,8 +39,8 @@ namespace GameAndHang.Controllers
         }
         public ActionResult GetGames()
         {           
-            //string cred = System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"];
-            string URL = "https://www.boardgameatlas.com/api/search?order_by=popularity&limit=20&client_id=" + System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"].ToString();
+            string cred = System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"];
+            string URL = "https://www.boardgameatlas.com/api/search?order_by=popularity&limit=20&client_id="+cred;
             Debug.WriteLine(URL);
             var allData = SendRequest(URL);
             JObject rootObj = JObject.Parse(allData);
@@ -66,8 +66,9 @@ namespace GameAndHang.Controllers
 
 
 
-            for (int i = 0; i< 20; i++) { 
-
+            for (int i = 0; i< 20; i++) {
+                var getIDs = (string)rootObj.SelectToken("games[" + i + "].id");
+                outputIDs.Add(getIDs);
                 var getNames = (string)rootObj.SelectToken("games["+i+"].name");
                 outputNames.Add(getNames);
                 var getThumbUrls = (string)rootObj.SelectToken("games["+i+"].thumb_url");
@@ -89,7 +90,7 @@ namespace GameAndHang.Controllers
             
             var JsonData = new
             {
-                //id = getID,
+                id = outputIDs,
                 name = outputNames,
                 //year_published = getYearPublished,
                 min_players = min_playersList,

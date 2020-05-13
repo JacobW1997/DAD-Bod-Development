@@ -4,124 +4,195 @@
 @{
     ViewBag.Title = "Details";
 }
-<div class="container">
-    <h2 id="eventName" align="center" style="padding-top: 20px; font-size: 50px">
-        @Html.DisplayFor(model => model.EventName)
-    </h2>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt style="padding-top:6px; height: 168px; border-bottom:solid">
-            <div style="text-align:center; font-weight:bold; margin-bottom:7px;">-Host Info-</div>
-              First Name:
-            <br />
-            <br />
-            User Name:
-            <br />
-            XP Gained:
-        </dt>
-        <dd>
-            <br />
-            @Html.ActionLink(Model.User.FirstName, "HostProfile", "Users", new { host = Model.User.ID.ToString() }, htmlAttributes: new { title = "Users" })
-            @if (Model.User.ProfilePic == null)
-            {
-            <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
-            }
-            else {
-            string imageBase64 = Convert.ToBase64String(Model.User.ProfilePic);
-            string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
-            <img src="@imageSrc"  id="profPic" />
-            }
-            <br />
-            @Html.DisplayFor(model => model.User.DisplayName),
-            <br />
-            @Html.DisplayFor(model => model.User.HostXP)
-        </dd>
 
-        <dt style="height:120px; ">
-            <div style="text-align:center; font-weight:bold;">-Event Info-</div>
-            Event Type
-            <div style="margin-top:13px;">Event Date</div>
-        </dt>
 
-        <dd>
-            <br />
-            @if (Model.IsPublic == true)
-            {
-                <p>Public</p>
-            }
-            else
-            {
-                <p>Private</p>
-            }
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt>Event Description</dt>
-        <dd>@Html.DisplayFor(model => model.EventDescription)</dd>
-        <dt style="border-bottom:solid"> Event Location</dt>
-        <dd>@Html.DisplayFor(model => model.EventLocation)</dd>
-        <dt style="border-bottom:solid">Min Players</dt>
-        <dd>@Html.DisplayFor(model => model.PlayerSlotsMin)</dd>
-        <dt style="border-bottom:solid">Max Players</dt>
-        <dd>@Html.DisplayFor(model => model.PlayerSlotsMax)</dd>
-        <dt>Current player count</dt>
-        <dd>@Html.DisplayFor(model => model.PlayersCount)</dd>
-        @if (Model.UnsupGames != null)
-        {
-        <dt>Unsupported Game</dt>
-        <dd>@Html.DisplayFor(model => model.UnsupGames)</dd>
-        }
-    </dl>
+<div class="nav-pills" id="navPills">
+    <ul class="nav nav-pills">
+        <li style="border-right:none" class="active"><a id="tab" style="border-right:none; padding-right: 10px;margin-left:15px;" data-toggle="pill" href="#HostInfo"> Host Details </a></li>
+        <li><a id="tab" style="padding-left: 10px;" data-toggle="pill" href="#EventInfo"> Event Details </a></li>
+    </ul>
+</div>
+
+<div class="tab-content">
+    <div id="HostInfo" class="tab-pane active">
+        <div class="col-lg-12">
+            <div class="card" id="EventCard">
+                <div class="card-header">
+                    <h1 id="eventName" align="center" style="padding-top: 20px; font-size: 50px">
+                        Host Info
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <h3 id="groupHeader">@Html.DisplayFor(model => model.EventName) </h3>
+
+
+                    @if (Model.User.ProfilePic == null)
+                    {
+                        <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                    }
+                    else
+                    {
+                        string imageBase64 = Convert.ToBase64String(Model.User.ProfilePic);
+                        string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+                        <img src="@imageSrc" id="profPic" />
+                    }
+
+
+                    <p id="textDisplay" style=" font-style:italic">@Html.ActionLink(Model.User.FirstName, "HostProfile", "Users", new { host = Model.User.ID.ToString() }, htmlAttributes: new { title = "Users" }) @Html.ActionLink(Model.User.LastName, "HostProfile", "Users", new { host = Model.User.ID.ToString() }, htmlAttributes: new { title = "Users" })</p>
+                    <p id="textDisplay"> "@Model.User.DisplayName"</p>
+                    <p id="textDisplay">Level:</p>
+                    <p id="subText">@Model.User.HostLevel</p>
+                    <p id="textDisplay">XP Gained:</p>
+                    <p id="subText">@Model.User.HostXP</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="tab-pane fade in" id="EventInfo">
+        <div class="col-lg-12">
+            <div class="card" id="EventCard">
+
+                <div class="card-header">
+                    <h1 id="eventName" align="center" style="padding-top: 20px; font-size: 50px">
+                        Event Info
+                    </h1>
+                </div>
+
+                <div class="card-body">
+                    <h3 id="groupHeader"> @Html.DisplayFor(model => model.EventName)</h3>
+                    @if (Model.IsPublic == true)
+                    {
+                        <p id="textDisplay" style="color:#1B9AAA">-Public Event-</p>
+                    }
+                    else
+                    {
+                        <p id="textDisplay" style="color:grey">-Private Event-</p>
+                    }
+                    <p id="textDisplay"> Location:</p>
+                    <p id="subText"> @Model.EventLocation</p>
+                    <p id="textDisplay">Date: </p>
+                    <p id="subText">@Convert.ToString(string.Format("{0:dd/MM/yyy}", Model.Date))</p>
+                    <p id="textDisplay">Description:  </p>
+                    <p id="subText">@Model.EventDescription</p>
+                    <p id="textDisplay"> Registered Players: </p>
+                    <p id="subText"> @Model.PlayersCount</p>
+                    <p id="textDisplay"> Max Players:</p>
+                    <p id="subText">@Model.PlayerSlotsMax </p>
+                </div>
+
+                <div class="card-footer">
+                    @if (Model.IsPublic == true)
+                    {
+                        if (Model.EventPlayers.Select(x => x.PlayerID).Contains(User.Identity.GetUserId()))
+                        {
+                            <p style="font-size:20px">You are signed up for this event</p>
+                        }
+                        else
+                        {
+                            if (Model.PlayersCount != Model.PlayerSlotsMax)
+                            {
+                                if (User.Identity.GetUserId() != null)
+                                {
+                                    <div id="signUpButton">
+                                        @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p style="font-size:20px; color:Highlight; font-style:italic">Please Login to Sing up for this event</p>
+                                }
+                            }
+                            else
+                            {
+                                <p style="font-size:20px; color:Highlight; font-style:italic">This event is full</p>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <p style="font-size:20px; color:Highlight; font-style:italic">This is a private event</p>
+                    }
+                    <p>
+                        @Html.ActionLink("Back to Events", "Index")
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <br />
 
-    @if (Model.IsPublic == true)
-    {
-        if (Model.EventPlayers.Select(x => x.PlayerID).Contains(User.Identity.GetUserId()))
-        {
-            <p style="font-size:20px">You are signed up for this event</p>
-        }
-        else
-        {
-            if (Model.PlayersCount != Model.PlayerSlotsMax)
-            {
-                if (User.Identity.GetUserId() != null)
-                {
-                    <div id="signUpButton">
-                        @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
-                    </div>
-                }
-                else
-                {
-                    <p style="font-size:20px">Please Login to Sing up for this event</p>
-                }
-            }
-            else
-            {
-                <p style="font-size:20px">This event is full</p>
-            }
-        }
-    }
-    else
-    {
-        <p style="font-size:20px">This is a private event</p>
-    }
+
 
 
 
 
 <style type="text/css">
+    #navPills {
+        margin-top: 30px;
+    }
+
+    #tab {
+        background: #08415C;
+        border-style: solid;
+        border-color: white;
+        border-width: 3px;
+        font-size: 25px;
+        border-radius: 6%;
+        padding: 8px;
+        color: Highlight;
+        margin-bottom: 15px;
+    }
+
+
+    #EventCard {
+        background-color: #08415C;
+        border: solid;
+        border-width: 3px;
+        border-color: white;
+        color: white;
+        text-align: center;
+        margin-top: 7px;
+    }
+
+    #profPic {
+        width: 150px;
+        height: 150px;
+        border-radius: 5%;
+        margin: 15px;
+    }
+
+    #groupHeader {
+        font-size: 35px;
+    }
+
+    #textDisplay {
+        font-size: 25px;
+    }
+
+    #subText {
+        font-size: 20px;
+        color: #1B9AAA;
+    }
+
+    #footertextDisplay {
+        font-size: 20px;
+    }
 
     dl {
         display: flex;
         flex-flow: row wrap;
-        border:solid;
-        border-radius:1%;
+        border: solid;
+        border-radius: 1%;
         border-width: 3px;
-        font-weight:400;
-        background-color:#08415C;
-        border-color:white;
-
+        font-weight: 400;
+        background-color: #08415C;
+        border-color: white;
     }
 
     dt {
@@ -130,9 +201,9 @@
         padding: 2px 4px;
         text-align: right;
         color: white;
-        border-right-style:solid;
-        height:50px;
-        font-weight:400;
+        border-right-style: solid;
+        height: 50px;
+        font-weight: 400;
     }
 
     dd {
@@ -144,31 +215,20 @@
         color: white;
         margin-left: 5px;
     }
+
     #eventName {
-        border: solid;
-        border-radius: 1%;
-        border-width: 3px;
-        background-color: #08415C;
         margin-top: 10px;
         color: white;
-        border-color: white;
+        padding-bottom: 5px;
     }
-    #profPic {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-    }
-    #signUpButton{
+
+    #signUpButton {
         color: white;
-        margin-bottom:10px;
-        font-size:20px;
+        margin-bottom: 10px;
+        font-size: 20px;
     }
+
     body {
         background-color: #93B7BE
     }
 </style>
-
-
-<p>
-    @Html.ActionLink("Back to Events", "Index")
-</p>

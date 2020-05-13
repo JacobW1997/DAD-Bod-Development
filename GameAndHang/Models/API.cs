@@ -5,14 +5,15 @@ using System.Web;
 
 namespace GameAndHang.Models
 {
-    public class API
+    public partial class API
     {
-        public class GameContainerRoot
+
+        public class Rootobject
         {
-            public Games[] gamesList { get; set; }
+            public Game[] games { get; set; }
         }
 
-        public class Games
+        public partial class AtlasGame
         {
             public string id { get; set; }
             public string name { get; set; }
@@ -40,7 +41,7 @@ namespace GameAndHang.Models
             public object[] artists { get; set; }
             public string[] names { get; set; }
             public int num_user_ratings { get; set; }
-            public float average_user_rating { get; set; }
+            public int average_user_rating { get; set; }
             public string official_url { get; set; }
             public string rules_url { get; set; }
             public float weight_amount { get; set; }
@@ -81,6 +82,7 @@ namespace GameAndHang.Models
         {
             public string id { get; set; }
         }
+
 
     }
 }
