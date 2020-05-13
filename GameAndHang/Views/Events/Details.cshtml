@@ -44,6 +44,7 @@
                     <p id="subText">@Model.User.HostLevel</p>
                     <p id="textDisplay">XP Gained:</p>
                     <p id="subText">@Model.User.HostXP</p>
+
                 </div>
             </div>
 
@@ -82,8 +83,16 @@
                     <p id="textDisplay"> Max Players:</p>
                     <p id="subText">@Model.PlayerSlotsMax </p>
                 </div>
-
                 <div class="card-footer">
+                    <p id="textDisplay">Games for this event:</p>
+                    @foreach (var gameName in Model.APIEventGames)
+                    {
+
+                        <p id="textDisplay"> @Html.ActionLink(gameName.GameName, "APIGame", "APIEventGame", new { id = gameName.ID })</p>
+                    }
+                </div>
+                <div class="card-footer">
+
                     @if (Model.IsPublic == true)
                     {
                         if (Model.EventPlayers.Select(x => x.PlayerID).Contains(User.Identity.GetUserId()))

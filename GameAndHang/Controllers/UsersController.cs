@@ -51,7 +51,7 @@ namespace GameAndHang.Controllers
             }
             else
             {
-                ViewBag.Reviews = "No reviews yet!";
+                ViewBag.Reviews = "";
             }
             GetFriendsData();
             foreach (var hostedEvent in findUser.Events)

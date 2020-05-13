@@ -55,11 +55,10 @@
                     </div>
                     <div class="nav-pills" id="navPills">
                         <ul class="nav nav-pills">
-                            <li class="active"><a id="tab" data-toggle="pill" href="#hostedEvents"> Events </a></li>
+                            <li class="active"><a id="tab" data-toggle="pill" href="#hostedEvents"> Registered Events </a></li>
                             <li><a id="tab" data-toggle="pill" href="#signedUpEvents"> Hosted Events </a></li>
                             <li><a id="tab" data-toggle="pill" href="#upcomingEvents"> Upcoming Events </a></li>
                             <li><a id="tab" data-toggle="pill" href="#FriendsList"> Friends List </a></li>
-                            <li><a id="tab" data-toggle="pill" href="#Review"> Leave a Review </a></li>
                             <li><a id="tab" data-toggle="pill" href="#displayReview"> Host Reviews </a></li>
                         </ul>
                     </div>
@@ -192,14 +191,14 @@
     }
 
         <div id="FriendsList" class="tab-pane fade in">
-            <hr />
+            
             <h4>@Html.DisplayFor(model => model.FirstName)'s Friends List:</h4>
             <br />
             <table class="table-hover">
                 @if (ViewBag.PendingFriends.Count != 0)
                  {
 
-                    <tr> Pending(3) </tr>
+                    <tr> Pending: </tr>
                     foreach (var person in ViewBag.PendingFriends)
                      {
                         <tr class="card" id="friendCard">
@@ -224,7 +223,7 @@
             <table>
                 @if (ViewBag.UnconfirmedFriends.Count != 0)
                  {
-                    <tr>Unconfirmed(2):</tr>
+                    <tr>Unconfirmed:</tr>
                     foreach (var person in ViewBag.UnconfirmedFriends)
                     {
                       var id = person.ID;
@@ -254,7 +253,7 @@
             <table>
                 @if (ViewBag.ConfirmedFriends.Count != 0)
                  {
-                    <tr>friends(1):</tr>
+                    <tr>Confirmed Friends:</tr>
                     foreach (var person in ViewBag.ConfirmedFriends)
                     {
                     <tr class="card" id="friendCard">
@@ -285,7 +284,7 @@
         <div id="Review" class="tab-pane fade in">
             <div class="form-horizontal" id="myForm" method="post" name="review">
                 <div class="control-group">
-                    <label class="control-label tab-pane fade in active">Review</label>
+                    <label class="control-label tab-pane fade in">Review</label>
                     <div class="form-group">
                         <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
                     </div>
@@ -301,17 +300,37 @@
     }
 
 
-    <div id="displayReview" class="tab-pane fade in">
-        <ul>
+    <div id="displayReview" class="tab-pane fade in card">
+        <ul style="margin-top: 10px; background-color:#08415C">
+            @if(ViewBag.Reviews == "")
+            {
+                <li id="listitem">No Reviews Yet!</li>
+            }
             @foreach (var item in ViewBag.Reviews)
             {
-                <li> @item</li>
+                <li id="listitem"> @item</li>
             }
         </ul>
     </div>
 </div>
 
 <style>
+        #displayReview{
+        margin-top: 5px;
+        background: #08415C;
+        padding: 8px;
+    }
+        #listitem{
+        font-size: 20px;
+        list-style-type: square;
+        color: white;
+    }
+    #signedUpEvents{
+        background-color:#08415C;
+    }
+    #upcomingEvents{
+        background-color:#08415C;
+    }
         #friendCard{
             height:150px;
             width:500px;

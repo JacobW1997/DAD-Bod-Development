@@ -482,6 +482,7 @@
     <Content Include="Views\Home\Codex.cshtml" />
     <Content Include="Views\APIEventGame\Create.cshtml" />
     <Content Include="Views\APIEventGame\APIGame.cshtml" />
+    <Content Include="Views\Shared\APIGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\CustomError\" />

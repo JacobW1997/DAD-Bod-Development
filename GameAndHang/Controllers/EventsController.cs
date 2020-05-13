@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,6 +13,7 @@ using GameAndHang.DAL;
 using GameAndHang.Models;
 using GoogleMaps.LocationServices;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Linq;
 
 namespace GameAndHang.Controllers
 {
@@ -265,7 +267,7 @@ namespace GameAndHang.Controllers
             {
                 db.Events.Add(@event);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Create", "EventGames");
+                return RedirectToAction("Codex", "Home");
             }
             ViewBag.HostID = new SelectList(db.Users, "ID", "ID", @event.HostID);
             return View(@event);
@@ -339,7 +341,153 @@ namespace GameAndHang.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult APIGame(string id)
+        {
+            GetGame(id);
 
+            if (User.Identity.GetUserId() == null)
+            {
+                return RedirectToAction("Register", "Account");
+            }
+            var getuserID = User.Identity.GetUserId();
+            string currentUserID = db.Users
+                .Where(x => x.ID == getuserID)
+                .Select(x => x.ID)
+                .Single();
+
+            User currentUser = db.Users
+                .Where(x => x.ID == currentUserID)
+                .Select(x => x)
+                .Single();
+
+            IQueryable<Event> gameList = db.Events
+                .Where(x => x.HostID == currentUser.ID)
+                .Select(x => x)
+                ;
+
+            if (!gameList.Any())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.EventID = new SelectList(gameList, "ID", "EventName");
+            ViewBag.GameID = id;
+
+            return View();
+        }
+        public void GetGame(string id)
+        {
+            string cred = System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"];
+            string URL = "https://www.boardgameatlas.com/api/search?ids=" + id + "&client_id=" + "xv4UwTJIGG";
+            Debug.WriteLine(URL);
+            string allData = SendRequest(URL);
+
+            JObject rootObj = JObject.Parse(allData);
+            Debug.WriteLine(allData);
+
+            List<string> outputIDs = new List<string>();
+            List<string> outputNames = new List<string>();
+            List<string> outputThumbUrls = new List<string>();
+            List<string> YearPublishedList = new List<string>();
+            List<string> min_playersList = new List<string>();
+            List<string> max_playersList = new List<string>();
+            List<string> min_playtimeList = new List<string>();
+            List<string> max_playtimeList = new List<string>();
+            List<string> descriptionList = new List<string>();
+            List<string> description_previewList = new List<string>();
+            List<string> ageList = new List<string>();
+            List<string> reddit_week_countList = new List<string>();
+            List<string> categoriesList = new List<string>();
+            List<string> image_urlList = new List<string>();
+            List<string> priceList = new List<string>();
+            List<string> urlList = new List<string>();
+            List<string> avgUsrRatingList = new List<string>();
+
+
+
+            for (int i = 0; i < 1; i++)
+            {
+
+                var getNames = (string)rootObj.SelectToken("games[" + i + "].name");
+                outputNames.Add(getNames);
+
+                var getThumbUrls = (string)rootObj.SelectToken("games[" + i + "].thumb_url");
+                outputThumbUrls.Add(getThumbUrls);
+
+                var getDescriptionPrev = (string)rootObj.SelectToken("games[" + i + "].description_preview");
+                description_previewList.Add(getDescriptionPrev);
+
+                var getCount = (string)rootObj.SelectToken("games[" + i + "].reddit_all_time_count");
+                reddit_week_countList.Add(getCount);
+
+                var getCategories = rootObj.SelectToken("games[" + i + "].categories");
+                if (getCategories != null)
+                {
+                    categoriesList.Add(getCategories.ToString());
+                }
+
+                var getMinPlayers = (string)rootObj.SelectToken("games[" + i + "].min_players");
+                min_playersList.Add(getMinPlayers);
+
+                var getMaxPlayers = (string)rootObj.SelectToken("games[" + i + "].max_players");
+                max_playersList.Add(getMaxPlayers);
+
+                var getAvgRating = (string)rootObj.SelectToken("games[" + i + "].average_user_rating");
+                if (getAvgRating != null)
+                {
+                    avgUsrRatingList.Add(getAvgRating.Substring(0, 3));
+                }
+
+            }
+
+            var JsonData = new
+            {
+                //id = getID,
+                name = outputNames,
+                //year_published = getYearPublished,
+                min_players = min_playersList,
+                max_players = max_playersList,
+                //min_playtime = getMinPlayTime,
+                //max_playtime = getMaxPlayTime,
+                //description = getDescription,
+                description_preview = description_previewList,
+                average_user_rating = avgUsrRatingList,
+                //age = getAge,
+                reddit_all_time_count = reddit_week_countList,
+                categories = categoriesList,
+                thumb_url = outputThumbUrls,
+                //image_url = getGameImage,
+                //price = getPrice,
+                //url = getGameUrl,
+            };
+            ViewBag.name = JsonData.name[0].ToString();
+            ViewBag.min_players = JsonData.min_players[0].ToString();
+            ViewBag.max_players = JsonData.max_players[0].ToString();
+            ViewBag.description = JsonData.description_preview[0].ToString();
+            ViewBag.average_rating = JsonData.average_user_rating[0].ToString();
+            ViewBag.reddit_all_time = JsonData.reddit_all_time_count[0].ToString();
+            ViewBag.categories = JsonData.categories[0].ToString();
+            ViewBag.thumb = JsonData.thumb_url[0].ToString();
+
+        }
+        private string SendRequest(string uri)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+            request.Accept = "application/json";
+
+            string jsonString = null;
+            // TODO: You should handle exceptions here
+            using (WebResponse response = request.GetResponse())
+            {
+                Stream stream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(stream);
+                jsonString = reader.ReadToEnd();
+                reader.Close();
+                stream.Close();
+            }
+
+            return jsonString;
+        }
 
     }
 }

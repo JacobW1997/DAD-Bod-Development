@@ -20,10 +20,10 @@
     </div>
 <hr />
 
-<div class="row">
+<div class="row" id="games">
     @foreach (var item in Model)
     {
-        <div class="col-sm-3">
+        <div class="col-md-4 d-flex align-items-stretch">
             <div class="card" id="card">
                 <h4 class="card-title" align="center" style="--animation-order: 3;">@item.EventName</h4>
                 <p class="card-text" align="center"> Host: @Html.ActionLink(item.User.FirstName, "HostProfile", "Users",new { host = item.User.AspNetUser.Id.ToString() }, htmlAttributes: new { title = "Users"})  </p>
@@ -35,25 +35,43 @@
                 {
                     <p class="card-text" align="center" style="font-style:italic;">Event type: Private</p>
                 }
-                <p class="card-text" align="center"> @item.Date </p>
+            <p class="card-text" align="center"> @Convert.ToString(string.Format("{0:dd/MM/yyy}", item.Date)) </p>
                 <p class="card-text" align="center"> Location: @item.EventLocation </p>
-                @if (item.PlayerSlotsMax == item.PlayersCount)
-                {
-                    <p class="card-text" align="center">This event is full</p>
-                }
-                @if (item.HostID == User.Identity.GetUserId())
-                {
-                    <p class="card-text" align="center"> @Html.ActionLink("Edit", "Edit", new { id = item.ID }) </p>
-                }
-                @if (item.PlayersCount < item.PlayerSlotsMax)
-                {
-                    <p class="card-text" align="center">  @Html.ActionLink("Details", "Details", new { id = item.ID }) </p>
-                }
+                <hr />
+                <div style="">
+                    @if (item.PlayerSlotsMax == item.PlayersCount)
+                    {
+                        <p class="card-text" align="center">This event is full</p>
+                    }
+                    @if (item.HostID == User.Identity.GetUserId())
+                    {
+                        <p class="card-text" align="center"> @Html.ActionLink("Edit", "Edit", new { id = item.ID }) </p>
+                    }
+                    @if (item.PlayersCount < item.PlayerSlotsMax)
+                    {
+                        <p class="card-text" align="center">  @Html.ActionLink("Details", "Details", new { id = item.ID }) </p>
+                    }
+                    else
+                    {
+                        <p class="card-text" align="center" style="font-style:italic; color:grey">This event is full</p>
+                    }
+                </div>
             </div>
         </div>
     }
 </div>
+<style>
+    #games{
+        position:inherit;
+        justify-items:flex-start;
+        font-size:20px;
 
+    }
+    #card{
+        width:300px;
+        justify-content:center;
+    }
+</style>
 
 <link href="~/Content/EventsList.css" rel="stylesheet" />
 

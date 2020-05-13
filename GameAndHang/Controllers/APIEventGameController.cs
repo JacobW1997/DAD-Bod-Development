@@ -229,7 +229,7 @@ namespace GameAndHang.Controllers
                 db.APIEventGames.Add(aPIEventGame);
                 db.SaveChanges();
 
-            return View("Details", "Event", aPIEventGame.EventID);
+            return RedirectToAction("Details", "Events", new { id= aPIEventGame.EventID});
         }
 
 
