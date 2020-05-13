@@ -332,15 +332,6 @@ namespace GameAndHang.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         public ActionResult APIGame(string id)
         {
             GetGame(id);
@@ -488,6 +479,17 @@ namespace GameAndHang.Controllers
 
             return jsonString;
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+
 
     }
 }

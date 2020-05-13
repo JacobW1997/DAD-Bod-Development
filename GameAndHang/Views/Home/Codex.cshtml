@@ -9,28 +9,34 @@
         <p style="text-align: center; font-size: 22px; color: white" class="lead">All the info you need to host a game</p>
     </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
+    <div class="row ">
+        <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card" style="justify-content:center">
                 <h2>Getting started:</h2>
                 <p>
-                    An account will be required to use most features on this site
+                    An account will be required to use most features on this site. However, you can still explore events and games without an account. Read more in the @Html.ActionLink("About Us", "About") section.
                 </p>
-                <p><a class="btn btn-secondary" href="https://go.microsoft.com/fwlink/?LinkId=301865">Login </a></p>
+                <p >
+                    <a class="btn btn-secondary" href="/Account/Login">Login</a>
+                </p>                    
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
+        <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card" style="justify-content:center">
                 <h2>Hosting Events:</h2>
-                <p>After you have created an account you can host an event!</p>
-                <p><a class="btn btn-secondary" href="https://go.microsoft.com/fwlink/?LinkId=301866">Create an Event!</a></p>
+                <p>After you have created an account you can host an event! You can also add other users as "Friends" to keep up-to-date with the events they are hosting.</p>
+                <p >
+                    <a class="btn btn-secondary" href="/Events/Create">Create an Event!</a>
+                </p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
+        <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card" style="justify-content:center; min-height:inherit">
                 <h2>Games:</h2>
-                <p>We use an API to support a large list of games!</p>
-                <p><a class="btn btn-secondary" href="https://go.microsoft.com/fwlink/?LinkId=301867">Jump</a></p>
+                <p>We use an Application programming interface called "Atlas" to support a large, dynamic, list of games! Checkout the Atlas Board Game API by clicking the button below.</p>
+                <p style="position:relative;">
+                    <a class="btn btn-secondary" href="https://www.boardgameatlas.com/api/docs">Atlas API </a>
+                </p>
             </div>
         </div>
     </div>
@@ -43,7 +49,15 @@
 <link href="~/Content/Codex.css" rel="stylesheet" />
 
 
+<style>
+    body {
+    background-color: #93b7b6;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%238eb0b1' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%2388a9ab' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%2383a3a6' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%237d9ca0' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%2378959b' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+}
 
+</style>
 
 @section scripts
 {

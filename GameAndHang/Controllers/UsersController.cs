@@ -96,6 +96,7 @@ namespace GameAndHang.Controllers
                          ConfirmedFriends.Add(db.Users.Find(item));
                     }
             }
+            
             ViewBag.PendingFriends = Pendingfriends;
             ViewBag.UnconfirmedFriends = UnconfirmedFirends;
             ViewBag.ConfirmedFriends = ConfirmedFriends;
@@ -151,33 +152,40 @@ namespace GameAndHang.Controllers
             foreach (string item in confirmedFriendsIDs)
             {
                 ConfirmedFriends.Add(db.Users.Find(item));
+
             }
             foreach(string item in moreConfirmedFriendIDs)
             {
                 ConfirmedFriends.Add(db.Users.Find(item));
             }
-            foreach (var item in ConfirmedFriends.ToList())
+            foreach (var item in ConfirmedFriends.ToList()) { 
             if (item.ID == id)
             {
                     ConfirmedFriends.Remove(item);
             }
-            
 
-
+}
             ViewBag.ConfirmedFriends = ConfirmedFriends;
         }
 
-        public async Task<ActionResult> HostProfile(string host)
+        public ActionResult HostProfile(string host)
         {
-            User FindUsr = await db.Users.FindAsync(host);
+            User FindUsr = db.Users.Find(host);
             var userID = FindUsr.ID;
             double? numRatings = 0;
             double? sumRatings = 0;
             int xp = 0;
-
+            ViewBag.status = 0;
+            string secondaryID = User.Identity.GetUserId();
             xp += FindUsr.HostXP;
 
-
+            foreach(var relationship in db.Relationships)
+            {
+                if(db.Relationships.Find(secondaryID, host) != null | db.Relationships.Find(host, secondaryID) != null)
+                {
+                ViewBag.status = 1;
+                }
+            }
 
             if(numRatings != 0)
             {
@@ -285,7 +293,7 @@ namespace GameAndHang.Controllers
             {
                 db.Users.Add(user);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index","Users" );
+                return RedirectToAction("IndexUser");
             }
             ViewBag.ID = new SelectList(db.AspNetUsers, "Id", "Email", user.ID);
             return View(user);

@@ -12,10 +12,11 @@ function HelpSendFriendRequest(source) {
     if (confirm("Are you sure?")) {
         $.ajax({
             url: source,
-            
         }).done(function () {
             alert("Friends Request Sent!")
+            location.reload(true)
             ChangeFirendBtn;
+            $('#middle').hide()
         });
         return false;
     }
@@ -35,6 +36,7 @@ function HelpConfirmFriendRequest(source) {
 
         }).done(function () {
             alert("Conformation sent!")
+            location.reload(true)
             ChangeFirendBtn;
         });
         return false;
