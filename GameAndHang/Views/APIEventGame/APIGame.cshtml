@@ -42,6 +42,9 @@
 
 
                                         </div>
+                                        <div class="card-footer">
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -55,51 +58,44 @@
 @using (Html.BeginForm())
  {
     @Html.AntiForgeryToken()
+        <div class="col-lg-12" id="gameDetails">
 
-            <form autocomplete="on">
-                <h4 style="margin-top:50px; color:white">Add to event?</h4>
-                <hr />
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(model => model.EventID, "Event List", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("EventID", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.EventID, "", new { @class = "text-danger" })
+            <div class="card">
+                <form autocomplete="on">
+                    <h3 style="margin-top:50px; color:white; margin-left:20px">Add @ViewBag.name to an Event:</h3>
+                    <hr />
 
-                    </div>
-                    <div class="question">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <h3 style="color:white; margin-bottom:20px; margin-left:20px;">Your Events:</h3>
+                        @Html.LabelFor(model => model.EventID, "", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="class="justify-content-md-center" style="margin-left:38%">
+                            @Html.DropDownList("EventID", null, htmlAttributes: new { @class = "form-control", @style="justify-self:center" })
+                            @Html.ValidationMessageFor(model => model.EventID, "", new { @class = "text-danger" })
 
-                        <div class="col-md-10">
-                            <label for="GameID"></label>
-                            <input id="GameID" type="hidden" name="GameID" value="@ViewBag.GameID.ToString()" required/>
-                            @Html.ValidationMessageFor(model => model.GameID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="question">
+
+                            <div class="justify-content-md-center" style="margin-left:49%">
+                                <label for="GameID"></label>
+                                <input id="GameID" type="hidden" name="GameID" value="@ViewBag.GameID.ToString()" required />
+                                @Html.ValidationMessageFor(model => model.GameID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="question">
+                            <div class="col-md-10">
+                                <label for="GameID"></label>
+                                <input type="hidden" id="GameName" name="GameName" value="@ViewBag.name" required />
+                                @Html.ValidationMessageFor(model => model.GameName, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-                    <div class="question">
-                        <div class="col-md-10">
-                            <label for="GameID"></label>
-                            <input type="hidden"  id="GameName" name="GameName" value="@ViewBag.name" required/>
-                            @Html.ValidationMessageFor(model => model.GameName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-
-                        <input type="submit" value="SaveEventGame" class="btn btn-default" />
-        </form>
-                @*
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-
-                    <input type="submit" value="Add to Event" class="btn btn-default" />
-                </div>
+                    <label for="btn" style="width:150px; align-self:center" class="btn btn-secondary">Add to Event</label>
+                    <input id="btn" style="display:none;" type="submit" value="SaveEventGame" class="btn btn-default" />
+                </form>
             </div>
-
-                    @Html.LabelFor(model => model.GameID, "Game List", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.DropDownList("GameID", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.GameID, "", new { @class = "text-danger" })
-                *@
-
+        </div>
             }
             <div class="tab-pane fade in" id="EventInfo">
                 <div class="col-lg-12">
