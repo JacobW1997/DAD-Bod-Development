@@ -184,7 +184,7 @@ namespace GameAndHang.Controllers
 
             //ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
 
-            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8";
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
 
             return View();
         }
@@ -209,7 +209,7 @@ namespace GameAndHang.Controllers
             
             //  DEPLOYED --->   apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() 
             //  LOCAL --->      apikey: ""
-            var locServ = new GoogleLocationService(apikey: "AIzaSyDuwWq60IrpVvV1uNd - 1IvOmlAZ2tAGAM8");
+            var locServ = new GoogleLocationService(apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap");
             
             
 
@@ -363,7 +363,7 @@ namespace GameAndHang.Controllers
         public void GetGame(string id)
         {
             string cred = System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"];
-            string URL = "https://www.boardgameatlas.com/api/search?ids=" + id + "&client_id=" + "xv4UwTJIGG";
+            string URL = "https://www.boardgameatlas.com/api/search?ids=" + id + "&client_id=" + System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"];
             Debug.WriteLine(URL);
             string allData = SendRequest(URL);
 

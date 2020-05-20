@@ -28,9 +28,11 @@ namespace GameAndHang.Models
         public DateTime Date { get; set; }
 
         [Required]
+        [MaxLength(256)]
         public string EventDescription { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string EventLocation { get; set; }
 
         public double? EventLat { get; set; }

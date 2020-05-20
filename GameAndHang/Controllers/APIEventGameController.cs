@@ -29,7 +29,7 @@ namespace GameAndHang.Controllers
         public ActionResult APIGame(string id)
         {
             GetGame(id);
-
+            ViewBag.checkGames = 1;
             if (User.Identity.GetUserId() == null)
             {
                 return RedirectToAction("Register", "Account");
@@ -52,7 +52,7 @@ namespace GameAndHang.Controllers
 
             if (!gameList.Any())
             {
-                return RedirectToAction("Index", "Home");
+                ViewBag.checkGames = 0;
             }
 
             ViewBag.EventID = new SelectList(gameList, "ID", "EventName");

@@ -486,7 +486,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\CustomError\" />
-    <Folder Include="Views\Relationship\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

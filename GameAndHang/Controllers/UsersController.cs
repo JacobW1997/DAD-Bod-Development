@@ -12,6 +12,7 @@ using GameAndHang.Models;
 using Microsoft.AspNet.Identity;
 using static GameAndHang.Controllers.ManageController;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace GameAndHang.Controllers
 {
@@ -289,6 +290,7 @@ namespace GameAndHang.Controllers
             user.ID = User.Identity.GetUserId();
             user.HostXP = 0;
             user.HostLevel = 0;
+            CheckInput(user);
             if (ModelState.IsValid)
             {
                 db.Users.Add(user);
@@ -397,6 +399,23 @@ namespace GameAndHang.Controllers
         {
             User requestedUser = db.Users.Find(id);
             return RedirectToAction("HostProfile/", new { host = requestedUser });
+        }
+
+        public void CheckInput(User input)
+        {
+            if(input.FirstName.Length <= 1 || input.LastName.Length <= 2)
+            {
+                ModelState.AddModelError("Error", "First or Last name Must be Greater than 1 character");
+            }
+            if(input.DisplayName.Length <= 2)
+            {
+                ModelState.AddModelError("Error", "User Name Must be Greater than 2 characters");
+            }
+            var compRegEx = new Regex(@"[^a-zA-Z0-9\s]");
+            if (compRegEx.IsMatch(input.DisplayName) || compRegEx.IsMatch(input.FirstName) || compRegEx.IsMatch(input.LastName))
+            {
+                ModelState.AddModelError("Error", "Names cannot contain special characters");
+            }
         }
 
     }

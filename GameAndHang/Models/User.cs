@@ -31,9 +31,11 @@ namespace GameAndHang.Models
 
         [Required]
         [StringLength(16)]
+        [MinLength(2)]
         public string DisplayName { get; set; }
 
         [Required]
+        [StringLength(256)]
         public string Bio { get; set; }
 
         public int HostXP { get; set; }
