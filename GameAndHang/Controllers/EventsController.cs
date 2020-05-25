@@ -49,7 +49,7 @@ namespace GameAndHang.Controllers
 
         public ActionResult Search(string search, double? UserLat, double? UserLong)
         {
-            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             ViewBag.Games = new SelectList(db.Games.Select(x => x.Name), "Name");
 
             var searchResults = db.Events.Where(x => x.EventName.Contains(search));
@@ -84,7 +84,7 @@ namespace GameAndHang.Controllers
         public ActionResult SearchBox(string Games, double? UserLat, double? UserLong)
         {
             //string gameName = data.Name;
-            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDuwWq60IrpVvV1uNd-1IvOmlAZ2tAGAM8&callback=initMap";
+            ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             ViewBag.Games = new SelectList(db.Games.Select(x => x.Name), "Name");
             var EGSearchResults = db.EventGames.Where(x => x.Game.Name.Contains(Games));
             var searchResults = db.Events.Where(s => s.EventGames.Intersect(EGSearchResults).Count() > 0);
@@ -166,10 +166,14 @@ namespace GameAndHang.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Event @event = await db.Events.FindAsync(id);
+
             if (@event == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.ConfirmedFriends = "1";
+            ViewBag.ConfirmedFriends = CheckHostRelationships(@event.HostID);
+            
             return View(@event);
         }
 
@@ -209,7 +213,7 @@ namespace GameAndHang.Controllers
             
             //  DEPLOYED --->   apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() 
             //  LOCAL --->      apikey: ""
-            var locServ = new GoogleLocationService(apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap");
+            var locServ = new GoogleLocationService(apikey: System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString());
             
             
 
@@ -281,6 +285,10 @@ namespace GameAndHang.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Event @event = await db.Events.FindAsync(id);
+            if(@event.HostID != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (@event == null)
             {
                 return HttpNotFound();
@@ -314,6 +322,10 @@ namespace GameAndHang.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Event @event = await db.Events.FindAsync(id);
+            if (@event.HostID != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (@event == null)
             {
                 return HttpNotFound();
@@ -483,7 +495,33 @@ namespace GameAndHang.Controllers
             base.Dispose(disposing);
         }
 
+        public List<User> CheckHostRelationships(string id)
+        {
 
+            List<User> ConfirmedFriends = new List<User>();
+            List<string> confirmedFriendsIDs = (from b in db.Relationships where b.UserFirstID == id | b.UserSecondID == id && b.Type == 1 select b.UserFirstID).ToList();
+            List<string> moreConfirmedFriendIDs = (from b in db.Relationships where b.UserFirstID == id | b.UserSecondID == id && b.Type == 1 select b.UserSecondID).ToList();
+
+
+            foreach (string item in confirmedFriendsIDs)
+            {
+                ConfirmedFriends.Add(db.Users.Find(item));
+
+            }
+            foreach (string item in moreConfirmedFriendIDs)
+            {
+                ConfirmedFriends.Add(db.Users.Find(item));
+            }
+            foreach (var item in ConfirmedFriends.ToList())
+            {
+                if (item.ID == id)
+                {
+                    ConfirmedFriends.Remove(item);
+                }
+
+            }
+            return (ConfirmedFriends);
+        }
 
     }
 }

@@ -24,10 +24,14 @@ namespace GameAndHang.Controllers
         // GET: Users 
         public async Task<ActionResult> Index()
         {
+            if (User.Identity.GetUserId() == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var users = db.Users.Include(u => u.AspNetUser);
             return View(await users.ToListAsync());
         }
-        
+
         public async Task<ActionResult> IndexUser()
         {
             var userId = User.Identity.GetUserId();
@@ -165,7 +169,7 @@ namespace GameAndHang.Controllers
                     ConfirmedFriends.Remove(item);
             }
 
-}
+            }
             ViewBag.ConfirmedFriends = ConfirmedFriends;
         }
 
@@ -309,6 +313,10 @@ namespace GameAndHang.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User user = await db.Users.FindAsync(id);
+            if (user.ID != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (user == null)
             {
                 return HttpNotFound();
@@ -342,6 +350,10 @@ namespace GameAndHang.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User user = await db.Users.FindAsync(id);
+            if (user.ID != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (user == null)
             {
                 return HttpNotFound();

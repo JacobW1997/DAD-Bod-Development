@@ -105,9 +105,36 @@
                             {
                                 if (User.Identity.GetUserId() != null)
                                 {
-                                    <div id="signUpButton">
-                                        @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
-                                    </div>
+                                    if (Model.IsPublic)
+                                    {
+                                        <div id="signUpButton">
+                                            @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
+                                        </div>
+                                    }
+                                    if (Model.IsPublic == false)
+                                    {
+                                        if (ViewBag.ConfirmedFriends != "1")
+                                        {
+                                            foreach (var person in ViewBag.ConfirmedFriends)
+                                            {
+
+                                                if (person.ID == User.Identity.GetUserId())
+                                                {
+                                                    <div id="signUpButton">
+                                                        @Html.ActionLink("Sign up", "Create", "EventPlayers", Model, null)
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <p>You must be friends with the host to join a private event</p>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <p>You must be friends with the host to join a private event</p>
+                                        }
+                                    }
                                 }
                                 else
                                 {
@@ -119,10 +146,6 @@
                                 <p style="font-size:20px; color:Highlight; font-style:italic">This event is full</p>
                             }
                         }
-                    }
-                    else
-                    {
-                        <p style="font-size:20px; color:Highlight; font-style:italic">This is a private event</p>
                     }
                     <p>
                         @Html.ActionLink("Back to Events", "Index")
