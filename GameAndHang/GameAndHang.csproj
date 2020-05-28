@@ -463,7 +463,6 @@
     <Content Include="Views\EventGames\Edit.cshtml" />
     <Content Include="Views\EventGames\Index.cshtml" />
     <Content Include="Views\EventPlayers\Create.cshtml" />
-    <Content Include="Views\EventPlayers\Delete.cshtml" />
     <Content Include="Views\EventPlayers\Details.cshtml" />
     <Content Include="Views\EventPlayers\Index.cshtml" />
     <Content Include="Views\Users\IndexUser.cshtml" />
