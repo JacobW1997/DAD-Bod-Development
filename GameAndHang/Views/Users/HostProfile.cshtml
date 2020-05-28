@@ -209,7 +209,6 @@
                         <td>@Html.DisplayFor(e => hostedEvent.EventLocation)</td>
                         <td> @Html.DisplayFor(e => hostedEvent.EventDescription)</td>
                         <td> @Html.ActionLink("Details", "Details", "Events", new { id = hostedEvent.ID }, "") </td>
-                        <td>@Html.ActionLink("Edit", "Edit", "Events", new { id = hostedEvent.ID }, "")</td>
                     </tr>
                 }
             </table>
@@ -239,7 +238,6 @@
                             <td>@Html.DisplayFor(e => hostedEvent.EventLocation)</td>
                             <td>@Html.DisplayFor(e => hostedEvent.EventDescription)</td>
                             <td>@Html.ActionLink("Details", "Details", "Events", new { id = hostedEvent.ID }, "")</td>
-                            <td>@Html.ActionLink("Edit", "Edit", "Events", new { id = hostedEvent.ID }, "")</td>
                         </tr>
                     }
                 }

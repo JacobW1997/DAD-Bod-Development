@@ -465,7 +465,6 @@
     <Content Include="Views\EventPlayers\Create.cshtml" />
     <Content Include="Views\EventPlayers\Delete.cshtml" />
     <Content Include="Views\EventPlayers\Details.cshtml" />
-    <Content Include="Views\EventPlayers\Edit.cshtml" />
     <Content Include="Views\EventPlayers\Index.cshtml" />
     <Content Include="Views\Users\IndexUser.cshtml" />
     <Content Include="Views\Events\Search.cshtml" />
@@ -483,6 +482,7 @@
     <Content Include="Views\APIEventGame\Create.cshtml" />
     <Content Include="Views\APIEventGame\APIGame.cshtml" />
     <Content Include="Views\Shared\APIGame.cshtml" />
+    <Content Include="Views\Events\EventCreatedNotice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\CustomError\" />

@@ -1,61 +1,108 @@
-﻿
+﻿@using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "Codex";
 }
 
-<body>
-    <div class="jumbotron" style="background-color:#08415C" id="Title">
-        <h1 style="text-align:center; font-size:55px; color:white">Codex</h1>
-        <p style="text-align: center; font-size: 22px; color: white" class="lead">All the info you need to host a game</p>
-    </div>
+    <body>
+        <div class="jumbotron" style="background-color:#08415C" id="Title">
+            <h1 style="text-align:center; font-size:55px; color:white">Codex</h1>
+            <p style="text-align: center; font-size: 22px; color: white" class="lead">All the info you need to host a game</p>
+        </div>
 
-    <div class="row ">
-        <div class="col-md-4 d-flex align-items-stretch">
-            <div class="card" style="justify-content:center">
-                <h2>Getting started:</h2>
-                <p>
-                    An account will be required to use most features on this site. However, you can still explore events and games without an account. Read more in the @Html.ActionLink("About Us", "About") section.
-                </p>
-                <p >
-                    <a class="btn btn-secondary" href="/Account/Login">Login</a>
-                </p>                    
+
+
+        <div class="row" id="nav">
+            <div class="col-md-12">
+                <div class="nav-pills" id="navPills">
+                    <ul class="nav nav-pills">
+                        <li style="border-right:none" class="active"><a id="tab" style="border-right:none; padding-right: 10px;margin-left:0px;" data-toggle="pill" href="#GameOutput"> Atlas </a></li>
+                        <li><a id="tab" style="padding-left: 10px;" data-toggle="pill" href="#RankedGameOutput"> Recommended Games </a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="col-md-4 d-flex align-items-stretch">
-            <div class="card" style="justify-content:center">
-                <h2>Hosting Events:</h2>
-                <p>After you have created an account you can host an event! You can also add other users as "Friends" to keep up-to-date with the events they are hosting.</p>
-                <p >
-                    <a class="btn btn-secondary" href="/Events/Create">Create an Event!</a>
-                </p>
+        
+        <div class="tab-content">
+
+            <div class="tab-pane active" id="GameOutput">
+
+                    <div class="card" style="border-radius:0%;">
+                        <h3>Popular Games on Atlas</h3>
+                        <p>These are the top 40 games provided by the "Atlas" API</p>
+                    </div>
+
+            </div>
+
+            <div class="tab-pane fade in" id="RankedGameOutput">
+
+                    <div class="card" style="border-radius:0%;">
+                        <h3>Popular Games on G&amp;H</h3>
+                        <p>These are the top ranked games on Game &amp; Hang</p>
+                    </div>
+
+
+
+                <div class="row" id="games">
+                    @foreach (var game in ViewBag.Games)
+                    {
+                        <div class="col-md-3">
+                            <div class="card" id="gameCard">
+                                <div class="card-img" id="outputCard'+i+'">
+                                    <img src="@game.thumb_url" id="imgProfile" style="width: 235px; height: 150px" class="img-thumbnail" />
+                                </div>
+                                <div class="card-body" style="padding-top:0px; padding-bottom:0px;">
+                                    <p id="gameTxt">  @game.name </p>
+                                    <p>G&H Score: @game.score </p>
+                                    <p id="gameTxt"> Mentions on Reddit: @game.reddit_all_time_count </p>
+                                    <p id="gameTxt">Min Players: @game.min_players</p>
+                                    <p>Max Players: @game.max_players </p>
+                                    <a onclick=getGames(@game.id); href="/APIEventGame/APIGame/@game.id">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-        <div class="col-md-4 d-flex align-items-stretch">
-            <div class="card" style="justify-content:center; min-height:inherit">
-                <h2>Games:</h2>
-                <p>We use an Application programming interface called "Atlas" to support a large, dynamic, list of games! Checkout the Atlas Board Game API by clicking the button below.</p>
-                <p style="position:relative;">
-                    <a class="btn btn-secondary" href="https://www.boardgameatlas.com/api/docs">Atlas API </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <hr />
-    <div class="col-12" id="GameOutput">
-      
-    </div>
-</body>
+    </body>
 
 <link href="~/Content/Codex.css" rel="stylesheet" />
 
 
 <style>
     body {
-    background-color: #93b7b6;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%238eb0b1' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%2388a9ab' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%2383a3a6' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%237d9ca0' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%2378959b' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
-    background-attachment: fixed;
-    background-size: cover;
-}
+        background-color: #93b7b6;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%238eb0b1' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%2388a9ab' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%2383a3a6' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%237d9ca0' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%2378959b' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
+        background-attachment: fixed;
+        background-size: cover;
+    }
+    #gameTxt{
+        padding-top: 0px;
+    }
+        #navPills {
+        margin-top: 10px;
+        position:center;
+        align-items:center;
+
+    }
+
+    #tab {
+        background: #08415C;
+        border-style: solid;
+        border-color: white;
+        border-width: 3px;
+        font-size: 25px;
+        border-radius: 6%;
+        border-bottom:none;
+        padding: 8px;
+        color: Highlight;
+        
+
+    }
+    #nav{
+        align-content:center;
+        margin-bottom:-6px;
+    }
 
 </style>
 

@@ -271,7 +271,7 @@ namespace GameAndHang.Controllers
             {
                 db.Events.Add(@event);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Codex", "Home");
+                return RedirectToAction("EventCreatedNotice");
             }
             ViewBag.HostID = new SelectList(db.Users, "ID", "ID", @event.HostID);
             return View(@event);
@@ -521,6 +521,11 @@ namespace GameAndHang.Controllers
 
             }
             return (ConfirmedFriends);
+        }
+
+        public ActionResult EventCreatedNotice()
+        {
+            return View();
         }
 
     }

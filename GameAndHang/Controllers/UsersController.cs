@@ -70,108 +70,6 @@ namespace GameAndHang.Controllers
             return View(findUser);
         }
 
-        public void GetFriendsData()
-        {
-            var currentID = User.Identity.GetUserId();
-            List<User> Pendingfriends = new List<User>();
-            List<User> UnconfirmedFirends = new List<User>();
-            List<User> ConfirmedFriends = new List<User>();
-            List<string> pendingFriendIds = CheckPendingFriendships();
-            List<string> unconfirmedFriendIDs = CheckUnConfirmedFriendships();
-            List<string> confirmedFriendsIDs = CheckRelationships(1);
-
-            foreach (string item in pendingFriendIds)
-            {
-                if (item != currentID)
-                {
-                Pendingfriends.Add(db.Users.Find(item));
-                }
-            }
-            foreach (string item in unconfirmedFriendIDs)
-            {
-                if (item != currentID)
-                {
-                 UnconfirmedFirends.Add(db.Users.Find(item));
-                }
-            }
-            foreach (string item in confirmedFriendsIDs)
-            {
-                    if (item != currentID)
-                    {
-                         ConfirmedFriends.Add(db.Users.Find(item));
-                    }
-            }
-            
-            ViewBag.PendingFriends = Pendingfriends;
-            ViewBag.UnconfirmedFriends = UnconfirmedFirends;
-            ViewBag.ConfirmedFriends = ConfirmedFriends;
-        }
-        public List<string> CheckPendingFriendships()
-        {
-            string secondaryID = User.Identity.GetUserId();
-            List<Relationship> friendshipIDs = new List<Relationship>();
-            var friendships = (from b in db.Relationships where b.UserFirstID == secondaryID && b.Type == 2 select b.UserSecondID).ToList();
-            return friendships;
-        }
-        public List<string> CheckPendingFriendships(string id)
-        {
-            string secondaryID = id;
-            List<Relationship> friendshipIDs = new List<Relationship>();
-            var friendships = (from b in db.Relationships where b.UserFirstID == secondaryID && b.Type == 2 select b.UserSecondID).ToList();
-            return friendships;
-        }
-        public List<string> CheckUnConfirmedFriendships()
-        {
-            string secondaryID = User.Identity.GetUserId();
-            List<Relationship> friendshipIDs = new List<Relationship>();
-            var friendships = (from b in db.Relationships where b.UserSecondID == secondaryID && b.Type == 2 select b.UserFirstID).ToList();
-            return friendships;
-        }
-
-        public List<string> CheckRelationships(int type)
-        {
-            string secondaryID = User.Identity.GetUserId();
-            List<string> ConfirmedFriends = new List<string>();
-            List<string> getFriendships = (from b in db.Relationships where b.UserFirstID == secondaryID | b.UserSecondID == secondaryID && b.Type == type select b.UserFirstID).ToList();
-            List<string> getMoreFriendships = (from b in db.Relationships where b.UserFirstID == secondaryID | b.UserSecondID == secondaryID && b.Type == type select b.UserSecondID).ToList();
-
-            foreach(var item in getFriendships)
-            {
-                ConfirmedFriends.Add(item);
-            }
-            foreach(var item in getMoreFriendships)
-            {
-                ConfirmedFriends.Add(item);
-            }
-
-            return ConfirmedFriends;
-        }
-
-        public void CheckHostRelationships(string id)
-        {
-            List<User> ConfirmedFriends = new List<User>();
-            List <string> confirmedFriendsIDs = (from b in db.Relationships where b.UserFirstID == id | b.UserSecondID == id && b.Type == 1 select b.UserFirstID ).ToList();
-            List <string> moreConfirmedFriendIDs = (from b in db.Relationships where b.UserFirstID == id | b.UserSecondID == id && b.Type == 1 select b.UserSecondID).ToList();
-
-
-            foreach (string item in confirmedFriendsIDs)
-            {
-                ConfirmedFriends.Add(db.Users.Find(item));
-
-            }
-            foreach(string item in moreConfirmedFriendIDs)
-            {
-                ConfirmedFriends.Add(db.Users.Find(item));
-            }
-            foreach (var item in ConfirmedFriends.ToList()) { 
-            if (item.ID == id)
-            {
-                    ConfirmedFriends.Remove(item);
-            }
-
-            }
-            ViewBag.ConfirmedFriends = ConfirmedFriends;
-        }
 
         public ActionResult HostProfile(string host)
         {
@@ -183,7 +81,6 @@ namespace GameAndHang.Controllers
             ViewBag.status = 0;
             string secondaryID = User.Identity.GetUserId();
             xp += FindUsr.HostXP;
-
             foreach(var relationship in db.Relationships)
             {
                 if(db.Relationships.Find(secondaryID, host) != null | db.Relationships.Find(host, secondaryID) != null)
@@ -191,28 +88,19 @@ namespace GameAndHang.Controllers
                 ViewBag.status = 1;
                 }
             }
-
             if(numRatings != 0)
             {
                  sumRatings = (from b in db.Reviews
                                 where b.Host_ID == userID
                                  select b.Rating).Sum();
             }
-            
-
             CheckHostRelationships(FindUsr.ID);
-
-
             int newLevel = HostLevel(xp);
-
             ViewBag.ImagePath = @"~/Content/Images/Level1.png";
-
             numRatings += (from b in db.Reviews where b.Host_ID == userID select b).Count();
-
             if(numRatings > 0) {
             sumRatings += (from b in db.Reviews where b.Host_ID == userID select b.Rating).Sum();
             }
-
             if (FindUsr != null)
             {
                 FindUsr.HostLevel = newLevel;
@@ -220,13 +108,9 @@ namespace GameAndHang.Controllers
                 db.SaveChanges();
             }
 
-
-
             var userreviews = (from b in db.Reviews
                                where b.Host_ID == userID
                                select b.ReviewString).ToList();
-
-
             var format = "test";
             if(numRatings != 0 && sumRatings != 0)
             {
@@ -240,8 +124,6 @@ namespace GameAndHang.Controllers
             {
                 format = "This host has no ratings";
             }
-
-
             if(userreviews != null)
             {
             ViewBag.Reviews = userreviews;
@@ -251,10 +133,7 @@ namespace GameAndHang.Controllers
                 ViewBag.Reviews = "No Reviews Yet";
             }
             ViewBag.Rating = format;
-
             ViewBag.NumRatings = numRatings;
-
-
             return View(FindUsr);
         }
 
@@ -270,27 +149,166 @@ namespace GameAndHang.Controllers
             return -1;
         }
 
-        public string GetUserName(string ID)
+        //Functions for profile picture upload
+        public byte[] ConvertToByte(HttpPostedFileBase image)
         {
-            User UserName = db.Users.Find(ID);
-            return (UserName.DisplayName);
+            byte[] tempByte = null;
+            BinaryReader ImgReader = new BinaryReader(image.InputStream);
+            tempByte = ImgReader.ReadBytes((int)image.ContentLength);
+            return tempByte;
         }
 
-        // GET: Users/Create
+        public void UploadPhotoToDB(HttpPostedFileBase file)
+        {
+            String myuserID = User.Identity.GetUserId();
+            User CurrentUser = db.Users.Find(myuserID);
+            CurrentUser.ProfilePic = ConvertToByte(file);
+            db.SaveChanges();
+        }
+
+        public ActionResult IndexPhoto()
+        {
+            return View();
+        }
+        //Gets profile pic from db
+        [HttpPost]
+        public ActionResult IndexPhoto(HttpPostedFileBase file)
+        {
+            UploadPhotoToDB(file);
+            return RedirectToAction("IndexUser", "Users"); ;
+        }
+
+        //Find a specific profile
+        public ActionResult FriendProfile(string id)
+        {
+            User requestedUser = db.Users.Find(id);
+            return RedirectToAction("HostProfile/", new { host = requestedUser });
+        }
+
+        //Checks for malicious input
+        public void CheckInput(User input)
+        {
+            if(input.FirstName.Length <= 1 || input.LastName.Length <= 2)
+            {
+                ModelState.AddModelError("Error", "First or Last name Must be Greater than 1 character");
+            }
+            if(input.DisplayName.Length <= 2)
+            {
+                ModelState.AddModelError("Error", "User Name Must be Greater than 2 characters");
+            }
+            var compRegEx = new Regex(@"[^a-zA-Z0-9\s]");
+            if (compRegEx.IsMatch(input.DisplayName) || compRegEx.IsMatch(input.FirstName) || compRegEx.IsMatch(input.LastName))
+            {
+                ModelState.AddModelError("Error", "Names cannot contain special characters");
+            }
+        }
+
+        //Friendship Functions that are user specific
+        public void GetFriendsData()
+        {
+            var currentID = User.Identity.GetUserId();
+            List<User> Pendingfriends = new List<User>();
+            List<User> UnconfirmedFirends = new List<User>();
+            List<User> ConfirmedFriends = new List<User>();
+            List<string> pendingFriendIds = CheckPendingFriendships();
+            List<string> unconfirmedFriendIDs = CheckUnConfirmedFriendships();
+            List<string> confirmedFriendsIDs = CheckRelationships(1);
+            foreach (string item in pendingFriendIds)
+            {
+                if (item != currentID)
+                {
+                    Pendingfriends.Add(db.Users.Find(item));
+                }
+            }
+            foreach (string item in unconfirmedFriendIDs)
+            {
+                if (item != currentID)
+                {
+                    UnconfirmedFirends.Add(db.Users.Find(item));
+                }
+            }
+            foreach (string item in confirmedFriendsIDs)
+            {
+                if (item != currentID)
+                {
+                    ConfirmedFriends.Add(db.Users.Find(item));
+                }
+            }
+            ViewBag.PendingFriends = Pendingfriends;
+            ViewBag.UnconfirmedFriends = UnconfirmedFirends;
+            ViewBag.ConfirmedFriends = ConfirmedFriends;
+        }
+        //Checks the user profile for pending friends requests
+        public List<string> CheckPendingFriendships()
+        {
+            string secondaryID = User.Identity.GetUserId();
+            List<Relationship> friendshipIDs = new List<Relationship>();
+            var friendships = (from b in db.Relationships where b.UserFirstID == secondaryID && b.Type == 2 select b.UserSecondID).ToList();
+            return friendships;
+        }
+        //Checks to see if the user has any inconfirmed friends
+        public List<string> CheckUnConfirmedFriendships()
+        {
+            string secondaryID = User.Identity.GetUserId();
+            List<Relationship> friendshipIDs = new List<Relationship>();
+            var friendships = (from b in db.Relationships where b.UserSecondID == secondaryID && b.Type == 2 select b.UserFirstID).ToList();
+            return friendships;
+        }
+        //Checks to see if the user has any relationships
+        public List<string> CheckRelationships(int type)
+        {
+            string secondaryID = User.Identity.GetUserId();
+            List<string> ConfirmedFriends = new List<string>();
+            List<string> getFriendships = (from b in db.Relationships where b.UserFirstID == secondaryID | b.UserSecondID == secondaryID && b.Type == type select b.UserFirstID).ToList();
+            List<string> getMoreFriendships = (from b in db.Relationships where b.UserFirstID == secondaryID | b.UserSecondID == secondaryID && b.Type == type select b.UserSecondID).ToList();
+
+            foreach (var item in getFriendships)
+            {
+                ConfirmedFriends.Add(item);
+            }
+            foreach (var item in getMoreFriendships)
+            {
+                ConfirmedFriends.Add(item);
+            }
+            return ConfirmedFriends;
+        }
+        //Gets all of the confirmed frinds for a host
+        public void CheckHostRelationships(string id)
+        {
+            List<User> ConfirmedFriends = new List<User>();
+            List<string> confirmedFriendsIDs = (from b in db.Relationships where b.UserFirstID == id | b.UserSecondID == id && b.Type == 1 select b.UserFirstID).ToList();
+            List<string> moreConfirmedFriendIDs = (from b in db.Relationships where b.UserFirstID == id | b.UserSecondID == id && b.Type == 1 select b.UserSecondID).ToList();
+
+            foreach (string item in confirmedFriendsIDs)
+            {
+                ConfirmedFriends.Add(db.Users.Find(item));
+            }
+            foreach (string item in moreConfirmedFriendIDs)
+            {
+                ConfirmedFriends.Add(db.Users.Find(item));
+            }
+            foreach (var item in ConfirmedFriends.ToList())
+            {
+                if (item.ID == id)
+                {
+                    ConfirmedFriends.Remove(item);
+                }
+            }
+            ViewBag.ConfirmedFriends = ConfirmedFriends;
+        }
+
+
+
         public ActionResult Create()
         {
             ViewBag.ID = User.Identity.GetUserId();
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,FirstName,LastName,DOB,DisplayName,Bio,ProfilePic")] User user)
+        public async Task<ActionResult> Create([Bind(Include = "FirstName,LastName,DOB,DisplayName,Bio,ProfilePic")] User user)
         {
-            //var userID = User.Identity.GetUserId();
             user.ID = User.Identity.GetUserId();
             user.HostXP = 0;
             user.HostLevel = 0;
@@ -325,9 +343,6 @@ namespace GameAndHang.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ID,FirstName,LastName,DOB")] User user)
@@ -342,7 +357,6 @@ namespace GameAndHang.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
@@ -360,8 +374,6 @@ namespace GameAndHang.Controllers
             }
             return View(user);
         }
-
-        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
@@ -371,7 +383,6 @@ namespace GameAndHang.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -379,55 +390,6 @@ namespace GameAndHang.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        public byte[] ConvertToByte(HttpPostedFileBase image)
-        {
-            byte[] tempByte = null;
-            BinaryReader ImgReader = new BinaryReader(image.InputStream);
-            tempByte = ImgReader.ReadBytes((int)image.ContentLength);
-            return tempByte;
-        }
-
-        public void UploadPhotoToDB(HttpPostedFileBase file)
-        {
-            String myuserID = User.Identity.GetUserId();
-            User CurrentUser = db.Users.Find(myuserID);
-            CurrentUser.ProfilePic = ConvertToByte(file);
-            db.SaveChanges();
-        }
-
-        public ActionResult IndexPhoto()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult IndexPhoto(HttpPostedFileBase file)
-        {
-            UploadPhotoToDB(file);
-            return RedirectToAction("IndexUser", "Users"); ;
-        }
-        public ActionResult FriendProfile(string id)
-        {
-            User requestedUser = db.Users.Find(id);
-            return RedirectToAction("HostProfile/", new { host = requestedUser });
-        }
-
-        public void CheckInput(User input)
-        {
-            if(input.FirstName.Length <= 1 || input.LastName.Length <= 2)
-            {
-                ModelState.AddModelError("Error", "First or Last name Must be Greater than 1 character");
-            }
-            if(input.DisplayName.Length <= 2)
-            {
-                ModelState.AddModelError("Error", "User Name Must be Greater than 2 characters");
-            }
-            var compRegEx = new Regex(@"[^a-zA-Z0-9\s]");
-            if (compRegEx.IsMatch(input.DisplayName) || compRegEx.IsMatch(input.FirstName) || compRegEx.IsMatch(input.LastName))
-            {
-                ModelState.AddModelError("Error", "Names cannot contain special characters");
-            }
         }
 
     }

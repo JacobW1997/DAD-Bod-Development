@@ -21,7 +21,7 @@ function displayGames(games) {
     for (j = 0; j < 1; j++) {
         $('#GameOutput').append('<div class="row" id="games' + j + '">');
 
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < 40; i++) {
             $('#games' + j).append('<div class="col-md-3"> <div class= "card"> <div class="card-img" id="outputCard'+i+'"></div></div>');
             $('#outputCard' + i).append('<img src="' + games.thumb_url[i] + '" id="imgProfile" style="width: 235px; height: 150px" class="img-thumbnail" /></div>');
             $('#outputCard' + i).append('<p>' + games.name[i] + '</p>');

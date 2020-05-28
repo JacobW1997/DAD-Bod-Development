@@ -28,4 +28,6 @@ namespace GameAndHang.Models
         public virtual RelationshipType RelationshipType { get; set; }
 
     }
+
+
 }
