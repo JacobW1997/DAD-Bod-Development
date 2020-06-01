@@ -17,6 +17,7 @@
                     <ul class="nav nav-pills">
                         <li style="border-right:none" class="active"><a id="tab" style="border-right:none; padding-right: 10px;margin-left:0px;" data-toggle="pill" href="#GameOutput"> Atlas </a></li>
                         <li><a id="tab" style="padding-left: 10px;" data-toggle="pill" href="#RankedGameOutput"> Recommended Games </a></li>
+                        <li><a id="tab" style="padding-left: 10px;" data-toggle="pill" href="#GameSearch"> Search for a Game </a></li>
                     </ul>
                 </div>
             </div>
@@ -26,19 +27,19 @@
 
             <div class="tab-pane active" id="GameOutput">
 
-                    <div class="card" style="border-radius:0%;">
-                        <h3>Popular Games on Atlas</h3>
-                        <p>These are the top 40 games provided by the "Atlas" API</p>
-                    </div>
+                <div class="card" style="border-radius:0%;">
+                    <h3>Popular Games on Atlas</h3>
+                    <p>These are the top 40 games provided by the "Atlas" API</p>
+                </div>
 
             </div>
 
             <div class="tab-pane fade in" id="RankedGameOutput">
 
-                    <div class="card" style="border-radius:0%;">
-                        <h3>Popular Games on G&amp;H</h3>
-                        <p>These are the top ranked games on Game &amp; Hang</p>
-                    </div>
+                <div class="card" style="border-radius:0%;">
+                    <h3>Popular Games on G&amp;H</h3>
+                    <p>These are the top ranked games on Game &amp; Hang</p>
+                </div>
 
 
 
@@ -63,8 +64,29 @@
                     }
                 </div>
             </div>
+
+            <div class="tab-pane fade in" id="GameSearch">
+
+                <div class="card" style="border-radius:0%;">
+                    <h3>Search for a Game!</h3>
+                    <p>Here you can search the Atlas for a game by name.</p>
+
+                    @*<br />*@
+
+                    <div class="row" style="margin:15px">
+                        <input id="searchstring" type="text" value="Catan">
+                        <input type="button" value="Submit" onclick="searchByGame()">
+                    </div>
+
+                </div>
+
+                <div class="row" id="SearchResults">
+
+                </div>
+
+            </div>
         </div>
-    </body>
+</body>
 
 <link href="~/Content/Codex.css" rel="stylesheet" />
 
