@@ -81,13 +81,13 @@ namespace GameAndHang.Controllers
             return View(searchResults);
         }
 
-        public ActionResult SearchBox(string Games, double? UserLat, double? UserLong)
+        public ActionResult SearchBox(string games, double? UserLat, double? UserLong)
         {
             //string gameName = data.Name;
             ViewBag.ApiUrl = "https://maps.googleapis.com/maps/api/js?key=" + System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleAPIKey"].ToString() + "&callback=initMap";
             ViewBag.Games = new SelectList(db.Games.Select(x => x.Name), "Name");
-            var EGSearchResults = db.EventGames.Where(x => x.Game.Name.Contains(Games));
-            var searchResults = db.Events.Where(s => s.EventGames.Intersect(EGSearchResults).Count() > 0);
+            var EGSearchResults = db.APIEventGames.Where(x => x.GameName.Contains(games));
+            var searchResults = db.Events.Where(s => s.APIEventGames.Intersect(EGSearchResults).Count() > 0);
             if (UserLat != null && UserLong != null)
             {
                 searchResults = proximityFilter(searchResults, UserLat, UserLong).AsQueryable();
