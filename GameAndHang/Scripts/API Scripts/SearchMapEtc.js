@@ -1,10 +1,10 @@
 ﻿
 
+// Pre-declare objects
     var map, infoWindow, markers;
-
     var geocoder;
 
-
+// Stores user Lat/Long data in hidden fields in the view.
 function getUserLoc() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -34,6 +34,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.open(map);
 }
 
+
+// Generates a map centered on the user's current location as in EventCreationMap.js 
+// and puts a marker on it for each search result.
     function initMap(markerNames, markerLats, markerLongs) {
         geocoder = new google.maps.Geocoder();
         map = new google.maps.Map(document.getElementById('map'), {
@@ -62,6 +65,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
             handleLocationError(false, infoWindow, map.getCenter());
         }
 
+        // Generate objects to hold marker data
         var markerlabels = markerNames;
         var markerlats = markerLats;
         var markerlongs = markerLongs;
@@ -71,6 +75,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
             markerlocs[i] = new google.maps.LatLng(markerlats[i], markerlongs[i]);
         }
 
+        // Generate markers from data
         markers = markerlocs.map(function(location, i) {
             return new google.maps.Marker({
                 position: location,

@@ -5,6 +5,7 @@ using System.Web;
 
 namespace GameAndHang.Models
 {
+    // This references the Board Game Atlas API, not the Google Maps API
     public partial class API
     {
 
