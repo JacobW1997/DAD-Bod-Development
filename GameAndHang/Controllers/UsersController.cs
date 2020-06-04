@@ -26,40 +26,51 @@ namespace GameAndHang.Controllers
         {
             if (User.Identity.GetUserId() == null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home"); 
             }
             var users = db.Users.Include(u => u.AspNetUser);
             return View(await users.ToListAsync());
         }
 
+
+        //Method used to generate information to pass to the view of a users profile 
+        //when accessing their own profile
         public async Task<ActionResult> IndexUser()
         {
-            var userId = User.Identity.GetUserId();
-            User findUser = await db.Users.FindAsync(userId);
-            List<Event> UpcomingEvents = new List<Event>();
-            var userID = findUser.ID;
-            int xp = findUser.HostXP;
-            int newLevel = HostLevel(xp);
-            int countReviews = 0;
+            var userId = User.Identity.GetUserId(); //get the ID of the user who is logged in
 
-            if (findUser != null)
+            //query the user from the DB that matches the ID of the person logged in
+            //create a new User and assign the logged in user to it
+            User findUser = await db.Users.FindAsync(userId); 
+
+
+            List<Event> UpcomingEvents = new List<Event>(); //creat new list of events that will be used for upcoming events
+
+            var userID = findUser.ID; 
+            int xp = findUser.HostXP;  //grab the users current XP 
+            int newLevel = HostLevel(xp); //take current users xp and pass it into the HostLevel function to calcualate the users current level
+            int countReviews = 0; //initalize a variable for counting the total number of reviews the user has
+
+            if (findUser != null) //if we successfully grabbed the user
             {
-                findUser.HostLevel = newLevel;
-                db.Entry(findUser).State = EntityState.Modified;
-                db.SaveChanges();
+                findUser.HostLevel = newLevel; //assign the users new level 
+                db.Entry(findUser).State = EntityState.Modified; //Modify the entry in the DB
+                db.SaveChanges(); //Save DB changes
             }
-            countReviews += (from b in db.Reviews where b.Host_ID == userID select b.ReviewString).Count();
+            countReviews += (from b in db.Reviews where b.Host_ID == userID select b.ReviewString).Count(); //query the total reviews and count them
             if (countReviews > 0)
             {
-                var userreviews = (from b in db.Reviews where b.Host_ID == userID select b.ReviewString).ToList();
-                ViewBag.Reviews = userreviews;
+                var userreviews = (from b in db.Reviews where b.Host_ID == userID select b.ReviewString).ToList(); //if there are more than 0 reviews, generate a list
+                ViewBag.Reviews = userreviews; 
             }
             else
             {
-                ViewBag.Reviews = "";
+                ViewBag.Reviews = ""; //if there are zero reviews, pass nothing to the viewbag
             }
-            GetFriendsData();
-            foreach (var hostedEvent in findUser.Events)
+
+            GetFriendsData(); //call method to get the users friends
+
+            foreach (var hostedEvent in findUser.Events) //for each event the user is hosting
             {
                 if (hostedEvent.Date <= DateTime.Now.AddDays(30) && hostedEvent.Date > DateTime.Now.AddDays(-1))
                 {
@@ -70,17 +81,18 @@ namespace GameAndHang.Controllers
             return View(findUser);
         }
 
-
+        //Method to generate the informatio to display when someone is visiting a hosts profile.
+        //passing in the ID of the host we are viewing
         public ActionResult HostProfile(string host)
         {
-            User FindUsr = db.Users.Find(host);
+            User FindUsr = db.Users.Find(host); //find the user that matches the hostID
             var userID = FindUsr.ID;
-            double? numRatings = 0;
+            double? numRatings = 0; 
             double? sumRatings = 0;
             int xp = 0;
             ViewBag.status = 0;
             string secondaryID = User.Identity.GetUserId();
-            xp += FindUsr.HostXP;
+            xp += FindUsr.HostXP; //set xp to be the hosts current xp
             foreach(var relationship in db.Relationships)
             {
                 if(db.Relationships.Find(secondaryID, host) != null | db.Relationships.Find(host, secondaryID) != null)
@@ -137,6 +149,7 @@ namespace GameAndHang.Controllers
             return View(FindUsr);
         }
 
+        //Calculate host xp
         public int HostLevel(int xp)
         {
             if (xp < 10) return 1;
