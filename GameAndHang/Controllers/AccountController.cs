@@ -155,11 +155,16 @@ namespace GameAndHang.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [CaptchaValidator]
+        [CaptchaValidator(
+            PrivateKey = "6LdmR_8UAAAAAHL5fYIY-NVfU3NWAZqU1H1cMwyw",
+            ErrorMessage ="Captcha Invalid!",
+            RequiredMessage = "Captcha input is required!"
+            )]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
+                
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
 

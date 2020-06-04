@@ -104,7 +104,10 @@
                         <div>
                             @Html.ValidationMessageFor(m => m.HostID)
                         </div>
-                        @Html.Recaptcha()
+
+                        
+
+                        @Html.Recaptcha(publicKey:System.Web.Configuration.WebConfigurationManager.AppSettings["ReCaptchaPublicKey"], theme:CaptchaTheme.Dark, type:CaptchaType.Image, callback:"verifyCallback", expiredCallback:"expiredCallback");
                         @Html.ValidationMessage("ReCaptcha")
                         <input type="submit" class="button" value="Create" />
                     </form>
@@ -143,6 +146,16 @@
 <link href="~/Content/EventCreate.css" rel="stylesheet" />
 
 <script src="~/Scripts/API Scripts/EventCreationMap.js"></script>
+
+<script>
+    var verifyCallback = function (response) {
+        alert("grecaptcha is ready!");
+    };
+
+    var expiredCallback = function () {
+        alert("grecaptcha is expired!");
+    };
+</script>
 
 @*Exposes API key in view*@
 <script async defer
