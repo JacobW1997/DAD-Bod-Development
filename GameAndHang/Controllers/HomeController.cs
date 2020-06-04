@@ -52,21 +52,12 @@ namespace GameAndHang.Controllers
             List<string> outputIDs = new List<string>();
             List<string> outputNames = new List<string>();
             List<string> outputThumbUrls = new List<string>();
-            List<string> YearPublishedList = new List<string>();
             List<string> min_playersList = new List<string>();
             List<string> max_playersList = new List<string>();
-            List<string> min_playtimeList = new List<string>();
-            List<string> max_playtimeList = new List<string>();
-            List<string> descriptionList = new List<string>();
             List<string> description_previewList = new List<string>();
-            List<string> ageList = new List<string>();
             List<string> reddit_week_countList = new List<string>();
             List<string> categoriesList = new List<string>();
-            List<string> image_urlList = new List<string>();
-            List<string> priceList = new List<string>();
-            List<string> urlList = new List<string>();
             List<string> avgUsrRatingList = new List<string>();
-
 
 
             for (int i = 0; i< 40; i++) {
@@ -89,32 +80,24 @@ namespace GameAndHang.Controllers
                 var getAvgRating = (string)rootObj.SelectToken("games[" + i + "].average_user_rating");
                 avgUsrRatingList.Add(getAvgRating.Substring(0,3));
             }
-
             
             var JsonData = new
             {
                 id = outputIDs,
                 name = outputNames,
-                //year_published = getYearPublished,
                 min_players = min_playersList,
                 max_players = max_playersList,
-                //min_playtime = getMinPlayTime,
-                //max_playtime = getMaxPlayTime,
-                //description = getDescription,
                 description_preview =description_previewList ,
                 average_user_rating= avgUsrRatingList,
-                //age = getAge,
                 reddit_all_time_count = reddit_week_countList,
                 categories = categoriesList,
                 thumb_url = outputThumbUrls,
-                //image_url = getGameImage,
-                //price = getPrice,
-                //url = getGameUrl,
             };
             Debug.WriteLine(JsonData.ToString());
             return Json(JsonData, JsonRequestBehavior.AllowGet);
         }
 
+        //Custom class for the Atlas API game
         public class customGame
         {
             public string id { get; set; }
@@ -150,11 +133,13 @@ namespace GameAndHang.Controllers
             }
             return jsonString;
         }
+        //Custom class used to score games
         public class custom
         {
             public double Score { get; set; }
             public string gameID { get; set; }
         }
+        //Ranks popular games on the G&H platform using two different critera, associated players and associated events. Players are worth more then events and both are multiplied to scale
         public ActionResult GetPopularSiteGames()
         {
             //Gets all GAME IDs from APIGAMES and counts their occurances this is the base score of the game 
@@ -192,6 +177,7 @@ namespace GameAndHang.Controllers
             return View();
         }
 
+        //Get each game from the Atlas API
         public void GetGamesFromAPI(List<customGame> GameIDsWithScore)
         {
             foreach(customGame scoredgame in GameIDsWithScore)
@@ -207,26 +193,17 @@ namespace GameAndHang.Controllers
             string URL = "https://www.boardgameatlas.com/api/search?ids=" + currentGame.id + "&client_id=" + System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"];
             Debug.WriteLine(URL);
             string allData = SendRequest(URL);
-
             JObject rootObj = JObject.Parse(allData);
             Debug.WriteLine(allData);
 
             List<string> outputIDs = new List<string>();
             List<string> outputNames = new List<string>();
             List<string> outputThumbUrls = new List<string>();
-            List<string> YearPublishedList = new List<string>();
             List<string> min_playersList = new List<string>();
             List<string> max_playersList = new List<string>();
-            List<string> min_playtimeList = new List<string>();
-            List<string> max_playtimeList = new List<string>();
-            List<string> descriptionList = new List<string>();
             List<string> description_previewList = new List<string>();
-            List<string> ageList = new List<string>();
             List<string> reddit_week_countList = new List<string>();
             List<string> categoriesList = new List<string>();
-            List<string> image_urlList = new List<string>();
-            List<string> priceList = new List<string>();
-            List<string> urlList = new List<string>();
             List<string> avgUsrRatingList = new List<string>();
 
             for (int i = 0; i < 1; i++)
@@ -257,7 +234,6 @@ namespace GameAndHang.Controllers
 
                 var getMaxPlayers = (string)rootObj.SelectToken("games[" + i + "].max_players");
                 max_playersList.Add(getMaxPlayers);
-
                 var getAvgRating = (string)rootObj.SelectToken("games[" + i + "].average_user_rating");
                 if (getAvgRating != null)
                 {
@@ -280,7 +256,6 @@ namespace GameAndHang.Controllers
 
         public ActionResult GameSearch(string searchString)
         {
-            string cred = System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"];
             string URL = "https://www.boardgameatlas.com/api/search?name=" + searchString + "&fuzzy_match=true&order_by=popularity&limit=40&client_id=" + System.Web.Configuration.WebConfigurationManager.AppSettings["AtlasKey"];
             Debug.WriteLine(URL);
             var allData = SendRequest(URL);
@@ -290,22 +265,12 @@ namespace GameAndHang.Controllers
             List<string> outputIDs = new List<string>();
             List<string> outputNames = new List<string>();
             List<string> outputThumbUrls = new List<string>();
-            List<string> YearPublishedList = new List<string>();
             List<string> min_playersList = new List<string>();
             List<string> max_playersList = new List<string>();
-            List<string> min_playtimeList = new List<string>();
-            List<string> max_playtimeList = new List<string>();
-            List<string> descriptionList = new List<string>();
             List<string> description_previewList = new List<string>();
-            List<string> ageList = new List<string>();
             List<string> reddit_week_countList = new List<string>();
             List<string> categoriesList = new List<string>();
-            List<string> image_urlList = new List<string>();
-            List<string> priceList = new List<string>();
-            List<string> urlList = new List<string>();
             List<string> avgUsrRatingList = new List<string>();
-
-
 
             for (int i = 0; i < 40; i++)
             {
@@ -331,26 +296,17 @@ namespace GameAndHang.Controllers
                 avgUsrRatingList.Add(getAvgRating/*.Substring(0, 3)*/);
             }
 
-
             var JsonData = new
             {
                 id = outputIDs,
                 name = outputNames,
-                //year_published = getYearPublished,
                 min_players = min_playersList,
                 max_players = max_playersList,
-                //min_playtime = getMinPlayTime,
-                //max_playtime = getMaxPlayTime,
-                //description = getDescription,
                 description_preview = description_previewList,
                 average_user_rating = avgUsrRatingList,
-                //age = getAge,
                 reddit_all_time_count = reddit_week_countList,
                 categories = categoriesList,
                 thumb_url = outputThumbUrls,
-                //image_url = getGameImage,
-                //price = getPrice,
-                //url = getGameUrl,
             };
             Debug.WriteLine(JsonData.ToString());
             return Json(JsonData, JsonRequestBehavior.AllowGet);
