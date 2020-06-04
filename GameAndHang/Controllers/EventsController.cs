@@ -16,6 +16,7 @@ using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using reCAPTCHA.MVC;
 using GameAndHang.UtilityFunctions;
+using System.Configuration;
 
 namespace GameAndHang.Controllers
 {
@@ -206,13 +207,18 @@ namespace GameAndHang.Controllers
             currentEvent.ID = gIDString;
         }
 
-
+        public readonly string CapKey = System.Web.Configuration.WebConfigurationManager.AppSettings["ReCaptchaPrivateKey"].ToString();
+       
         // POST: Events/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [CaptchaValidator]
+        [CaptchaValidator(
+            ErrorMessage = "Captcha Invalid!",
+            RequiredMessage = "Captcha input is required!"
+            )]
         public async Task<ActionResult> Create([Bind(Include = "EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax,PlayersCount,UnsupGames")] Event @event)
         {
+            
             var currentID = User.Identity.GetUserId();
             AspNetUser currentUser = db.AspNetUsers.Find(currentID);
             User TheUser = db.Users.Find(currentID);

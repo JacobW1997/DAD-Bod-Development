@@ -15,7 +15,6 @@ namespace GameAndHang.Models
             EventGames = new HashSet<EventGame>();
             EventPlayers = new HashSet<EventPlayer>();
         }
-
         public string ID { get; set; }
 
         [Required]

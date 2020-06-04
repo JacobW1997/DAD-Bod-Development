@@ -156,7 +156,6 @@ namespace GameAndHang.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [CaptchaValidator(
-            PrivateKey = "6LdmR_8UAAAAAHL5fYIY-NVfU3NWAZqU1H1cMwyw",
             ErrorMessage ="Captcha Invalid!",
             RequiredMessage = "Captcha input is required!"
             )]

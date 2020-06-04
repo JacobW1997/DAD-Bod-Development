@@ -108,7 +108,6 @@
                         
 
                         @Html.Recaptcha(publicKey:System.Web.Configuration.WebConfigurationManager.AppSettings["ReCaptchaPublicKey"], theme:CaptchaTheme.Dark, type:CaptchaType.Image, callback:"verifyCallback", expiredCallback:"expiredCallback");
-                        @Html.ValidationMessage("ReCaptcha")
                         <input type="submit" class="button" value="Create" />
                     </form>
 
