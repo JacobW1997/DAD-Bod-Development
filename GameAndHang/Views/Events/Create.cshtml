@@ -1,5 +1,5 @@
 ﻿@model GameAndHang.Models.Event
-@using CaptchaMvc.HtmlHelpers
+@using reCAPTCHA.MVC
 @{
     ViewBag.Title = "Create";
 }
@@ -12,100 +12,102 @@
             <div class="col-md-6">
                 @using (Html.BeginForm())
                 {
-                <form autocomplete="off">
-                    <h2 style="margin-top: 0px;">Create an Event</h2>
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="col-md-10">
-                        <div class="question">
-                            <label for="EventName">Event Name</label>
-                            <input type="text" id="EventName" name="EventName" required="Required" />
+                    <form autocomplete="off">
+                        <h2 style="margin-top: 0px;">Create an Event</h2>
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="col-md-10">
+                            <div class="question">
+                                <label for="EventName">Event Name</label>
+                                <input type="text" id="EventName" name="EventName" required="Required" />
 
-                            @Html.ValidationMessageFor(model => model.EventName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="col-md-10">
-                        <div class="question">
-                            <label for="EventDescription">
-                                Description
-                            </label>
-                            <input type="text" name="EventDescription" required />
-                            @Html.ValidationMessageFor(model => model.EventDescription, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-10">
-                        <div class="question">
-                            <label for="EventLocation">Location</label>
-                            <input type="text" id="EventLocation" name="EventLocation" required />
-                            @Html.ValidationMessageFor(model => model.EventLocation, "", new { @class = "text-danger" })
-
-                        </div>
-
-                    </div>
-                    <div class="col-md-10">
-                        <div class="question">
-                            <label for="UnsupGames">Notes</label>
-                            <input type="text" id="UnsupGames" name="UnsupGames" />
-                            @Html.ValidationMessageFor(model => model.UnsupGames, "", new { @class = "text-danger" })
-                        </div>
-
-
-                    </div>
-                    <div class="col-md-10">
-                        <div class="question">
-                            <label for="PlayerSlotsMin">Min Players</label>
-                            <input type="number" id="PlayerSlotsMin" name="PlayerSlotsMin" required />
-
-                            @Html.ValidationMessageFor(model => model.PlayerSlotsMin, "", new { @class = "text-danger" })
-                        </div>
-
-                    </div>
-                    <div class="col-md-10">
-                        <div class="question">
-                            <label for="PlayerSlotsMax">Max Players</label>
-                            <input type="number" id="PlayerSlotsMax" name="PlayerSlotsMax" required />
-                            @Html.ValidationMessageFor(model => model.PlayerSlotsMax, "", new { @class = "text-danger" })
-                        </div>
-
-                    </div>
-                    <div class="col-md-10">
-                        <div class="question">
-                            <label for="Date">Date</label>
-                            <input type="date" id="Date" name="Date" required />
-                            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-md-10">
-                        <div class="form-group">
-                            <div class="checkbox">
-                                Check if public
-                                @Html.EditorFor(model => model.IsPublic)
-                                @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.EventName, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.ValidationMessageFor(m => m.HostID)
 
-                    </div>
+                        <div class="col-md-10">
+                            <div class="question">
+                                <label for="EventDescription">
+                                    Description
+                                </label>
+                                <input type="text" name="EventDescription" required />
+                                @Html.ValidationMessageFor(model => model.EventDescription, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-                    <div>
-                        @Html.HiddenFor(model => model.EventLat, new { id = "eventlat" })
-                    </div>
-                    <div>
-                        @Html.HiddenFor(model => model.EventLong, new { id = "eventlong" })
-                    </div>
-                    <div>
-                        @Html.ValidationMessageFor(m => m.HostID)
-                    </div>
-                    <input type="submit" class="button" value="Create" />
-                </form>
+
+                        <div class="col-md-10">
+                            <div class="question">
+                                <label for="EventLocation">Location</label>
+                                <input type="text" id="EventLocation" name="EventLocation" required />
+                                @Html.ValidationMessageFor(model => model.EventLocation, "", new { @class = "text-danger" })
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-10">
+                            <div class="question">
+                                <label for="UnsupGames">Notes</label>
+                                <input type="text" id="UnsupGames" name="UnsupGames" />
+                                @Html.ValidationMessageFor(model => model.UnsupGames, "", new { @class = "text-danger" })
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-10">
+                            <div class="question">
+                                <label for="PlayerSlotsMin">Min Players</label>
+                                <input type="number" id="PlayerSlotsMin" name="PlayerSlotsMin" required />
+
+                                @Html.ValidationMessageFor(model => model.PlayerSlotsMin, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <div class="col-md-10">
+                            <div class="question">
+                                <label for="PlayerSlotsMax">Max Players</label>
+                                <input type="number" id="PlayerSlotsMax" name="PlayerSlotsMax" required />
+                                @Html.ValidationMessageFor(model => model.PlayerSlotsMax, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <div class="col-md-10">
+                            <div class="question">
+                                <label for="Date">Date</label>
+                                <input type="date" id="Date" name="Date" required />
+                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    Check if public
+                                    @Html.EditorFor(model => model.IsPublic)
+                                    @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.ValidationMessageFor(m => m.HostID)
+
+                        </div>
+
+                        <div>
+                            @Html.HiddenFor(model => model.EventLat, new { id = "eventlat" })
+                        </div>
+                        <div>
+                            @Html.HiddenFor(model => model.EventLong, new { id = "eventlong" })
+                        </div>
+                        <div>
+                            @Html.ValidationMessageFor(m => m.HostID)
+                        </div>
+                        @Html.Recaptcha()
+                        @Html.ValidationMessage("ReCaptcha")
+                        <input type="submit" class="button" value="Create" />
+                    </form>
 
                 }
             </div>
@@ -142,8 +144,7 @@
 
 <script src="~/Scripts/API Scripts/EventCreationMap.js"></script>
 
-
-
+@*Exposes API key in view*@
 <script async defer
         src=@ViewBag.ApiUrl>
 </script>

@@ -1,71 +1,61 @@
 ﻿@model GameAndHang.Models.RegisterViewModel
 @using CaptchaMvc.HtmlHelpers
 @using GameAndHang.Models
+@using reCAPTCHA.MVC
 
 @{
     ViewBag.Title = "Register";
 }
 
-    <script src="~/Scripts/jquery-2.1.4.js"></script>
-    <body>
+<script src="~/Scripts/jquery-2.1.4.js"></script>
+<body>
 
-        <br />
-        @*<div class="jumbotron" style="color:white; background-color:#08415C">*@
-            <h2 style="color:darkslategray">Register an Account!</h2>
+    <br />
+    @*<div class="jumbotron" style="color:white; background-color:#08415C">*@
+    <h2 style="color:darkslategray">Register an Account!</h2>
 
-            <div class="container" style="color:white">
+    <div class="container" style="color:white">
 
-            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Create a new account.</h4>
-                <hr />
-                @Html.ValidationSummary("", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        * @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                    </div>
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h4>Create a new account.</h4>
+            <hr />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    * @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        * @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    * @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        * @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-                    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    * @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
                 </div>
+            </div>
 
-                <br />
-                <p>
-                    Please complete the Captcha below to certify that you are human.
-                </p>
-                <p>
-                    After all, only humans can do math!
-                </p>
+            <br />
+            <p>
+                Please complete the Captcha below to certify that you are human.
+            </p>
 
-                <div class="">
-                    @Html.MathCaptcha()
+
+            @Html.Recaptcha()
+            @Html.ValidationMessage("ReCaptcha")
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="button" value="Register" />
                 </div>
-
-
-
-                <br />
-
-                <p> @ViewBag.ErrorMessage </p>
-
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" class="button" value="Register" />
-                    </div>
-                </div>
-            }
-        </div>
+            </div>
+        }
+    </div>
 </body>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

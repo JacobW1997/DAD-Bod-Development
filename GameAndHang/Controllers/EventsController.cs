@@ -14,6 +14,7 @@ using GameAndHang.Models;
 using GoogleMaps.LocationServices;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
+using reCAPTCHA.MVC;
 
 namespace GameAndHang.Controllers
 {
@@ -244,6 +245,7 @@ namespace GameAndHang.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CaptchaValidator]
         public async Task<ActionResult> Create([Bind(Include = "ID,EventName,IsPublic,Date,EventDescription,EventLocation,PlayerSlotsMin,PlayerSlotsMax,PlayersCount,UnsupGames,HostID")] Event @event)
         {
             var currentID = User.Identity.GetUserId();

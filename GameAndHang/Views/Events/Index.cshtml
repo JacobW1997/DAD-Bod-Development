@@ -12,12 +12,21 @@
             also view a hosts profile by clicking on their name
         </p>
         <p align="center" style="font-size: 22px; color: white">
-            @if (User.Identity.GetUserId() != null)
-            {
-                @Html.ActionLink("Click here to host your own event", "Create")
-            }
-        </p>
-    </div>
+            @{
+                if (User.Identity.GetUserId() != null)
+                {
+                    @Html.ActionLink("Click here to host your own event", "Create")
+                }
+                else
+                {
+                   @Html.Label("login ", "Please Login or Create an Account to host an event");
+                    <br />
+                    @Html.ActionLink("Login", "Login", "Account");
+                }
+
+                }
+            </p>
+        </div>
 <hr />
 
 <div class="row" id="games">
