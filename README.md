@@ -13,14 +13,14 @@
 > 3) Allows users to easily add friends. The solution will also require a third-party API to allow users to chat to their friends and invite them to events.
 
 ## Status: 
-> Inception Phase
+> Beta testing/initial release
 
 ## Getting started: 
 > Please contact the DAD-Bod Development team and see the Guidelines document for more information. 
 > [Guidelines](https://github.com/JacobW1997/DAD-Bod-Development/blob/master/Milestones/Milestone%205/Guidelines.md)
 
 ## Website:
-> (under development, will be added after first sprint)
+> https://gameandhang.azurewebsites.net/
 
 ## Team Info: 
 > Team Song: Dolly Parton - 9 To 5
@@ -31,7 +31,8 @@
  - Jacob Wiederhold -- [GitHub Profile](https://github.com/JacobW1997)
 
 ## The project repository includes: 
-> (Will be updated after first sprint)
+> Our first, practice project.
+> The "Game and Hang" web application
 
 ## Tools & Services: 
 > Please see the Tools page for more information. 
