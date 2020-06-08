@@ -80,6 +80,9 @@ CREATE TABLE [dbo].[Users]
 	[DisplayName]	NVARCHAR (16)		NOT NULL,
 	[Bio]			NVARCHAR(MAX)				,
 	[ProfilePic]	VARBINARY(max)						,
+	[HostXP]		INT,
+	[HostLevel]		INT,
+
 	CONSTRAINT [PK_dbo.Users] PRIMARY KEY CLUSTERED ([ID] ASC),
 	--CONSTRAINT [FK_dbo.Users_dbo.AspNetUsers_Id] FOREIGN KEY ([ID]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
 );
