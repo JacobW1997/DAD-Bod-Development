@@ -1,0 +1,257 @@
+﻿@model GameAndHang.Models.APIEventGame
+
+@{
+    ViewBag.Title = "APIGame";
+}
+
+
+
+    <body>
+
+        <div class="tab-content">
+            <div id="HostInfo" class="tab-pane active">
+                <div class="col-lg-12">
+
+
+                    <div class="row" id="games">
+                        <div class="col-12" id="GameOutput">
+                            <div class="row" id="games">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h2 id="name">@ViewBag.name</h2>
+                                        </div>
+                                        <div class="card-img">
+                                            <img src="@ViewBag.thumb" id="imgProfile" class="img-thumbnail" />
+                                        </div>
+                                        <div class="card-text" id="GameOverview">
+
+
+                                            <p id="textDisplay">Average Rating:  </p>
+                                            <p id="subText">@ViewBag.average_rating</p>
+
+                                            <p id="textDisplay"> Description: </p>
+                                            <p id="subText">@ViewBag.description</p>
+
+                                            <p id="textDisplay"> Reddit Mentions (all time): </p>
+                                            <p id="subText">@ViewBag.reddit_all_time</p>
+                                            <p id="textDisplay">Min players: </p>
+                                            <p id="subText">@ViewBag.min_players</p>
+                                            <p id="textDisplay"> Max Players: </p>
+                                            <p id="subText">@ViewBag.max_players</p>
+
+
+                                        </div>
+                                        <div class="card-footer">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+@using (Html.BeginForm())
+ {
+    @Html.AntiForgeryToken()
+        <div class="col-lg-12" id="gameDetails">
+            <div class="card">
+                <h3 style="margin-top:50px; color:white; margin-left:20px">Add @ViewBag.name to an Event:</h3>
+                <hr />
+                @if (ViewBag.checkGames == 0)
+                {
+                    <p style="font-size:25px; color:gray; font-style:italic">No Events Yet</p>
+                }
+                else
+                {
+                    <form autocomplete="on">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <h3 style="color:white; margin-bottom:20px; margin-left:20px;">Your Events:</h3>
+                            @Html.LabelFor(model => model.EventID, "", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="class=" justify-content-md-center" style="margin-left:38%">
+                                @Html.DropDownList("EventID", null, htmlAttributes: new { @class = "form-control", @style = "justify-self:center" })
+                                @Html.ValidationMessageFor(model => model.EventID, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="question">
+
+                                <div class="justify-content-md-center" style="margin-left:49%">
+                                    <label for="GameID"></label>
+                                    <input id="GameID" type="hidden" name="GameID" value="@ViewBag.GameID.ToString()" required />
+                                    @Html.ValidationMessageFor(model => model.GameID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="question">
+                                <div class="col-md-10">
+                                    <label for="GameID"></label>
+                                    <input type="hidden" id="GameName" name="GameName" value="@ViewBag.name" required />
+                                    @Html.ValidationMessageFor(model => model.GameName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <label for="btn" style="width:150px; align-self:center" class="btn btn-secondary">Add to Event</label>
+                        <input id="btn" style="display:none;" type="submit" value="SaveEventGame" class="btn btn-default" />
+                    </form>
+                }
+            </div>
+        </div>
+            }
+            <div class="tab-pane fade in" id="EventInfo">
+                <div class="col-lg-12">
+                    <div class="card" id="EventCard">
+
+                        <div class="card-header">
+                            <h1 id="eventName" align="center" style="padding-top: 20px; font-size: 50px">
+                                Event Info
+                            </h1>
+                        </div>
+
+                        <div class="card-body">
+
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+            <p id="gameID" style="color:#93B7BE">@ViewBag.GameID</p>
+        </body>
+<br />
+
+<script>
+    function HelpCreateAPIEventGame(source) {
+        if (confirm("Add to Event?")) {
+            var id = $('#gameID').text
+            var dropDown = $("#" + id);
+            var val = dropDown.val();
+            var name = $('#name').text();
+        $.ajax({
+            url: source +"?gameID=" + id +"&eventID="+val+"&gameName=" + name,
+
+        }).done(function () {
+            alert("Game Added!")
+        });
+        return false;
+    }
+    else {
+        return false;
+    }
+}
+</script>
+
+<script>
+
+</script>
+
+
+
+<style type="text/css">
+    #navPills {
+        margin-top: 30px;
+    }
+
+    #tab {
+        background: #08415C;
+        border-style: solid;
+        border-color: white;
+        border-width: 3px;
+        font-size: 25px;
+        border-radius: 6%;
+        padding: 8px;
+        color: Highlight;
+        margin-bottom: 15px;
+    }
+
+
+    #EventCard {
+        background-color: #08415C;
+        border: solid;
+        border-width: 3px;
+        border-color: white;
+        color: white;
+        text-align: center;
+        margin-top: 7px;
+    }
+
+    #profPic {
+        width: 150px;
+        height: 150px;
+        border-radius: 5%;
+        margin: 15px;
+    }
+
+    #groupHeader {
+        font-size: 35px;
+    }
+
+    #textDisplay {
+        font-size: 25px;
+    }
+
+    #subText {
+        font-size: 20px;
+        color: #1B9AAA;
+    }
+
+    #footertextDisplay {
+        font-size: 20px;
+    }
+
+    body {
+        background-color: #93B7BE
+    }
+
+    .card {
+        background-color: #08415C;
+        color: white;
+        padding: 8px;
+        border-style: solid;
+        border-color: white;
+        border-width: 2.8px;
+        text-align: center;
+        margin-top: 5px;
+    }
+
+    #imgProfile {
+        margin: 10px;
+        width: 350px;
+        height: 350px;
+    }
+
+    #Title {
+        border-style: solid;
+        border-color: white;
+        border-width: 2.8px;
+    }
+
+
+
+    #GameOverview {
+        text-align: center;
+    }
+
+
+    span.stars, span.stars span {
+        display: block;
+        background: url(stars.png) 0 -16px repeat-x;
+        width: 80px;
+        height: 16px;
+    }
+
+        span.stars span {
+            background-position: 0 0;
+        }
+</style>
+
+
+

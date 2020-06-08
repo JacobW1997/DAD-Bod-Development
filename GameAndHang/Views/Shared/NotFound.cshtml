@@ -4,24 +4,25 @@
     Layout = "_Layout.cshtml";
 }
 
-<div class="container" id="ErrorContainer">
+    <body>
+        <div class="container" id="ErrorContainer">
+            <div class="row" style="justify-content:center">
+                <div class="col-md-3" style=" padding:20px;">
+                    <h3>
+                        Application Error:
+                    </h3>
+                    <img id="errorImg" src="https://www.publicdomainpictures.net/pictures/250000/velka/erorr.jpg" />
+                    <h4 style="width:550px; margin-right:2500px;">
+                        Sorry, The Page You are Looking for was not found.
+                    </h4>
+                    <h6>@Html.ActionLink("Go Back To Home Page", "Index", "Home")</h6>
+                    <br />
+                    <br />
+                </div>
+            </div>
 
-    <div style=" padding:20px;">
-        <h3>
-            Application Error:
-        </h3>
-        <img id="errorImg" src="https://www.publicdomainpictures.net/pictures/250000/velka/erorr.jpg" />
-        <h4>
-            Sorry, The Page, You are Looking for is not found.
-        </h4>
-        <h6>@Html.ActionLink("Go Back To Home Page", "Index", "Home")</h6>
-        <br />
-        <br />
-    </div>
-
-
-</div>
-
+        </div>
+    </body>
 <style>
     #errorImg{
         width:250px;
@@ -31,7 +32,7 @@
     #ErrorContainer{
         background-color: #93B7BE;
         color: black;
-
+        justify-items:center;
     }
     #topBar{
         margin-top:10px;
@@ -40,6 +41,7 @@
         height: 20px;
         border-radius:5%;
         width:inherit;
+
     }
     #bar{
         background-color: #cc2936; 

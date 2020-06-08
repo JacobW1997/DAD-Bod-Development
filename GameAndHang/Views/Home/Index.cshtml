@@ -1,34 +1,98 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity;
+@{
     ViewBag.Title = "Home Page";
 }
+
+
     <body>
         <div class="jumbotron" style="background-color:#08415C">
             <h1 style="text-align:center; font-size:55px; color:white">Game &amp; Hang</h1>
             <p style="text-align: center; font-size: 22px; color: white" class="lead">Friends, Family and Tabletop Games</p>
         </div>
 
-        <div class="row">
+        <hr />
+
+        <div class="row" style="margin-top:28px">
 
             <div class="col-md-3">
-                <img src="https://cdn.discordapp.com/attachments/664532703064096797/678761117878714378/boardGame.jpg" style="width:360px;height:280px; justify-items:end;  border-radius: 5%" id="" />
+                <img src="https://cdn.discordapp.com/attachments/664532703064096797/678761117878714378/boardGame.jpg" style="width:360px;height:280px; justify-items:end;  border-radius: 5%; " id="" />
             </div>
-            <div class="col-md-6" style="margin-left: 100px; margin-top:80px;">
-                <h2>Events</h2>
-                <p>The Events page contains events that have been created and hosted by users.</p>
+            <div class="col-md-7" style="margin-left: 100px; margin-top:80px; color: white;">
+                <h2>@Html.ActionLink("Events", "Index", "Events", null, new { @class = "nav-link" })</h2>
+                <p>The Events page contains events that have been created and hosted by users. Once an event is created, a host can register games for the event through the Codex.</p>
             </div>
 
         </div>
 
         <div class="row">
-            <div class="col-md-6 rounded" style="margin-top:80px;">
-                <h2>Codex</h2>
+            <div class="col-md-8 rounded" style="margin-top:80px;color: white; text-align:right">
+                <h2>@Html.ActionLink("Codex", "Codex", "Home", null, new { @class = "nav-link" })</h2>
                 <p>
-                    The Codex contains a list of all games that we currently support.
+                    The Codex contains a list of all games that we currently support. We also have customized lists to help you find the right game for your event!
                 </p>
             </div>
-            <div class="col-md-3 rounded" style="margin-left:140px">
+            <div class="col-md-3 rounded" style="margin-left:0px; margin-bottom:15px;">
                 <img src="https://cdn.discordapp.com/attachments/664532703064096797/678763504202940456/book.jpeg" style="width:360px;height:280px; justify-items:end; border-radius: 5%" />
             </div>
 
         </div>
+        <hr />
+        <div class="row ">
+            <div class="col-md-4 d-flex align-items-stretch">
+                <div class="card" style="justify-content:center">
+                    <h2>Getting started:</h2>
+                    <p>
+                        An account will be required to use most features on this site. However, you can still explore events and games without an account. Read more in the @Html.ActionLink("About Us", "About") section.
+                    </p>
+
+                    @if (User.Identity.GetUserId() == null)
+                    {
+                        <a class="btn btn-secondary" style="margin-left:90px; margin-right:90px;" href="/Account/Login">Login</a>
+                    }
+                    else
+                    {
+                        <p style="font-style:italic; color:lightgray"> You are already logged in </p>
+                    }
+
+                </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-stretch">
+                <div class="card" style="justify-content:center">
+                    <h2>Hosting Events:</h2>
+                    <p>After you have created an account you can host an event! You can also add other users as "Friends" to keep up-to-date with the events they are hosting.</p>
+                    <p>
+                        <a class="btn btn-secondary" href="/Events/Create">Create an Event!</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-stretch">
+                <div class="card" style="justify-content:center; min-height:inherit">
+                    <h2>Games:</h2>
+                    <p>We use an Application programming interface called "Atlas" to support a large, dynamic, list of games! Checkout the Atlas Board Game API by clicking the button below.</p>
+                    <p style="position:relative;">
+                        <a class="btn btn-secondary" href="https://www.boardgameatlas.com/api/docs">Atlas API </a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
     </body>
+
+<style>
+    body{
+        background-color: #93B7BE;
+        color: white;
+    }
+
+    .card {
+    background-color: #08415C;
+    color: white;
+    padding: 8px;
+    border-style: solid;
+    border-color: white;
+    border-width: 2.8px;
+    border-radius: 5%;
+    text-align: center;
+    margin-top: 15px;
+}
+</style>

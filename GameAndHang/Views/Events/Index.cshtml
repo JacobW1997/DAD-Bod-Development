@@ -3,120 +3,84 @@
 
 @{
     ViewBag.Title = "Index";
-}
-<h2 align="center" style="padding-top: 20px">Events</h2>
-<p align="center">If you would like to sign up for an event click on the event details link. You can 
-    also view a hosts profile by clicking on their name.</p>
+}                                 
 
+    <div class="jumbotron" style="background-color:#08415C" id="Title">
+        <h1 style="text-align:center; font-size:55px; color:white">Events</h1>
+        <p style="text-align: center; font-size: 22px; color: white" class="lead">
+            If you would like to sign up for an event click on the event details link. You can
+            also view a hosts profile by clicking on their name
+        </p>
+        <p align="center" style="font-size: 22px; color: white">
+            @{
+                if (User.Identity.GetUserId() != null)
+                {
+                    @Html.ActionLink("Click here to host your own event", "Create")
+                }
+                else
+                {
+                   @Html.Label("login ", "Please Login or Create an Account to host an event");
+                    <br />
+                    @Html.ActionLink("Login", "Login", "Account");
+                }
 
-<p align="center">
-    @if (User.Identity.GetUserId() != null)
+                }
+            </p>
+        </div>
+<hr />
+
+<div class="row" id="games">
+    @foreach (var item in Model)
     {
-    @Html.ActionLink("Click here host your own event", "Create")
+        <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card" id="card">
+                <h4 class="card-title" align="center" style="--animation-order: 3;">@item.EventName</h4>
+                <p class="card-text" align="center"> Host: @Html.ActionLink(item.User.FirstName, "HostProfile", "Users",new { host = item.User.AspNetUser.Id.ToString() }, htmlAttributes: new { title = "Users"})  </p>
+                @if (item.IsPublic == true)
+                {
+                    <p class="card-text" align="center"> Event type: Public</p>
+                }
+                else
+                {
+                    <p class="card-text" align="center" style="font-style:italic;">Event type: Private</p>
+                }
+            <p class="card-text" align="center"> @Convert.ToString(string.Format("{0:dd/MM/yyy}", item.Date)) </p>
+                <p class="card-text" align="center"> Location: @item.EventLocation </p>
+                <hr />
+                <div style="">
+                    @if (item.PlayerSlotsMax == item.PlayersCount)
+                    {
+                        <p class="card-text" align="center">This event is full</p>
+                    }
+                    @if (item.HostID == User.Identity.GetUserId())
+                    {
+                        <p class="card-text" align="center"> @Html.ActionLink("Edit", "Edit", new { id = item.ID }) </p>
+                    }
+                    @if (item.PlayersCount < item.PlayerSlotsMax)
+                    {
+                        <p class="card-text" align="center">  @Html.ActionLink("Details", "Details", new { id = item.ID }) </p>
+                    }
+                    else
+                    {
+                        <p class="card-text" align="center" style="font-style:italic; color:grey">This event is full</p>
+                    }
+                </div>
+            </div>
+        </div>
     }
-</p>
-<table class="table">
-    <tr style="text-align:left">
-        <th>
-            Host
-            @*@Html.DisplayNameFor(model => model.User.FirstName)*@
-        </th>
-        <th>
-            Event Name
-            @*@Html.DisplayNameFor(model => model.EventName)*@
-        </th>
-        <th>
-            Event Type
-            @*@Html.DisplayNameFor(model => model.IsPublic)*@
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            Description
-            @*@Html.DisplayNameFor(model => model.EventDescription)*@
-        </th>
-        <th>
-            Location
-            @*@Html.DisplayNameFor(model => model.EventLocation)*@
-        </th>
-        <th>
-            Min Players
-            @*@Html.DisplayNameFor(model => model.PlayerSlotsMin)*@
-        </th>
-        <th>
-            Max Players
-            @*@Html.DisplayNameFor(model => model.PlayerSlotsMax)*@
-        </th>
-        <th>
-            Unsupported Game
-            @*@Html.DisplayNameFor(model => model.UnsupGames)*@
-        </th>
-        <th>
-            Supported Game
-        </th>
-    </tr>
+</div>
+<style>
+    #games{
+        position:inherit;
+        justify-items:flex-start;
+        font-size:20px;
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.ActionLink(item.User.FirstName, "HostProfile", "Users", item.User.AspNetUser, null)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.EventName)
-    </td>
-    <td>
-        @if(item.IsPublic == true)
-        {
-            <p>Public</p>
-        }
-        else
-        {
-            <p>Private</p>
-        }
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Date)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.EventDescription)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.EventLocation)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.PlayerSlotsMin)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.PlayerSlotsMax)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.UnsupGames)
-    </td>
+    }
+    #card{
+        width:300px;
+        justify-content:center;
+    }
+</style>
 
-    <td>
-        @foreach (var game in item.EventGames)
-        {
-            @Html.DisplayFor(modelItem => game.Game.Name)
-            <br />
-        }
-    </td>
-    <td>
-        @if (item.HostID == User.Identity.GetUserId())
-        {
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-        }
-        @if (item.PlayersCount == item.PlayerSlotsMax)
-        {
-            <p>This event is Full</p>
-        }
-        else
-        {
-            @Html.ActionLink("Details", "Details", new { id = item.ID });
-        }
-        
-    </td>
-</tr>
-}
+<link href="~/Content/EventsList.css" rel="stylesheet" />
 
-</table>

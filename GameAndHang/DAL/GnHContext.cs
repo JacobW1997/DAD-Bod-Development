@@ -23,6 +23,11 @@ namespace GameAndHang.DAL
         public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Relationship> Relationships { get; set; }
+        public virtual DbSet<RelationshipType> RelationshipTypes { get; set; }
+
+        public virtual DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<APIEventGame> APIEventGames { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -47,6 +52,11 @@ namespace GameAndHang.DAL
                 .WillCascadeOnDelete();
 
             modelBuilder.Entity<Event>()
+                .HasMany(e => e.APIEventGames)
+                .WithRequired(e => e.Event)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Event>()
                 .HasMany(e => e.EventGames)
                 .WithRequired(e => e.Event)
                 .WillCascadeOnDelete(false);
@@ -61,6 +71,11 @@ namespace GameAndHang.DAL
                 .WithRequired(e => e.Game)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<RelationshipType>()
+                .HasMany(e => e.Relationships)
+                .WithRequired(e => e.RelationshipType)
+                .HasForeignKey(e => e.Type);
+
             modelBuilder.Entity<User>()
                 .HasMany(e => e.EventPlayers)
                 .WithRequired(e => e.User)
@@ -73,6 +88,6 @@ namespace GameAndHang.DAL
                 .HasForeignKey(e => e.HostID);
         }
 
-        public System.Data.Entity.DbSet<GameAndHang.Models.Review> Reviews { get; set; }
+        //public System.Data.Entity.DbSet<GameAndHang.Models.Review> Reviews { get; set; }
     }
 }

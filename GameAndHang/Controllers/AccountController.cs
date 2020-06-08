@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GameAndHang.Models;
 using GameAndHang.DAL;
+using reCAPTCHA.MVC;
 
 namespace GameAndHang.Controllers
 {
@@ -154,10 +155,15 @@ namespace GameAndHang.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [CaptchaValidator(
+            ErrorMessage ="Captcha Invalid!",
+            RequiredMessage = "Captcha input is required!"
+            )]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
+                
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
 

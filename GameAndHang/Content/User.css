@@ -1,0 +1,150 @@
+﻿#displayReview {
+    margin-top: 5px;
+    background: #08415C;
+    padding: 8px;
+}
+
+#listitem {
+    font-size: 20px;
+    list-style-type: square;
+    color: white;
+}
+
+#signedUpEvents {
+    background-color: #08415C;
+}
+
+#upcomingEvents {
+    background-color: #08415C;
+}
+
+#friendCard {
+    height: 150px;
+    width: 500px;
+    background-color: #08415C;
+    border-style: solid;
+    color: white;
+    font-size: 24px;
+}
+
+#friendPic {
+    height: 100px;
+    width: 100px;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    background-color: white;
+}
+
+.card-body {
+    background-color: #08415C;
+    background-size: 700px;
+    border-style: solid;
+}
+
+.table-hover {
+    margin: 20px;
+}
+
+tr {
+    margin: 20px;
+}
+
+th {
+    margin: 20px;
+    min-width: 75px;
+    padding-right: 20px;
+}
+
+td {
+    margin: 20px;
+    min-width: 75px;
+    padding-right: 20px;
+}
+
+#profileCard {
+    margin-top: 25px;
+    color: white;
+}
+
+#editProfile {
+    margin-left: 5px;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    color: black;
+}
+
+#tab {
+    background-color: Highlight;
+    margin-left: 8px;
+    color: black;
+    border-radius: 5%;
+    padding: 5px;
+    font-size: 24px;
+}
+
+#navPills {
+    margin: auto;
+    width: 90%;
+}
+
+
+#level {
+    height: 70px;
+    width: 70px;
+}
+
+
+#ribbon {
+    height: 60px;
+    width: 60px;
+}
+
+#orb {
+    height: 60px;
+    width: 60px;
+}
+
+#hostlevel {
+    font-size: 30px;
+}
+
+
+#eventCard #signedUpEvents #upcomingEvents {
+    background: #08415C;
+    color: white;
+    padding: 8px;
+    font-size: 20px;
+}
+
+#hostedEvents {
+    background: #08415C;
+    border: none;
+}
+
+.table-hover {
+    border: none;
+}
+
+.tbody {
+    border: none;
+}
+
+.table {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.card {
+    color: white;
+}
+
+body {
+    background-color: #93b7b6;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%238eb0b1' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%2388a9ab' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%2383a3a6' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%237d9ca0' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%2378959b' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+}

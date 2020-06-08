@@ -1,363 +1,367 @@
 ﻿@model GameAndHang.Models.User
 @using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "IndexUser";
+    ViewBag.Title = "HostProfile";
 }
-<div class="container-xl" id="Profile">
+<script>
+    function myFunction() {
+        $("#confirm").show()
+    }
+    function hideConfirm() {
+        $("#confirm").hide()
 
-    <div class="row" id="ProfileInfo">
+    }
+</script>
+@if (User.Identity.GetUserId() != null)
+{
+    <div class="container" style="margin-top:3%">
+        <a href="#" class="button" onclick="AddExperience(0)">Rate this host</a>
 
-        <img src="https://cdn.discordapp.com/attachments/664532703064096797/682074680122933318/ChewyProfPic.jpeg" id="profPic" />
-
-        <div id="nameDiv" class="text-left">
-            <h1> @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h1>
-            <div id="accountInfo">
-                <h4 style="margin-left:5px"> @Html.DisplayFor(model => model.AspNetUser.Email)</h4>
-            </div>
-            <div id="accountBio">
-                <h4> "@Html.DisplayFor(model => model.Bio)"</h4>
-            </div>
-            <div>
-                <p>Host XP: @Model.HostXP </p>
-            </div>
-            @if (User.Identity.GetUserId() == Model.ID)
-            {
-                <div id="editProfile" style="color: Highlight">
-                    @Html.ActionLink("Edit Account Info", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        <div class="modal fade" id="mymodal">
+            <div class="modal-dialog">
+                <div class="modal-content" id="window">
+                    <div class="modal-header">
+                        <h4 align="center" id="modaltitle" style="font-size:20px;"></h4>
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    </div>
+                    <div class="modal-body">
+                        <p align="center">Please rate the host below (1 = worst host, 5 = best host)</p>
+                        @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
+                        {
+                            @Html.HiddenFor(i => i.ID, new { id = "modelID" })
+                            <div class="form-group required" style="position: relative; left: 150px;">
+                                @Html.RadioButton("Answer", "1") <span>1</span>
+                                @Html.RadioButton("Answer", "2") <span>2</span>
+                                @Html.RadioButton("Answer", "3") <span>3</span>
+                                @Html.RadioButton("Answer", "4") <span>4</span>
+                                @Html.RadioButton("Answer", "5") <span>5</span>
+                            </div>
+                            <p style="position: relative; left: 140px;">Leave a comment below</p>
+                            <div class="form-group" style="position: relative; left: 90px;">
+                                <textarea rows="10" style="width:1000px" id="reviewAnswer" name="review"></textarea>
+                            </div>
+                            <div class="form-group" style="position: relative; left: 75px;">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Submit" class="button" />
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
-            }
             </div>
+        </div>
+    </div>
+}
+
+<div class="container" id="profileCard">
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="position: relative">
+
+                <div class="card-body">
+                    <div class="card-title mb-4">
+                        <div class="d-flex justify-content-start">
+                            <div class="image-container">
+                                @using (Html.BeginForm("IndexPhoto", "Users", FormMethod.Post, FormMethod.Post, new { enctype = "multipart/form-data", id = "file" }))
+                                {
+                                    if (Model.ProfilePic == null)
+                                    {
+                                        <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                    }
+                                    else
+                                    {
+                                        string imageBase64 = Convert.ToBase64String(Model.ProfilePic);
+                                        string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+
+                                        <img src="@imageSrc" style="width: 150px; height: 200px" class="img-thumbnail" />
+                                    }
+                                    if (User.Identity.GetUserId() != Model.ID)
+                                    {
+                                        <div id="middle">
+                                            @{ 
+                                                if (ViewBag.status == 0)
+                                                {
+                                                     @Html.ActionLink("Send Friend Request", "SendFriendRequest", "Relationship", new { recieverID = Model.ID }, new { onclick = "return HelpSendFriendRequest(this);" })
+                                                }
+                                                else
+                                                {
+                                                    <p style="color:gray; font-style:italic">Requested</p>
+                                                }
+                                             }
+                                        </div>
+                                    }
+
+
+                                }
+                            </div>
+                            <div class="userData ml-3">
+                                <h2 class="d-block" style="font-size: 2.5rem; font-weight: bold">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
+                                
+                                <h5 class="d-block"> @Html.DisplayFor(model => model.DisplayName)</h5>
+                                <h5 class="d-block">"@Html.DisplayFor(model => model.Bio)"</h5>
+
+                                <h6 class="d-block"> Host XP:  @Model.HostXP</h6>
+
+                                <h6 class="d-block"> Host rating:  @ViewBag.Rating (out of 5 with @ViewBag.numRatings reviews)</h6>
+
+
+                            </div>
+                            <div class="ml-auto">
+                                <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav-pills" id="navPills">
+                        <ul class="nav nav-pills">
+                            <li class="active"><a id="tab" data-toggle="pill" href="#hostedEvents">Registered Events </a></li>
+                            <li><a id="tab" data-toggle="pill" href="#signedUpEvents"> Hosted Events </a></li>
+                            <li><a id="tab" data-toggle="pill" href="#upcomingEvents"> Upcoming Events </a></li>
+                            <li><a id="tab" data-toggle="pill" href="#FriendsList"> Friends List </a></li>
+                            <li><a id="tab" data-toggle="pill" href="#displayReview"> Host Reviews </a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h7 class="d-block" id="hostlevel" style="position: absolute; top:10px; right:10px">
+                            Level @Model.HostLevel
+                            @if (Model.HostLevel == 1)
+                            {
+                                <img src="~/Content/Images/Level1.png" id="level" />
+                            }
+                            else if (Model.HostLevel == 2)
+                            {
+                                <img src="~/Content/Images/Level2.png" id="level" />
+                            }
+                            else if (Model.HostLevel == 3)
+                            {
+                                <img src="~/Content/Images/Level3.png" id="level" />
+                            }
+                            else if (Model.HostLevel == 4)
+                            {
+                                <img src="~/Content/Images/Level4.png" id="ribbon" />
+                            }
+                            else if (Model.HostLevel == 5)
+                            {
+                                <img src="~/Content/Images/Level5.png" id="ribbon" />
+                            }
+                            else if (Model.HostLevel == 6)
+                            {
+                                <img src="~/Content/Images/Level6.png" id="ribbon" />
+                            }
+                            else if (Model.HostLevel == 7)
+                            {
+                                <img src="~/Content/Images/Level7.png" id="orb" />
+                            }
+                        </h7>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<hr />
 
-<div class="nav-pills" id="navPills">
-    <ul class="nav nav-pills">
-        <li class="active"><a id="tab" data-toggle="pill" href="#hostedEvents"> Events </a></li>
-        <li><a id="tab" data-toggle="pill" href="#signedUpEvents"> Hosted Events </a></li>
-        <li><a id="tab" data-toggle="pill" href="#upcomingEvents"> Upcoming Events </a></li>
-        <li><a id="tab" data-toggle="pill" href="#"> Friends List </a></li>
-        <li><a id="tab" data-toggle="pill" href="#Review"> Leave a Review </a></li>
-        <li><a id="tab" data-toggle="pill" href="#displayReview"> Host Reviews </a></li>
-    </ul>
-</div>
 <div class="tab-content">
-
     @if (Model.EventPlayers.Count() > 0)
     {
-        <div id="hostedEvents" class="tab-pane fade in active">
+    <hr />
+        <div id="hostedEvents" class="tab-pane fade in card">
             <hr />
-
-            <h4>Events that @Html.DisplayFor(model => model.FirstName) is Signed Up For:</h4>
-
+            <h4 class="card-header">Events that @Html.DisplayFor(model => model.FirstName) is Signed Up For:</h4>
             <br />
-            <table class="table-hover">
+            <table style="border:none" class="table-hover card-body" >
                 <tr>
-                    <th>
-                        Event Name
-                    </th>
-
-                    <th>
-                        Event Date/Time
-                    </th>
-
-                    <th>
-                        Event Location
-                    </th>
-
-                    <th>
-                        Event Description
-                    </th>
-
+                    <th>Event Name</th>
+                    <th>Event Date/Time</th>
+                    <th>Event Location</th>
+                    <th>Event Description</th>
                 </tr>
-
                 @foreach (var eventPlayer in Model.EventPlayers)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(e => eventPlayer.Event.EventName)
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(e => eventPlayer.Event.Date)
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(e => eventPlayer.Event.EventLocation)
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(e => eventPlayer.Event.EventDescription)
-                        </td>
-
-                        <td>
-                            @Html.ActionLink("Details", "Details", "Events", new { id = eventPlayer.EventID }, "")
-                        </td>
+                        <td>@Html.DisplayFor(e => eventPlayer.Event.EventName)</td>
+                        <td>@Html.DisplayFor(e => eventPlayer.Event.Date)</td>
+                        <td>@Html.DisplayFor(e => eventPlayer.Event.EventLocation)</td>
+                        <td>@Html.DisplayFor(e => eventPlayer.Event.EventDescription)</td>
+                        <td>@Html.ActionLink("Details", "Details", "Events", new { id = eventPlayer.EventID }, "")</td>
                     </tr>
                 }
-
             </table>
         </div>
     }
 
     @if (Model.Events.Count() > 0)
     {
-
-        <div id="signedUpEvents" class="tab-pane fade in active">
+        <div id="signedUpEvents" style="margin-top: 5px;" class="tab-pane fade in card">
             <hr />
-
-            <h4>Events that @Html.DisplayFor(model => model.FirstName) is Hosting:</h4>
-
+            <h4 class="card-header">Events that @Html.DisplayFor(model => model.FirstName) is Hosting:</h4>
             <br />
-            <table class="table-hover">
+            <table style="border:none" class="table-hover card-body">
                 <tr>
-                    <th>
-                        Event Name
-                    </th>
-
-                    <th>
-                        Event Date/Time
-                    </th>
-
-                    <th>
-                        Event Location
-                    </th>
-
-                    <th>
-                        Event Description
-                    </th>
-
-                    <th>
-
-                    </th>
+                    <th>Event Name</th>
+                    <th>Event Date/Time</th>
+                    <th>Event Location </th>
+                    <th>Event Description</th>
                 </tr>
-
                 @foreach (var hostedEvent in Model.Events)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(e => hostedEvent.EventName)
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(e => hostedEvent.Date)
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(e => hostedEvent.EventLocation)
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(e => hostedEvent.EventDescription)
-                        </td>
-
-                        <td>
-                            @Html.ActionLink("Details", "Details", "Events", new { id = hostedEvent.ID }, "")
-                        </td>
-
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", "Events", new { id = hostedEvent.ID }, "")
-                        </td>
+                        <td>@Html.DisplayFor(e => hostedEvent.EventName)</td>
+                        <td>@Html.DisplayFor(e => hostedEvent.Date)</td>
+                        <td>@Html.DisplayFor(e => hostedEvent.EventLocation)</td>
+                        <td> @Html.DisplayFor(e => hostedEvent.EventDescription)</td>
+                        <td> @Html.ActionLink("Details", "Details", "Events", new { id = hostedEvent.ID }, "") </td>
                     </tr>
                 }
-
             </table>
         </div>
-
     }
 
     @if (Model.Events.Count() > 0)
     {
-
-        <div id="upcomingEvents" class="tab-pane fade in active">
+        <div id="upcomingEvents" style="margin-top: 5px;"class="tab-pane fade in card">
             <hr />
-            <h4>@Html.DisplayFor(model => model.FirstName)'s Upcoming Events:</h4>
-
-
+            <h4 class="card-header">@Html.DisplayFor(model => model.FirstName)'s Upcoming Events:</h4>
             <br />
-            <table class="table-hover">
+            <table style="border:none" class="table-hover card-body">
                 <tr>
-                    <th>
-                        Event Name
-                    </th>
-
-                    <th>
-                        Event Date/Time
-                    </th>
-
-                    <th>
-                        Event Location
-                    </th>
-
-                    <th>
-                        Event Description
-                    </th>
-
-                    <th>
-
-                    </th>
-
+                    <th>Event Name</th>
+                    <th>Event Date/Time</th>
+                    <th>Event Location</th>
+                    <th>Event Description</th>
                 </tr>
-
                 @foreach (var hostedEvent in Model.Events)
                 {
                     if (hostedEvent.Date <= DateTime.Now.AddDays(30) && hostedEvent.Date > DateTime.Now.AddDays(-1))
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(e => hostedEvent.EventName)
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(e => hostedEvent.Date)
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(e => hostedEvent.EventLocation)
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(e => hostedEvent.EventDescription)
-                            </td>
-
-                            <td>
-                                @Html.ActionLink("Details", "Details", "Events", new { id = hostedEvent.ID }, "")
-                            </td>
-
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", "Events", new { id = hostedEvent.ID }, "")
-                            </td>
+                            <td>@Html.DisplayFor(e => hostedEvent.EventName)</td>
+                            <td>@Html.DisplayFor(e => hostedEvent.Date)</td>
+                            <td>@Html.DisplayFor(e => hostedEvent.EventLocation)</td>
+                            <td>@Html.DisplayFor(e => hostedEvent.EventDescription)</td>
+                            <td>@Html.ActionLink("Details", "Details", "Events", new { id = hostedEvent.ID }, "")</td>
                         </tr>
                     }
                 }
             </table>
         </div>
     }
-    @using (Html.BeginForm("ReviewCreate", "Reviews", FormMethod.Get))
-    {
-        <div id="Review" class="tab-pane fade in active">
-            <div class="form-horizontal" id="myForm" method="post" name="review">
-                <div class="control-group">
-                    <label class="control-label tab-pane fade in active">Review</label>
-                    <div class="form-group">
-                        <textarea rows="10" style="width:600px" id="reviewAnswer" name="review"></textarea>
-                    </div>
-                    @Html.HiddenFor(i => i.ID)
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Submit" class="btn btn-default" />
-                        </div>
-                    </div>
+
+<div id="FriendsList" class="tab-pane fade in">
+    <h4>@Html.DisplayFor(model => model.FirstName)'s Friends List:</h4>
+    <table>
+        @if (ViewBag.ConfirmedFriends.Count != 0)
+            
+        {
+        foreach (var person in ViewBag.ConfirmedFriends)
+        {
+        <tr class="card" id="friendCard" style="margin-top: 8px;">
+            <td>
+                <div class="card-img">
+                    @if (person.ProfilePic == null)
+                    {
+                        <img src="http://placehold.it/150x150" id="friendPic"  class="img-thumbnail" />
+                    }
+                    else
+                    {
+                        string imageBase64 = Convert.ToBase64String(person.ProfilePic);
+                        string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+                        <img src="@imageSrc" id="friendPic" />
+                    }
+                    @person.FirstName @person.LastName @Html.ActionLink("Profile", "HostProfile/", "Users", new { host = person.ID }, new { onclick = "return NavigetToFriend(this);" })
                 </div>
-            </div>
-        </div>
 
-    }
+                    
+               
+            </td>
+        </tr>
+        }
+        }
 
-    <div id="displayReview" class="tab-pane fade in active">
-        <ul>
-            @foreach (var item in ViewBag.Reviews)
-            {
-                <li>
-                    @item
-                </li>
-            }
-        </ul>
-
-    </div>
+    </table>
 
 </div>
 
+        <div id="displayReview" class="tab-pane fade in ">
+            <ul style="margin-top: 10px; color:#08415C">
+                @foreach (var item in ViewBag.Reviews)
+                {
+                    <li id="listitem"> @item</li>
+                }
+            </ul>
+        </div>
     </div>
 
 <style>
-    .table-hover {
-        margin: 20px;
+        body {
+    background-color: #93b7b6;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%238eb0b1' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%2388a9ab' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%2383a3a6' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%237d9ca0' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%2378959b' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+}
+    #eventCard #signedUpEvents #upcomingEvents {
+    background: #08415C;
+    color: white;
+    padding: 8px;
+    font-size:20px;
+}
+    #hostedEvents{
+        background:#08415C;
+        border:none;
+        
+    }
+    .table-hover{
+        border:none;
     }
 
-    tr {
-        margin: 20px;
-    }
-
-    th {
-        margin: 20px;
-        min-width: 75px;
-        padding-right: 20px;
-    }
-
-    td {
-        margin: 20px;
-        min-width: 75px;
-        padding-right: 20px;
-    }
-
-    #ProfileInfo {
-        margin-left: 25px;
-    }
-
-    #editProfile {
-        margin-left: 5px;
-    }
-
-    body {
-        background-color: #93B7BE
-    }
-
-    #profPic {
-        min-width: 50px;
-        max-width: 250px;
-        min-height: 50px;
-        max-height: 250px;
-        border-radius: 5%;
-        border-style: double;
-        border-width: 5px;
-        margin-top: 20px;
-        margin-right: 10px;
-    }
-
-    #FriendsList {
-        margin-top: 10px;
-    }
-
-    #Profile {
-    }
-
-    .body-content {
-        padding-left: 15px;
-        padding-right: 15px;
-        color: black;
-    }
-
-    #nameDiv {
-        margin-top: 30px;
-        margin-left: 5px;
-    }
-
-    #title {
-        margin-top: 10px;
-    }
-
-    #accountInfo {
+    #listitem{
         font-size: 20px;
+        list-style-type: square;
+        color: white;
     }
 
-    #accountBio {
+    #displayReview{
         margin-top: 5px;
+        background: #08415C;
+        padding: 8px;
     }
 
-    #tab {
-        background-color: Highlight;
-        margin-left: 8px;
-        color: black;
-        border-radius: 5%;
-        padding: 5px;
-        font-size: 24px;
+    .tbody{
+                border:none;
+    }
+    .table{
+        padding:10px;
+        margin-bottom:20px;
+    }
+    .card{
+        color:white;
     }
 
-    #navPills {
-        margin: auto;
-        width: 60%;
-    }
 </style>
 
 
+<script>
+    function AddExperience(ReviwerID) {
+        $("#modaltitle").html("Please rate your experience with the host and add a comment about the event");
+        $("#mymodal").modal();
+        $('div.form-group.required').length > 0
+    }
+</script>
+
+
+<link href="~/Content/ProfilePage.css" rel="stylesheet" />
+
+
+
+
+    <script>
+        function AddExperience(ReviwerID) {
+            $("#modaltitle").html("Please rate your experience with the host and add a comment about the event");
+            $("#mymodal").modal();
+            $('div.form-group.required').length > 0
+        }
+    </script>
+
+
+
+    <link href="~/Content/HostProfile.css" rel="stylesheet" />
+
+    <script src="~/Scripts/RelationshipFunctions.js"></script>

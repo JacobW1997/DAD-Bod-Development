@@ -38,16 +38,8 @@ namespace GameAndHang.Controllers
             return View(eventPlayer);
         }
 
-        //// GET: EventPlayers/Create
-        //public ActionResult Create(Event event1)
-        //{
-        //    ViewBag.EventID = event1.ID;
-        //    //ViewBag.EventID = new SelectList(db.Events, "ID", "EventName");
-        //    //ViewBag.PlayerID = new SelectList(db.Users, "ID", "FirstName");
-        //    ViewBag.PlayerID = User.Identity.GetUserId();
-        //    return View();
-        //}
-
+        //A method used for creating a new entry in the event players table
+        //this table was used to assign players to events
         public ActionResult Create(Event event1)
         {
             var getuserID = User.Identity.GetUserId();
@@ -100,25 +92,6 @@ namespace GameAndHang.Controllers
         {
             return View();
         }
-
-        // POST: EventPlayers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "ID,PlayerID,EventID")] EventPlayer eventPlayer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.EventPlayers.Add(eventPlayer);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ViewBag.EventID = new SelectList(db.Events, "ID", "EventName", eventPlayer.EventID);
-        //    ViewBag.PlayerID = new SelectList(db.Users, "ID", "FirstName", eventPlayer.PlayerID);
-        //    return View(eventPlayer);
-        //}
 
 
         // GET: EventPlayers/Edit/5
