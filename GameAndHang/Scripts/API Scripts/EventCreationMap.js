@@ -64,6 +64,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.open(map);
 }
 
+// Takes in an address and puts a marker on the map at the corresponding location
 function codeAddress() {
     var address = document.getElementById('address').value;
     geocoder.geocode({ 'address': address }, function (results, status) {
